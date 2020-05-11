@@ -28,4 +28,19 @@
 	overflow: hidden;
 	will-change: transform;
 }
+.my-nav{
+	width: 750rpx;
+	height: 100%;
+	margin-left: -12px;
+	padding: 0 10px;
+	color: #fff;
+}
+.nav-bar{
+	height: 45px;
+}
+.seckill{
+	height: 250px;
+	background-color: #fff;
+	border-radius: 5px;
+}
 

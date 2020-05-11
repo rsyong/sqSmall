@@ -31,8 +31,17 @@
 			"text":"首页",
 			"pagePath":"pages/home/home"
 		},{
-			"text":"首页2",
+			"text":"全部",
 			"pagePath":"pages/all/all"
+		},{
+			"text":"我买过",
+			"pagePath":"pages/alreadyBought/alreadyBought"
+		},{
+			"text":"购物车",
+			"pagePath":"pages/shoppingCart/shoppingCart"
+		},{
+			"text":"我的",
+			"pagePath":"pages/my/my"
 		}]
 	}
 }

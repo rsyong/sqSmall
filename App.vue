@@ -27,6 +27,9 @@ export default {
 	.just-between{
 		justify-content: space-between;
 	}
+	.just-center{
+		justify-content: center;
+	}
 	.align-center{
 		align-items: center;
 	}

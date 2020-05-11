@@ -1,0 +1,31 @@
+
+.uni-navbar--border{
+	border-bottom-color: #000 !important;
+}
+.back-qiu{
+	width: 150%;
+	height: 300px;
+	border-radius: 60%;
+	background-color: #000;
+	position: absolute;
+	top: -100px;
+	left: -25%;
+	z-index: -1;
+}
+.swiper-box{
+	overflow: hidden;
+}
+.swiper-item{
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	padding: 0 10px;
+}
+.swiper-item image{
+	width: 100%;
+	height: 150px;
+	border-radius: 6px;
+	overflow: hidden;
+	will-change: transform;
+}
+

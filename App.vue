@@ -24,8 +24,14 @@ export default {
 	.flex1{
 		flex: 1;
 	}
+	.flex-column{
+		flex-direction: column;
+	}
 	.just-between{
 		justify-content: space-between;
+	}
+	.just-around{
+		justify-content: space-around;
 	}
 	.just-center{
 		justify-content: center;
@@ -33,10 +39,35 @@ export default {
 	.align-center{
 		align-items: center;
 	}
+	.align-between{
+		align-content: space-between;
+	}
 	.pad-center-10{
 		padding: 0 10px;
 	}
 	.mag-center-10{
 		margin: 0 10px;
+	}
+	.mt-10{
+		margin-top: 10px;
+	}
+	
+	.sp-list-weight{
+		font-size: 10px;
+		color: #888;
+	}
+	.sp-list-time{
+		font-size: 10px;
+	}
+	.sp-list-img image{
+		width: 100px;
+		height: 100px;
+		border-radius: 6px;
+		margin-right: 10px;
+	}
+	.nav-tuijan{
+		margin-top: 15px;
+		font-size: 18px;
+		font-weight: bold;
 	}
 </style>

@@ -2,7 +2,13 @@
 	<view class="container">
 		<!-- <uni-nav-bar title="导航栏组件" left-text="返回" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar> -->
 		<uni-nav-bar status-bar background-color="#000" fixed>
-		    <view class="my-nav"></view>
+			<view slot="left">
+				<view style="font-weight: 20px;color: #FFA200;">标果工厂</view>
+			</view>
+		    <view class="my-nav just-center flex">
+				<view @click="toSerach">搜索</view>
+			</view>
+			<view solt="right">22</view>
 		</uni-nav-bar>
 		<view class="back-view"><view class="back-qiu"></view></view>
 		<view style="margin-top: -120px;"></view>
@@ -18,7 +24,9 @@
 		<!-- 标题 -->
 		<view class="nav-bar flex just-between pad-center-10 align-center">
 			<view style="font-weight: bold;font-size: 18px;">限时秒杀</view>
-			<view style="font-size: 14px;color: #888;">更多好货疯抢</view>
+			<navigator url="../sechill/sechill"  hover-class="navigator-hover">
+				<view style="font-size: 14px;color: #888;">更多好货疯抢</view>
+			</navigator>
 		</view>
 		<!-- 限时秒杀 -->
 		<view class="seckill mag-center-10">
@@ -34,14 +42,13 @@
 			</view>
 		</view>
 		<view class="sp-types">
-			<view class="sp-types-nav flex just-between align-center">
-				<view class="flex just-center">商家直供</view>
-				<view class="flex just-center">标果精选</view>
-			</view>
 			<view class="sp-types-scrro pad-center-10">
 				<scroll-view scroll-x="true" show-scrollbar="true" scroll-left="0">
 					<view class="sp-types-content flex">
-						<view class="sp-types-scrro-list active">今日推荐</view>
+						<navigator url="../shoppingList/shoppingList"  hover-class="navigator-hover">
+							<view class="sp-types-scrro-list active">今日推荐</view>
+						</navigator>
+						
 						<view class="sp-types-scrro-list">今日推荐</view>
 						<view class="sp-types-scrro-list">今日推荐</view>
 						<view class="sp-types-scrro-list">今日推荐</view>
@@ -78,6 +85,12 @@
 			}
 		},
 		methods: {
+			//跳转搜索
+			toSerach(){
+				uni.navigateTo({
+				    url: '../serach/serach'
+				});
+			},
 			change(e) {
 				this.current = e.detail.current;
 			}
@@ -118,10 +131,7 @@
 		will-change: transform;
 	}
 	.my-nav{
-		width: 750rpx;
 		height: 100%;
-		margin-left: -12px;
-		padding: 0 10px;
 		color: #fff;
 	}
 	.nav-bar{
@@ -155,19 +165,9 @@
 		height: 40px;
 		margin-bottom: 10px;
 	}
-	.sp-list-weight{
-		font-size: 10px;
-		color: #888;
-	}
-	.sp-list-time{
-		font-size: 10px;
-	}
 	.sp-types{
 		background-color: #fff;
 		margin-top: 10px;
-	}
-	.sp-types-nav{
-		height: 50px;
 	}
 	.sp-types-scrro{
 		height: 45px;

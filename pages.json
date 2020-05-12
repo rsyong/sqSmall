@@ -18,6 +18,18 @@
             "path" : "pages/my/my",
             "style" : {}
         }
+        ,{
+            "path" : "pages/sechill/sechill",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/shoppingList/shoppingList",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/serach/serach",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationStyle":"custom",

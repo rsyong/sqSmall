@@ -85,17 +85,15 @@
 			},
 			getUserInfo(){
 				// 查看是否授权
-				uni.getSetting({
-					success:(res)=>{
-						if (res.authSetting['scope.userInfo']) {
-						  // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-						  uni.getUserInfo({
+				uni.authorize({
+				    scope: 'scope.userInfo',
+				    success:(res) => {
+						uni.getUserInfo({
 							success: (res) => {
 								this.myuserInfo=res.userInfo;
 							}
-						  })
-						}
-					}
+						})
+				    }
 				})
 			},
 			//用户回调

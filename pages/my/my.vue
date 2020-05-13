@@ -4,11 +4,13 @@
 		<view class="back-view"><view class="back-qiu"></view></view>
 		<view class="cras flex just-center">
 			<view class="user-img">
-				<image :src="imgUrl"></image>
-				<view class="v flex">
-					<view>V</view>
-					<view>已绑定</view>
-				</view>
+				<button @getuserinfo="userInfo" open-type="getUserInfo" plain class="user-button">
+					<image :src="myuserInfo.avatarUrl"></image>
+					<view class="v flex">
+						<view>V</view>
+						<view>已绑定</view>
+					</view>
+				</button>
 			</view>
 			<view class="morn flex just-center align-center">></view>
 		</view>
@@ -38,11 +40,68 @@
 	export default {
 		data() {
 			return {
-				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg'
+				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
+				provider:'',
+				myuserInfo:{
+					avatarUrl:''
+				}
 			}
 		},
+		onLoad(){
+			uni.getProvider({
+			    service: 'oauth',
+			    success:(res) => {
+					this.provider=res.provider[0];
+					this.login();
+			    }
+			});
+		},
 		methods: {
-			
+			login(){
+				uni.showLoading({title: '加载中'});
+				uni.login({
+				    provider: this.provider,
+				    success: (loginRes) => {
+						this.getOpenId(loginRes.code);
+						this.getUserInfo();
+				    },
+					fail:err=>{
+						uni.hideLoading();
+						uni.showToast({title: '登录失败了'});
+					}
+				});
+			},
+			getOpenId(code){
+				var appid=getApp().globalData.appid;
+				var appSecret=getApp().globalData.appSecret;
+				var JSCODE=code;
+				var url='https://api.weixin.qq.com/sns/jscode2session?appid='+appid+'&secret='+appSecret+'&js_code='+JSCODE+'&grant_type=authorization_code';
+				this.request(url,{},{method:'GET'}).then(res=>{
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			getUserInfo(){
+				// 查看是否授权
+				uni.getSetting({
+					success:(res)=>{
+						if (res.authSetting['scope.userInfo']) {
+						  // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+						  uni.getUserInfo({
+							success: (res) => {
+								this.myuserInfo=res.userInfo;
+							}
+						  })
+						}
+					}
+				})
+			},
+			//用户回调
+			userInfo(e){
+				this.myuserInfo=e.detail.userInfo;
+			}
 		}
 	}
 </script>
@@ -83,6 +142,9 @@
 		height: 65px;
 		border-radius: 50%;
 		border: 2px solid #ff5500;
+	}
+	.user-button{
+		border: none !important;
 	}
 	.morn{
 		position: absolute;

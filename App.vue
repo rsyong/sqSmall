@@ -1,5 +1,9 @@
 <script>
 export default {
+	globalData:{
+		appid:'wx99e7a5d35d7d086d',
+		appSecret:'8514346960e863e5748524da781cb984'
+	},
 	onLaunch: function() {
 		//第一次启动
 	},

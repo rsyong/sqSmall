@@ -17,6 +17,7 @@ export default {
 </script>
 
 <style>
+	@import "/wxcomponents/vant/dist/common/index.wxss";
 	page{
 		font-size: 14px;
 		background-color: #f2f2f2;
@@ -55,6 +56,9 @@ export default {
 	.mt-10{
 		margin-top: 10px;
 	}
+	.mb-5{
+		margin-bottom: 5px;
+	}
 	
 	.sp-list-weight{
 		font-size: 10px;
@@ -64,8 +68,8 @@ export default {
 		font-size: 10px;
 	}
 	.sp-list-img image{
-		width: 100px;
-		height: 100px;
+		width: 227rpx;
+		height: 227rpx;
 		border-radius: 6px;
 		margin-right: 10px;
 	}
@@ -73,5 +77,12 @@ export default {
 		margin-top: 15px;
 		font-size: 18px;
 		font-weight: bold;
+	}
+	.starating{
+		color: #E1B12D;
+	}
+	.business{
+		color: #35BD13;
+		margin-right: 5px;
 	}
 </style>

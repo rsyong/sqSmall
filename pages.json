@@ -1,7 +1,14 @@
 {
 	"pages": [{
 			"path": "pages/home/home",
-			"style": {}
+			"style": {
+				"usingComponents":{
+					"van-tabs": "/wxcomponents/vant/dist/tabs/index",
+					"van-tab": "/wxcomponents/vant/dist/tab/index",
+					"van-count-down": "/wxcomponents/vant/dist/count-down/index"
+					
+				}
+			}
 		},{
             "path" : "pages/all/all",
             "style" : {}

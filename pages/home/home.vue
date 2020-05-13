@@ -1,19 +1,19 @@
 <template>
 	<view class="container">
 		<!-- <uni-nav-bar title="导航栏组件" left-text="返回" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar> -->
-		<uni-nav-bar status-bar background-color="#000" fixed>
+		<uni-nav-bar status-bar background-color="rgba(0,0,0,1)" fixed>
 			<view slot="left">
-				<view style="font-weight: 20px;color: #FFA200;">标果工厂</view>
+				<view style="font-weight: 25px;color: #FFA200;margin-left: 5px;">标果工厂</view>
 			</view>
 		    <view class="my-nav just-center flex">
-				<view @click="toSerach">搜索</view>
+				<view @click="toSerach" class="serach">搜索</view>
 			</view>
 			<view solt="right">22</view>
 		</uni-nav-bar>
 		<view class="back-view"><view class="back-qiu"></view></view>
 		<view style="margin-top: -120px;"></view>
-		<uni-swiper-dot :info="info" :current="current" field="content">
-		    <swiper class="swiper-box" @change="change" circular>
+		<uni-swiper-dot :info="info" mode="round" :current="current" field="content" border="rgba(255, 255, 255, .3)" selectedBackgroundColor="#fff">
+		    <swiper class="swiper-box" @change="change" circular autoplay>
 		        <swiper-item v-for="(item ,index) in info" :key="index">
 		            <view class="swiper-item">
 		                <image :src="imgUrl"></image>
@@ -29,41 +29,40 @@
 			</navigator>
 		</view>
 		<!-- 限时秒杀 -->
-		<view class="seckill mag-center-10">
-			<view class="sp-list">
-				<view class="sp-list-img">
-					<image :src="imgUrl"></image>
-				</view>
-				<view class="sp-list-name">【爆品】《肖月宣》海南25号小事按实际卢卡斯加克拉斯</view>
-				<view class="flex just-between">
-					<text class="sp-list-weight">约17斤</text>
-					<text class="sp-list-time">09:39:51</text>
-				</view>
-			</view>
-		</view>
-		<view class="sp-types">
-			<view class="sp-types-scrro pad-center-10">
-				<scroll-view scroll-x="true" show-scrollbar="true" scroll-left="0">
-					<view class="sp-types-content flex">
-						<navigator url="../shoppingList/shoppingList"  hover-class="navigator-hover">
-							<view class="sp-types-scrro-list active">今日推荐</view>
-						</navigator>
-						
-						<view class="sp-types-scrro-list">今日推荐</view>
-						<view class="sp-types-scrro-list">今日推荐</view>
-						<view class="sp-types-scrro-list">今日推荐</view>
-						<view class="sp-types-scrro-list">今日推荐</view>
-						<view class="sp-types-scrro-list">今日推荐</view>
-						<view class="sp-types-scrro-list">今日推荐</view>
-						<view class="sp-types-scrro-list">今日推荐</view>
-						<view class="sp-types-scrro-list">今日推荐</view>
-						<view class="sp-types-scrro-list">今日推荐</view>
-						<view class="sp-types-scrro-list">今日推荐</view>
+		<scroll-view scroll-x style="margin-bottom: 10px;">
+			<view class="seckill mag-center-10 flex">
+				<view class="sp-list">
+					<view class="sp-list-img">
+						<image :src="imgUrl"></image>
 					</view>
-				</scroll-view>
+					<view class="sp-list-name">【爆品】《肖月宣》海南25号小事按实际卢卡斯加克拉斯</view>
+					<view class="flex just-between align-center">
+						<text class="sp-list-weight">约17斤</text>
+						<van-count-down use-slot :time="30 * 60 * 60 * 1000" @change="timeonChange">
+						  <text class="item">{{ timeData.hours }}</text>
+						  <text class="item-dost">:</text>
+						  <text class="item">{{ timeData.minutes }}:</text>
+						  <text class="item-dost">:</text>
+						  <text class="item">{{ timeData.seconds }}</text>
+						</van-count-down>
+					</view>
+				</view>
 			</view>
-			<shoppingList :data="[1,2,3]" />
-		</view>
+		</scroll-view>
+		<!-- 分类 -->
+		<van-tabs :active="active" @change="onChange" color="#F9BC2D">
+			<van-tab title="今日推荐"></van-tab>
+			<van-tab title="今日推荐"></van-tab>
+			<van-tab title="今日推荐"></van-tab>
+			<van-tab title="今日推荐"></van-tab>
+			<van-tab title="今日推荐"></van-tab>
+			<van-tab title="今日推荐"></van-tab>
+			<van-tab title="今日推荐"></van-tab>
+			<van-tab title="今日推荐"></van-tab>
+			<van-tab title="今日推荐"></van-tab>
+			<van-tab title="今日推荐"></van-tab>
+		</van-tabs>
+		<shoppingList :dataList="[1,2,3,4,5]" />
 	</view>
 </template>
 
@@ -81,7 +80,9 @@
 					content: '内容 C'
 				}],
 				current: 0,
-				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg'
+				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
+				active:0,
+				timeData: {},
 			}
 		},
 		methods: {
@@ -93,6 +94,12 @@
 			},
 			change(e) {
 				this.current = e.detail.current;
+			},
+			onChange(event){
+				console.log(event.detail.index)
+			},
+			timeonChange(e){
+				this.timeData=e.detail
 			}
 		}
 	}
@@ -135,17 +142,18 @@
 		color: #fff;
 	}
 	.nav-bar{
-		height: 45px;
+		height: 50px;
 	}
 	.seckill{
 		background-color: #fff;
 		border-radius: 8px;
 		padding-top: 10px;
 		padding-bottom: 25px;
+		margin-bottom: 10px;
 	}
 	.sp-list{
 		width: 233rpx;
-		margin: 0 10px;
+		margin-left: 10px;
 	}
 	.sp-list-img image{
 		width: 233rpx;
@@ -153,30 +161,36 @@
 		border-radius: 5px;
 	}
 	.sp-list-name{
-		font-size: 16px;
-		display: -webkit-box;
-		-webkit-box-orient:vertical;
-		-webkit-line-colamp:2;
-		word-break: break-all;
 		overflow: hidden;
-		text-overflow: ellipsis;
-		word-wrap: break-word;
-		white-space: normal !important;
-		height: 40px;
-		margin-bottom: 10px;
+		word-break: break-all;  /* break-all(允许在单词内换行。) */
+		text-overflow: ellipsis;  /* 超出部分省略号 */
+		display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+		-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+		-webkit-line-clamp: 2; /** 显示的行数 **/
+		margin-bottom: 5px;
 	}
-	.sp-types{
-		background-color: #fff;
-		margin-top: 10px;
+	.serach{
+		width: 275rpx;
+		height: 52rpx;
+		border-radius: 25px;
+		border: 1px solid #84785D;
+		color: #84785D;
+		font-size: 14px;
+		line-height: 26px;
+		padding-left: 10px;
 	}
-	.sp-types-scrro{
-		height: 45px;
-		line-height: 45px;
+	.item {
+	  display: inline-block;
+	  width: 18px;
+	  color: #ED5758;
+	  font-size: 10px;
+	  text-align: center;
+	  background-color: #FDEDE3;
+	  border-radius: 4px;
 	}
-	.sp-types-content{
-		width: 1000px;
+	.item-dost{
+		color: #ED5758;
+		margin: 0 2px;
 	}
-	.sp-types-scrro-list{
-		margin: 0 10px;
-	}
+	
 </style>

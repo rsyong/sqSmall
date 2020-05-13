@@ -73,14 +73,14 @@
 		data() {
 			return {
 				dots: {
-					width: 8,
-					height: 8,
-					bottom: 10,
+					width: 2,
+					height: 2,
+					bottom: 12,
 					color: '#fff',
-					backgroundColor: 'rgba(0, 0, 0, .3)',
-					border: '1px rgba(0, 0, 0, .3) solid',
-					selectedBackgroundColor: '#333',
-					selectedBorder: '1px rgba(0, 0, 0, .9) solid'
+					backgroundColor: 'rgba(255, 255, 255, .3)',
+					border: '1px rgba(255, 255, 255, .3) solid',
+					selectedBackgroundColor: '#fff',
+					selectedBorder: '1px rgba(255, 255, 255, .9) solid'
 				}
 			}
 		},

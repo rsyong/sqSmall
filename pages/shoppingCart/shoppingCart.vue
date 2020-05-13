@@ -23,7 +23,7 @@
 			<view class="nav-tuijan flex just-center">
 				<view>为您推荐</view>
 			</view>
-			<shoppingList :data="[1,2,3]" />
+			<shoppingList :dataList="[1,2,3]" />
 		</view>
 		<view class="nav-bottom">
 			<view class="flex just-between cart pad-center-10 align-center">

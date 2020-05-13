@@ -7,9 +7,9 @@
 					<image :src="imgUrl"></image>
 				</view>
 				<view class="list-text">
-					<view class="list-title">水果很好</view>
+					<view class="list-title">水果很好水果很好水果很好水果很好水果很好水果很好</view>
 					<view class="list-subtitle">水果很好水果很好水果很好水果很好</view>
-					<view class="list-slogo">商家只供 青阳果业</view>
+					<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 				</view>
 			</view>
 		</view>
@@ -22,7 +22,7 @@
 				<view class="list-text">
 					<view class="list-title">水果很好</view>
 					<view class="list-subtitle">水果很好水果很好水果很好水果很好</view>
-					<view class="list-slogo">商家只供 青阳果业</view>
+					<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 				</view>
 			</view>
 		</view>
@@ -31,10 +31,10 @@
 
 <script>
 	export default {
-		props:["data"],
+		props:["dataList"],
 		data() {
 			return {
-				mydata:this.data,
+				mydata:this.dataList,
 				leftData:[],
 				rightData:[],
 				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg'
@@ -80,7 +80,7 @@
 		left: 10px;
 		top: 0;
 		width: 25px;
-		background-color: #ff5500;
+		background-color: #ff7a01;
 		border-bottom-left-radius: 14px;
 		border-bottom-right-radius: 14px;
 		font-size: 10px;
@@ -93,13 +93,31 @@
 	}
 	.list-img image{
 		width: 100%;
-		height: 150px;
+		height: 170px;
 	}
 	.list-subtitle{
 		font-size: 12px;
 		color: #888;
+		overflow: hidden;
+		word-break: break-all;  /* break-all(允许在单词内换行。) */
+		text-overflow: ellipsis;  /* 超出部分省略号 */
+		display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+		-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+		-webkit-line-clamp: 3; /** 显示的行数 **/
+		margin-bottom: 5px;
 	}
 	.list-slogo{
 		font-size: 10px;
+		color: #424242;
 	}
+	.list-title{
+		overflow: hidden;
+		word-break: break-all;  /* break-all(允许在单词内换行。) */
+		text-overflow: ellipsis;  /* 超出部分省略号 */
+		display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+		-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+		-webkit-line-clamp: 2; /** 显示的行数 **/
+		margin-bottom: 5px;
+	}
+	
 </style>

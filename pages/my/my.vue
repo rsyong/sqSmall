@@ -3,14 +3,16 @@
 		<uni-nav-bar title="个人中心" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="back-view"><view class="back-qiu"></view></view>
 		<view class="cras flex just-center">
+			<image class="cras-back" src="/common/image/back2.jpg"></image>
 			<view class="user-img">
 				<button @getuserinfo="userInfo" open-type="getUserInfo" plain class="user-button">
-					<image :src="myuserInfo.avatarUrl"></image>
-					<view class="v flex">
-						<view>V</view>
-						<view>已绑定</view>
-					</view>
+					<image :src="myuserInfo.avatarUrl" v-if="myuserInfo.avatarUrl"></image>
+					<view v-else class="authorization">点击授权</view>
 				</button>
+				<view class="v flex" v-if="myuserInfo.avatarUrl">
+					<view class="v-text">V</view>
+					<view>已绑定</view>
+				</view>
 			</view>
 			<view class="morn flex just-center align-center">></view>
 		</view>
@@ -30,7 +32,7 @@
 		</view>
 		<view class="mt-10">
 			<uni-list>
-			    <uni-list-item title="联系客服"></uni-list-item>
+			    <uni-list-item title="联系客服" @click="makePhoneCall"></uni-list-item>
 			</uni-list>
 		</view>
 	</view>
@@ -85,20 +87,38 @@
 			},
 			getUserInfo(){
 				// 查看是否授权
-				uni.authorize({
-				    scope: 'scope.userInfo',
-				    success:(res) => {
-						uni.getUserInfo({
+				uni.getSetting({
+					success:(res)=>{
+						if (res.authSetting['scope.userInfo']) {
+						  // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+						  uni.getUserInfo({
 							success: (res) => {
 								this.myuserInfo=res.userInfo;
 							}
-						})
-				    }
+						  })
+						}
+					}
 				})
 			},
 			//用户回调
 			userInfo(e){
 				this.myuserInfo=e.detail.userInfo;
+			},
+			//拨打电话
+			makePhoneCall(){
+				const phone="13594284610";
+				uni.showModal({
+				    title: '客服电话',
+				    content: phone,
+					confirmText:'立即拨打',
+				    success:(res) => {
+				        if (res.confirm) {
+				            uni.makePhoneCall({
+				            	phoneNumber:phone
+				            })
+				        }
+				    }
+				});
 			}
 		}
 	}
@@ -124,11 +144,12 @@
 	}
 	.cras{
 		margin: 10px;
-		background-color: #F0AD4E;
-		border-radius: 6px;
+		background-color: #6C5C3B;
+		border-radius: 8px;
 		height: 170px;
 		margin-top: -120px;
 		position: relative;
+		overflow: hidden;
 	}
 	.user-img{
 		margin-top: 15px;
@@ -139,7 +160,16 @@
 		width: 65px;
 		height: 65px;
 		border-radius: 50%;
-		border: 2px solid #ff5500;
+		border: 2px solid #B79650;
+	}
+	.authorization{
+		color: #D2B85B;
+		line-height: 65px;
+		font-size: 13px;
+		width: 65px;
+		height: 65px;
+		border-radius: 50%;
+		border: 2px solid #B79650;
 	}
 	.user-button{
 		border: none !important;
@@ -148,23 +178,47 @@
 		position: absolute;
 		right: 0;
 		top: 10px;
-		background-color: #3C3E49;
-		color: #ff5500;
+		background-color: rgba(22,18,15,.8);
+		color: #D2B85B;
 		border-top-left-radius: 14px;
 		border-bottom-left-radius: 14px;
-		width: 25px;
-		height: 25px;
-		text-indent: 5px;
+		width: 30px;
+		height: 30px;
+		text-indent: 6px;
 	}
 	.v{
 		position: absolute;
 		bottom: 0;
-		width: 70px;
-		left: 35px;
+		width: 65px;
+		height: 15px;
+		line-height: 15px;
+		left: 47px;
+		background-color: #554625;
+		font-size: 10px;
+		border-radius: 15px;
+		color: #D2B85B;
+	}
+	.v-text{
+		width: 15px;
+		height: 15px;
+		line-height: 15px;
+		border-radius: 15px;
+		background-color: #FFFFFF;
+		color: #757575;
+		text-align: center;
+		margin-right: 5px;
 	}
 	.order{
-		height: 100px;
+		height: 95px;
 		background-color: #fff;
 		border-bottom: 1px solid #e0e0e0;
 	}
+	.cras-back{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+	}
+	
 </style>

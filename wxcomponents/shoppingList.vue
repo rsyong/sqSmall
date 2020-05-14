@@ -7,8 +7,8 @@
 					<image :src="imgUrl"></image>
 				</view>
 				<view class="list-text">
-					<view class="list-title">水果很好水果很好水果很好水果很好水果很好水果很好</view>
-					<view class="list-subtitle">水果很好水果很好水果很好水果很好</view>
+					<view class="list-title only-line-2">水果很好水果很好水果很好水果很好水果很好水果很好</view>
+					<view class="list-subtitle only-line-2">水果很好水果很好水果很好水果很好</view>
 					<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 				</view>
 			</view>
@@ -20,8 +20,8 @@
 					<image :src="imgUrl"></image>
 				</view>
 				<view class="list-text">
-					<view class="list-title">水果很好</view>
-					<view class="list-subtitle">水果很好水果很好水果很好水果很好</view>
+					<view class="list-title only-line-2">水果很好</view>
+					<view class="list-subtitle only-line-2">水果很好水果很好水果很好水果很好</view>
 					<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 				</view>
 			</view>
@@ -98,11 +98,6 @@
 	.list-subtitle{
 		font-size: 12px;
 		color: #888;
-		overflow: hidden;
-		word-break: break-all;  /* break-all(允许在单词内换行。) */
-		text-overflow: ellipsis;  /* 超出部分省略号 */
-		display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-		-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
 		-webkit-line-clamp: 3; /** 显示的行数 **/
 		margin-bottom: 5px;
 	}
@@ -111,12 +106,6 @@
 		color: #424242;
 	}
 	.list-title{
-		overflow: hidden;
-		word-break: break-all;  /* break-all(允许在单词内换行。) */
-		text-overflow: ellipsis;  /* 超出部分省略号 */
-		display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-		-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-		-webkit-line-clamp: 2; /** 显示的行数 **/
 		margin-bottom: 5px;
 	}
 	

@@ -19,7 +19,11 @@
         }
         ,{
             "path" : "pages/shoppingCart/shoppingCart",
-            "style" : {}
+            "style": {
+            	"usingComponents":{
+            		"van-button": "/wxcomponents/vant/dist/button/index"
+            	}
+            }
         }
         ,{
             "path" : "pages/my/my",

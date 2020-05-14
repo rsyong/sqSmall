@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App'
-import {request} from './common/request.js';
+import {request} from './common/js/request.js';
 Vue.config.productionTip = false
 
 Vue.prototype.request=request;

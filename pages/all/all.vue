@@ -1,7 +1,9 @@
 <template>
 	<view>
 		<uni-nav-bar title="商品分类" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
-		<uni-search-bar :radius="100" @confirm="search"></uni-search-bar>
+		<view class="serach-bar">
+			<view @click="toSerach" class="serach">搜索</view>
+		</view>
 		<view class="sp-content flex just-between">
 			<view class="sp-left">
 				<view class="sp-left-list" @click="navClick(index)" :class="{active:activeNum==index}" v-for="(item,index) in leftData" :key="index">{{item}}</view>
@@ -55,6 +57,12 @@
 			navClick(index){
 				this.activeNum=index;
 			},
+			//跳转搜索
+			toSerach(){
+				uni.navigateTo({
+				    url: '../serach/serach'
+				});
+			},
 			search(){
 				
 			}
@@ -73,10 +81,10 @@
 	.sp-right{
 		background-color: #fff;
 		padding: 0 10px;
-		min-height: 1005rpx;
+		min-height: calc(100vh - 116px);
 	}
 	.sp-list{
-		margin-top: 10px;
+		margin-top: 15px;
 		position: relative;
 	}
 	.selected{
@@ -112,5 +120,18 @@
 		color: #424242;
 		position: absolute;
 		bottom: 3px;
+	}
+	.serach-bar{
+		margin: 10px;
+	}
+	.serach{
+		width: 100%;
+		height: 36px;
+		line-height: 36px;
+		border-radius: 25px;
+		color: #A0A0A0;
+		background-color: #F8F8F8;
+		font-size: 14px;
+		text-align: center;
 	}
 </style>

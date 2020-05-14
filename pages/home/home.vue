@@ -13,7 +13,7 @@
 		<view class="back-view"><view class="back-qiu"></view></view>
 		<view style="margin-top: -120px;"></view>
 		<uni-swiper-dot :info="info" mode="round" :current="current" field="content" border="rgba(255, 255, 255, .3)" selectedBackgroundColor="#fff">
-		    <swiper class="swiper-box" @change="change" circular autoplay>
+		    <swiper class="swiper-box" @change="change" circular autoplay easing-function="easeOutCubic">
 		        <swiper-item v-for="(item ,index) in info" :key="index">
 		            <view class="swiper-item">
 		                <image :src="imgUrl"></image>
@@ -29,38 +29,33 @@
 			</navigator>
 		</view>
 		<!-- 限时秒杀 -->
-		<scroll-view scroll-x style="margin-bottom: 10px;">
-			<view class="seckill mag-center-10 flex">
-				<view class="sp-list">
-					<view class="sp-list-img">
-						<image :src="imgUrl"></image>
-					</view>
-					<view class="sp-list-name">【爆品】《肖月宣》海南25号小事按实际卢卡斯加克拉斯</view>
-					<view class="flex just-between align-center">
-						<text class="sp-list-weight">约17斤</text>
-						<van-count-down use-slot :time="30 * 60 * 60 * 1000" @change="timeonChange">
-						  <text class="item">{{ timeData.hours }}</text>
-						  <text class="item-dost">:</text>
-						  <text class="item">{{ timeData.minutes }}:</text>
-						  <text class="item-dost">:</text>
-						  <text class="item">{{ timeData.seconds }}</text>
-						</van-count-down>
-					</view>
-				</view>
-			</view>
-		</scroll-view>
+		<view class="seckill mag-center-10">
+			<swiper class="swiper-box-miao" circular autoplay interval="4000" display-multiple-items="2" next-margin="170rpx">
+			    <swiper-item v-for="(item ,index) in info" :key="index">
+			        <view class="swiper-item-miao">
+			            <view class="sp-list">
+			            	<view class="sp-list-img">
+			            		<image :src="imgUrl"></image>
+			            	</view>
+			            	<view class="sp-list-name only-line-2">【爆品】《肖月宣》海南25号小事按实际卢卡斯加克拉斯</view>
+			            	<view class="flex just-between align-center">
+			            		<text class="sp-list-weight max-lenth only-line-1">约179808斤</text>
+			            		<van-count-down use-slot :time="30 * 60 * 60 * 1000" @change="timeonChange">
+			            		  <text class="item">{{ timeData.hours }}</text>
+			            		  <text class="item-dost">:</text>
+			            		  <text class="item">{{ timeData.minutes }}:</text>
+			            		  <text class="item-dost">:</text>
+			            		  <text class="item">{{ timeData.seconds }}</text>
+			            		</van-count-down>
+			            	</view>
+			            </view>
+			        </view>
+			    </swiper-item>
+			</swiper>
+		</view>
 		<!-- 分类 -->
 		<van-tabs :active="active" @change="onChange" color="#F9BC2D">
-			<van-tab title="今日推荐"></van-tab>
-			<van-tab title="今日推荐"></van-tab>
-			<van-tab title="今日推荐"></van-tab>
-			<van-tab title="今日推荐"></van-tab>
-			<van-tab title="今日推荐"></van-tab>
-			<van-tab title="今日推荐"></van-tab>
-			<van-tab title="今日推荐"></van-tab>
-			<van-tab title="今日推荐"></van-tab>
-			<van-tab title="今日推荐"></van-tab>
-			<van-tab title="今日推荐"></van-tab>
+			<van-tab :title="item.content" v-for="(item,index) in info" :key="index"></van-tab>
 		</van-tabs>
 		<shoppingList :dataList="[1,2,3,4,5]" />
 	</view>
@@ -73,9 +68,15 @@
 		data() {
 			return {
 				info: [{
-					content: '内容 A'
+					content: '今日推荐'
 				}, {
 					content: '内容 B'
+				}, {
+					content: '内容 C'
+				}, {
+					content: '内容 C'
+				}, {
+					content: '内容 C'
 				}, {
 					content: '内容 C'
 				}],
@@ -126,9 +127,18 @@
 	.swiper-box{
 		overflow: hidden;
 	}
+	.swiper-box-miao{
+		overflow: hidden;
+		height: 200px;
+		margin: 0 10px;
+	}
 	.swiper-item{
 		flex: 1;
 		padding: 0 10px;
+	}
+	.swiper-item-miao{
+		flex: 1;
+		padding-right: 10px;
 	}
 	.swiper-item image{
 		width: 100%;
@@ -153,7 +163,6 @@
 	}
 	.sp-list{
 		width: 233rpx;
-		margin-left: 10px;
 	}
 	.sp-list-img image{
 		width: 233rpx;
@@ -161,12 +170,6 @@
 		border-radius: 5px;
 	}
 	.sp-list-name{
-		overflow: hidden;
-		word-break: break-all;  /* break-all(允许在单词内换行。) */
-		text-overflow: ellipsis;  /* 超出部分省略号 */
-		display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-		-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-		-webkit-line-clamp: 2; /** 显示的行数 **/
 		margin-bottom: 5px;
 	}
 	.serach{
@@ -192,5 +195,7 @@
 		color: #ED5758;
 		margin: 0 2px;
 	}
-	
+	.max-lenth{
+		max-width: 86rpx;
+	}
 </style>

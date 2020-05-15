@@ -22,7 +22,7 @@ export default {
 
 <style>
 	@import "/wxcomponents/vant/dist/common/index.wxss";
-	@import "/static/iconfont.css";
+	@import "/static/font/iconfont.css";
 	page{
 		font-size: 14px;
 		background-color: #f2f2f2;

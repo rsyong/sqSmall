@@ -9,6 +9,10 @@ export default {
 	},
 	onShow: function() {
 		//打开
+		// uni.setTabBarBadge({
+		// 	index:2,
+		// 	text:'9'
+		// })
 	},
 	onHide: function() {
 		//关闭
@@ -18,6 +22,7 @@ export default {
 
 <style>
 	@import "/wxcomponents/vant/dist/common/index.wxss";
+	@import "/static/iconfont.css";
 	page{
 		font-size: 14px;
 		background-color: #f2f2f2;

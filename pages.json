@@ -1,12 +1,12 @@
 {
-	"pages": [{
+	"pages": [
+		{
 			"path": "pages/home/home",
 			"style": {
 				"usingComponents":{
 					"van-tabs": "/wxcomponents/vant/dist/tabs/index",
 					"van-tab": "/wxcomponents/vant/dist/tab/index",
 					"van-count-down": "/wxcomponents/vant/dist/count-down/index"
-					
 				}
 			}
 		},{
@@ -40,7 +40,14 @@
         ,{
             "path" : "pages/serach/serach",
             "style" : {}
-        }
+        },{
+		    "path" : "pages/shoppingDetails/shoppingDetails",
+		    "style" : {
+			}
+		},{
+		    "path" : "pages/personal/personal",
+		    "style" : {}
+		}
     ],
 	"globalStyle": {
 		"navigationStyle":"custom",

@@ -14,7 +14,7 @@
 		<view style="margin-top: -120px;"></view>
 		<uni-swiper-dot :info="info" mode="round" :current="current" field="content" border="rgba(255, 255, 255, .3)" selectedBackgroundColor="#fff">
 		    <swiper class="swiper-box" @change="change" circular autoplay easing-function="easeOutCubic">
-		        <swiper-item v-for="(item ,index) in info" :key="index">
+		        <swiper-item v-for="(item ,index) in info" :key="index" @click="gotoDetails">
 		            <view class="swiper-item">
 		                <image :src="imgUrl"></image>
 		            </view>
@@ -101,15 +101,17 @@
 			},
 			timeonChange(e){
 				this.timeData=e.detail
+			},
+			gotoDetails(){
+				uni.navigateTo({
+					url:"../shoppingDetails/shoppingDetails"
+				})
 			}
 		}
 	}
 </script>
 
 <style>
-	.uni-navbar--border{
-		border-bottom-color: #000 !important;
-	}
 	.back-view{
 		width: 100%;
 		overflow: hidden;

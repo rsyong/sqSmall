@@ -14,7 +14,7 @@
 					<view>已绑定</view>
 				</view>
 			</view>
-			<view class="morn flex just-center align-center">></view>
+			<view class="morn flex just-center align-center" @click="toPersonal">></view>
 		</view>
 		<view class="order flex just-around align-center">
 			<view>
@@ -95,6 +95,7 @@
 						  uni.getUserInfo({
 							success: (res) => {
 								this.myuserInfo=res.userInfo;
+								getApp().globalData.myuserInfo=this.myuserInfo;
 							}
 						  })
 						}
@@ -104,6 +105,7 @@
 			//用户回调
 			userInfo(e){
 				this.myuserInfo=e.detail.userInfo;
+				getApp().globalData.myuserInfo=this.myuserInfo;
 			},
 			//拨打电话
 			makePhoneCall(){
@@ -120,6 +122,11 @@
 				        }
 				    }
 				});
+			},
+			toPersonal(){
+				uni.navigateTo({
+					url:'../personal/personal'
+				})
 			}
 		}
 	}

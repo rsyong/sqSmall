@@ -2,7 +2,8 @@
 export default {
 	globalData:{
 		appid:'wx99e7a5d35d7d086d',
-		appSecret:'8514346960e863e5748524da781cb984'
+		appSecret:'8514346960e863e5748524da781cb984',
+		myuserInfo:{}
 	},
 	onLaunch: function() {
 		//第一次启动
@@ -26,6 +27,7 @@ export default {
 	page{
 		font-size: 14px;
 		background-color: #f2f2f2;
+		color: #333;
 	}
 	.flex{
 		display: flex;
@@ -77,6 +79,10 @@ export default {
 		display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
 		-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
 		-webkit-line-clamp: 2; /** 显示的行数 **/
+	}
+	
+	.uni-navbar--border{
+		border-bottom-color: #000 !important;
 	}
 	
 	.sp-list-weight{

@@ -14,9 +14,13 @@
 						<view class="flex just-between align-center">
 							<view>***</view>
 							<view class="flex align-center add-bottoms">
-								<view class="my-sp-buttom">-</view>
+								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50">
+									<uni-icons type="minus-filled" size="23" color="#F0B426"></uni-icons>
+								</view>
 								<view class="my-sp-number">0</view>
-								<view class="my-sp-buttom">+</view>
+								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50">
+									<uni-icons type="plus-filled" size="23" color="#F0B426"></uni-icons>
+								</view>
 							</view>
 						</view>
 					</view>
@@ -34,9 +38,13 @@
 						<view class="flex just-between align-center">
 							<view class="flex1">***</view>
 							<view class="flex align-center add-bottoms">
-								<view class="my-sp-buttom">-</view>
+								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50">
+									<uni-icons type="minus-filled" size="23" color="#F0B426"></uni-icons>
+								</view>
 								<view class="my-sp-number">0</view>
-								<view class="my-sp-buttom">+</view>
+								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50">
+									<uni-icons type="plus-filled" size="23" color="#F0B426"></uni-icons>
+								</view>
 							</view>
 						</view>
 					</view>
@@ -124,13 +132,7 @@
 		margin-right: 3px;
 	}
 	.my-sp-buttom{
-		width: 22px;
-		height: 22px;
-		line-height: 22px;
 		border-radius: 50%;
-		text-align: center;
-		color: #fff;
-		background-color: #F0B426;
 	}
 	.my-sp-number{
 		margin: 0 10px;
@@ -140,5 +142,8 @@
 	}
 	.all-monye-monye{
 		color: #E4A956;
+	}
+	.hove-bg8{
+		background-color: rgba(0,0,0,.1);
 	}
 </style>

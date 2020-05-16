@@ -2,7 +2,10 @@
 	<view>
 		<uni-nav-bar title="商品分类" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="serach-bar">
-			<view @click="toSerach" class="serach">搜索</view>
+			<view @click="toSerach" class="serach">
+				<uni-icons type="search" size="16" color="#424242"></uni-icons>
+				搜索
+			</view>
 		</view>
 		<view class="sp-content flex just-between">
 			<view class="sp-left">

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar title="个人信息" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
+		<uni-nav-bar @clickLeft="goBack" title="个人信息" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<uni-list>
 		    <uni-list-item title="头像" @click="getUserImg">
 				<template v-slot:right="">
@@ -35,14 +35,12 @@
 					<input type="number" placeholder="请录入" class="my-input" maxlength="11" />
 				</template>
 			</uni-list-item>
-			<uni-list-item title="所属地区" :show-arrow="false" @click="changeAdess">
+			<uni-list-item title="选择地址" :show-arrow="false" @click="changeAdess">
 				<template v-slot:right="">
-					<view class="my-input">请选择地址</view>
+					<view class="my-input">{{myuserInfo.name || '请选择地址'}}</view>
 				</template>
 			</uni-list-item>
-			<uni-list-item :show-arrow="false">
-				<textarea class="textarea" placeholder="店铺详细地址如街道、门牌号、小区等" maxlength="50"></textarea>
-			</uni-list-item>
+			<textarea :value="myuserInfo.address" class="textarea" placeholder="店铺详细地址如街道、门牌号、小区等" maxlength="80"></textarea>
 		</uni-list>
 		<view class="my-buttom">
 			<view class="my-buttom-view flex just-between">
@@ -61,7 +59,12 @@
 			}
 		},
 		onLoad(){
-			this.myuserInfo=getApp().globalData.myuserInfo;
+			let {avatarUrl,nickName} = getApp().globalData.myuserInfo;
+			let myuserInfo={
+				avatarUrl,
+				nickName
+			}
+			this.myuserInfo=myuserInfo;
 			console.log(this.myuserInfo)
 		},
 		methods: {
@@ -76,11 +79,14 @@
 				});
 			},
 			changeAdess(){
-				uni.getLocation({
-					geocode:true,
-				    success: (res) => {
-				        console.log('当前位置的经度：' + JSON.stringify(res));
-						
+				uni.chooseLocation({
+				    success: (res)=> {
+						let myuserInfo={
+							...this.myuserInfo,
+							name:res.name,
+							address:res.address+res.name,
+						}
+						this.myuserInfo=myuserInfo;
 				    }
 				});
 			}
@@ -99,6 +105,9 @@
 	}
 	.textarea{
 		height: 80px;
+		width: 100%;
+		padding: 10px;
+		box-sizing: border-box;
 	}
 	.my-buttom{
 		height: 50px;

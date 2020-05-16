@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar title="商品详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
+		<uni-nav-bar @clickLeft="goBack" title="商品详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<uni-swiper-dot :info="info" :current="current" field="content" mode="indexes">
 		    <swiper class="swiper-box" @change="change">
 		        <swiper-item v-for="(item ,index) in info" :key="index">

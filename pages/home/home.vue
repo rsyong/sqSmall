@@ -3,10 +3,15 @@
 		<!-- <uni-nav-bar title="导航栏组件" left-text="返回" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar> -->
 		<uni-nav-bar status-bar background-color="rgba(0,0,0,1)" fixed>
 			<view slot="left">
-				<view style="font-weight: 25px;color: #FFA200;margin-left: 5px;">标果工厂</view>
+				<view>
+					<image class="logo" src="/static/image/logo.jpg"></image>
+				</view>
 			</view>
-		    <view class="my-nav just-center flex">
-				<view @click="toSerach" class="serach">搜索</view>
+		    <view class="my-nav just-center flex align-center">
+				<view @click="toSerach" class="serach">
+					<uni-icons type="search" size="16" color="#84785D"></uni-icons>
+					<text style="margin-left: 8px;">搜索</text>
+				</view>
 			</view>
 			<view solt="right">22</view>
 		</uni-nav-bar>
@@ -25,7 +30,10 @@
 		<view class="nav-bar flex just-between pad-center-10 align-center">
 			<view style="font-weight: bold;font-size: 18px;">限时秒杀</view>
 			<navigator url="../sechill/sechill"  hover-class="navigator-hover">
-				<view style="font-size: 14px;color: #888;">更多好货疯抢</view>
+				<view style="font-size: 14px;color: #888;" class="flex align-center">
+					更多好货疯抢
+					<view class="arrow"><uni-icons type="arrowright" size="12" color="#fff"></uni-icons></view>
+				</view>
 			</navigator>
 		</view>
 		<!-- 限时秒杀 -->
@@ -112,6 +120,12 @@
 </script>
 
 <style>
+	.logo{
+		width: 40px;
+		height: 40px;
+		margin-left: 5px;
+		margin-top: 17px;
+	}
 	.back-view{
 		width: 100%;
 		overflow: hidden;
@@ -177,11 +191,11 @@
 	.serach{
 		width: 275rpx;
 		height: 52rpx;
+		line-height: 52rpx;
 		border-radius: 25px;
 		border: 1px solid #84785D;
 		color: #84785D;
 		font-size: 14px;
-		line-height: 26px;
 		padding-left: 10px;
 	}
 	.item {
@@ -199,5 +213,14 @@
 	}
 	.max-lenth{
 		max-width: 86rpx;
+	}
+	.arrow{
+		width: 15px;
+		height: 15px;
+		background-color: #F66139;
+		text-align: center;
+		line-height: 15px;
+		border-radius: 50%;
+		margin-left: 6px;
 	}
 </style>

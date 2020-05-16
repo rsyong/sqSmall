@@ -17,17 +17,20 @@
 			<view class="morn flex just-center align-center" @click="toPersonal">></view>
 		</view>
 		<view class="order flex just-around align-center">
-			<view>
-				<view class="iconfont icon-dingdan"></view>
+			<view class="flex just-center align-center flex-column">
+				<view class="iconfont icon-dingdan my-icon"></view>
 				<view>全部订单</view>
 			</view>
-			<view>
+			<view class="flex just-center align-center flex-column">
+				<view class="iconfont icon-dengdaiqueren my-icon"></view>
 				<view>待确认</view>
 			</view>
-			<view>
+			<view class="flex just-center align-center flex-column">
+				<view class="iconfont icon-daishouhuo my-icon"></view>
 				<view>待收货</view>
 			</view>
-			<view>
+			<view class="flex just-center align-center flex-column">
+				<view class="iconfont icon-shouhou my-icon"></view>
 				<view>售后</view>
 			</view>
 		</view>
@@ -228,5 +231,9 @@
 		top: 0;
 		left: 0;
 	}
-	
+	.my-icon{
+		font-size: 22px;
+		color: #EEBD5E;
+		margin-bottom: 3px;
+	}
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar title="本地专供|全场95折" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
+		<uni-nav-bar @clickLeft="goBack" title="本地专供|全场95折" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="content">
 			<shoppingListMorn />
 		</view>

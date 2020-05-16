@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar title="商品搜索" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
+		<uni-nav-bar @clickLeft="goBack" title="商品搜索" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="content">
 			<uni-search-bar :radius="100" @confirm="search" @cancel="cancel"></uni-search-bar>
 			<view class="hot-serach" v-if="showHot">

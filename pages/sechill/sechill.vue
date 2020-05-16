@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar status-bar background-color="#000" fixed>
+		<uni-nav-bar @clickLeft="goBack" status-bar background-color="#000" fixed>
 		    <view class="my-nav">精品秒杀</view>
 		</uni-nav-bar>
 		<view class="content">

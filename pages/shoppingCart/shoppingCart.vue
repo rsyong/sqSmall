@@ -4,7 +4,7 @@
 		<view class="content">
 			<view class="sp-list flex just-between align-center">
 				<view class="c-radio"><radio value="r1" color="#F0B426" :checked="radioChecked" @click="radioChange" /></view>
-				<view class="sp-list-detiles flex just-between">
+				<view class="sp-list-detiles flex just-between" @click="gotoDetails">
 					<view class="sp-list-img">
 						<image :src="imgUrl"></image>
 					</view>
@@ -12,7 +12,7 @@
 						<view class="flex1 only-line-2">我是标题我是博爱提我赛欧加上沙口路基础课爱提我赛欧加上沙口路基础课</view>
 						<view class="flex sp-list-weight align-center">约13斤</view>
 						<view class="flex just-between align-center">
-							<view>***</view>
+							<stars />
 							<view class="flex align-center add-bottoms">
 								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50">
 									<uni-icons type="minus-filled" size="23" color="#F0B426"></uni-icons>
@@ -28,7 +28,7 @@
 			</view>
 			<view class="sp-list flex just-between align-center">
 				<view class="c-radio"><radio value="r1" color="#F0B426" /></view>
-				<view class="sp-list-detiles flex just-between">
+				<view class="sp-list-detiles flex just-between" @click="gotoDetails">
 					<view class="sp-list-img">
 						<image :src="imgUrl"></image>
 					</view>
@@ -36,7 +36,7 @@
 						<view class="flex1 only-line-2">我是标题我是博爱提我赛欧加上沙口路基础课</view>
 						<view class="flex sp-list-weight align-center">约13斤</view>
 						<view class="flex just-between align-center">
-							<view class="flex1">***</view>
+							<stars />
 							<view class="flex align-center add-bottoms">
 								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50">
 									<uni-icons type="minus-filled" size="23" color="#F0B426"></uni-icons>
@@ -89,6 +89,11 @@
 		methods: {
 			radioChange(){
 				this.radioChecked=!this.radioChecked;
+			},
+			gotoDetails(){
+				uni.navigateTo({
+					url:"../shoppingDetails/shoppingDetails"
+				})
 			}
 		}
 	}

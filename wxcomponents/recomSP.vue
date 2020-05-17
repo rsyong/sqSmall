@@ -1,35 +1,61 @@
 <template>
-	<uni-swiper-dot :info="info" :current="current" field="content" mode="indexes">
-	    <swiper class="swiper-box" @change="change">
-	        <swiper-item v-for="(item ,index) in info" :key="index">
-	            <view class="swiper-item">
-	    			<view class="flex swiper-item-list just-between">
-	    				<view class="list" v-for="(item,key) in info2" :key="key">
-	    					<view class="atric">商家直供</view>
-	    					<view class="list-img">
-	    						<image :src="imgUrl"></image>
-	    					</view>
-	    					<view class="list-text">
-	    						<view class="list-title only-line-2">水果很好水果很好水果很好水果很好水果很好水果很好</view>
-	    						<view class="list-subtitle only-line-2">约17斤</view>
-	    						<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
-	    					</view>
-	    				</view>
-	    			</view>
-	            </view>
-	        </swiper-item>
-	    </swiper>
-	</uni-swiper-dot>
+	<view style="position: relative;">
+		<uni-swiper-dot :info="info" :current="current" field="content"  mode="round" :dotsStyles="dotsStyles" >
+		    <swiper class="swiper-box2" @change="change" circular autoplay>
+		        <swiper-item v-for="(item ,index) in info" :key="index">
+		            <view class="swiper-item2">
+		    			<view class="flex swiper-item-list just-between">
+		    				<view class="list" v-for="(item,key) in info2" :key="key">
+		    					<view class="atric">商家直供</view>
+		    					<view class="list-img">
+		    						<image :src="imgUrl"></image>
+		    					</view>
+		    					<view class="list-text">
+		    						<view class="list-title only-line-2">水果很好水果很好水果很好水果很好水果很好水果很好</view>
+		    						<view class="list-subtitle only-line-2">约17斤</view>
+		    						<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
+		    					</view>
+		    				</view>
+		    			</view>
+		            </view>
+		        </swiper-item>
+		    </swiper>
+		</uni-swiper-dot>
+	</view>
 </template>
 
 <script>
 	export default{
 		data(){
 			return {
-				info:[1,2,3],
-				info2:[1,2,3,4,5,6],
+				info: [{
+					content: '今日推荐'
+				}, {
+					content: '内容 B'
+				}, {
+					content: '内容 C'
+				}],
+				info2: [{
+					content: '今日推荐'
+				}, {
+					content: '内容 B'
+				}, {
+					content: '内容 C'
+				},{
+					content: '今日推荐'
+				}, {
+					content: '内容 B'
+				}, {
+					content: '内容 C'
+				}],
 				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
-				current:0
+				current:0,
+				dotsStyles:{
+					backgroundColor:"#DFDFDF",
+					border:"#DFDFDF",
+					selectedBackgroundColor:"#F2B500",
+					selectedBorder:"#F2B500",
+				}
 			}
 		},
 		methods:{
@@ -41,11 +67,12 @@
 </script>
 
 <style>
-	.swiper-box{
-		height: 440px;
+	.swiper-box2{
+		height: 450px;
 	}
-	.swiper-item{
+	.swiper-item2{
 		flex: 1;
+		height: 450px;
 	}
 	.swiper-item-list{
 		flex-wrap: wrap;

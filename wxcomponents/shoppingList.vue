@@ -1,7 +1,7 @@
 <template>
 	<view class="flex just-between container">
 		<view class="left">
-			<view class="list" v-for="(item,key) in leftData" :key="key">
+			<view class="list" v-for="(item,key) in leftData" :key="key" @click="onPress(item)">
 				<view class="atric">商家直供</view>
 				<view class="list-img">
 					<image :src="imgUrl"></image>
@@ -14,7 +14,7 @@
 			</view>
 		</view>
 		<view class="right">
-			<view class="list" v-for="(item,key) in rightData" :key="key">
+			<view class="list" v-for="(item,key) in rightData" :key="key" @click="onPress(item)">
 				<view class="atric">商家直供</view>
 				<view class="list-img">
 					<image :src="imgUrl"></image>
@@ -50,7 +50,9 @@
 			})
 		},
 		methods: {
-			
+			onPress(item){
+				this.$emit("onPress",item);
+			}
 		}
 	}
 </script>

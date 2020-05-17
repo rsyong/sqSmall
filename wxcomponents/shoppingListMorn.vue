@@ -8,9 +8,9 @@
 				<view>我是标题我是博爱提我赛欧加上沙口路基础课</view>
 				<view class="sp-list-weight">约13斤</view>
 				<view class="flex just-between">
-					<view>***</view>
+					<stars />
 				</view>
-				<view>标国精选</view>
+				<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 			</view>
 		</view>
 		<view class="sp-list flex just-between">
@@ -21,9 +21,9 @@
 				<view>我是标题我是博爱提我赛欧加上沙口路基础课</view>
 				<view class="sp-list-weight">约13斤</view>
 				<view class="flex just-between">
-					<view>***</view>
+					<stars />
 				</view>
-				<view>标国精选</view>
+				<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 			</view>
 		</view>
 	</view>
@@ -48,5 +48,12 @@
 		border-radius: 6px;
 		padding: 10px;
 		margin-top: 10px;
+		position: relative;
+	}
+	.list-slogo{
+		font-size: 10px;
+		color: #424242;
+		position: absolute;
+		bottom: 13px;
 	}
 </style>

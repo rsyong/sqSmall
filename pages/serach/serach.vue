@@ -2,9 +2,9 @@
 	<view>
 		<uni-nav-bar @clickLeft="goBack" title="商品搜索" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="content">
-			<uni-search-bar :radius="100" @confirm="search" @cancel="cancel"></uni-search-bar>
+			<uni-search-bar :radius="100" @confirm="search" @input="searchinput" @cancel="cancel"></uni-search-bar>
 			<view class="hot-serach" v-if="showHot">
-				<view>热门搜索</view>
+				<view class="flex align-center"><view class="iconfont icon-ai-hot my-icon"></view> <text class="hot-text">热门搜索</text></view>
 				<view class="serach-tars flex">
 					<view class="serach-tars-list" v-for="(item,index) in tasData" :key="index">芒果</view>
 				</view>
@@ -31,6 +31,9 @@
 			search(e){
 				if(!e.value) return this.showHot=true;
 				this.showHot=false;
+			},
+			searchinput(e){
+				if(!e.value) return this.showHot=true;
 			}
 		}
 	}
@@ -50,7 +53,7 @@
 		flex-wrap: wrap;
 	}
 	.serach-tars-list{
-		padding: 3px 10px;
+		padding: 5px 13px;
 		border-radius: 15px;
 		background-color: #f2f2f2;
 		font-size: 12px;
@@ -59,5 +62,15 @@
 	}
 	.sp-list{
 		margin-top: 0px !important;
+	}
+	.my-icon{
+		color: #F4B135;
+		margin: 0 3px;
+		font-size: 15px;
+	}
+	.hot-text{
+		font-size: 15px;
+		font-weight: 600;
+		margin-left: 5px;
 	}
 </style>

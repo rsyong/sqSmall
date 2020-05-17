@@ -40,7 +40,7 @@
 		<view class="seckill mag-center-10">
 			<swiper class="swiper-box-miao" circular autoplay interval="4000" display-multiple-items="2" next-margin="170rpx">
 			    <swiper-item v-for="(item ,index) in info" :key="index">
-			        <view class="swiper-item-miao">
+			        <view class="swiper-item-miao" @click="gotoDetails">
 			            <view class="sp-list">
 			            	<view class="sp-list-img">
 			            		<image :src="imgUrl"></image>
@@ -65,7 +65,7 @@
 		<van-tabs :active="active" @change="onChange" color="#F9BC2D">
 			<van-tab :title="item.content" v-for="(item,index) in info" :key="index"></van-tab>
 		</van-tabs>
-		<shoppingList :dataList="[1,2,3,4,5]" />
+		<shoppingList :dataList="[1,2,3,4,5]" @onPress="gotoDetails" />
 	</view>
 </template>
 

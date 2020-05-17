@@ -66,6 +66,9 @@ export default {
 	.mb-5{
 		margin-bottom: 5px;
 	}
+	.mb-10{
+		margin-bottom: 10px;
+	}
 	.only-line-1{
 		max-width: 100%;
 		white-space: nowrap;

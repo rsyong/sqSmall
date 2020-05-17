@@ -1,19 +1,21 @@
 <template>
 	<view>
 		<uni-nav-bar @clickLeft="goBack" title="商品详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
-		<uni-swiper-dot :info="info" :current="current" field="content" mode="indexes">
-		    <swiper class="swiper-box" @change="change">
-		        <swiper-item v-for="(item ,index) in info" :key="index">
-		            <view class="swiper-item">
-		                <image :src="imgUrl"></image>
-		            </view>
-		        </swiper-item>
-		    </swiper>
-		</uni-swiper-dot>
+		<view class="banner">
+			<swiper class="swiper-box" @change="change">
+			    <swiper-item v-for="(item ,index) in info" :key="index">
+			        <view class="swiper-item">
+			            <image :src="imgUrl"></image>
+			        </view>
+			    </swiper-item>
+			</swiper>
+			<view class="atric">商家直供</view>
+			<view class="banner-lables"><text>{{current+1}}</text>/{{info.length}}</view>
+		</view>
 		<view class="content">
-			<view>***</view>
+			<stars />
 			<view class="sp-title mb-5">我是标题我是标题我是标题我是标题我是标题我是标题我是标题</view>
-			<view class="sp-list-weight mb-5">我是副标题我是副标题我是副标题我是副标题我是副标题我是副标题</view>
+			<view class="sp-list-weight sp-sun-title">我是副标题我是副标题我是副标题我是副标题我是副标题我是副标题</view>
 			<view class="sp-list-weight mb-5">约27斤</view>
 			<view class="flex just-between">
 				<view class="mao-weight">毛重</view>
@@ -32,6 +34,9 @@
 			</view>
 		</view>
 		<view class="content">
+			<view class="nav-tuijan flex just-center mb-10">
+				<view>为您推荐</view>
+			</view>
 			<recomSP />
 		</view>
 		<view class="content">
@@ -50,8 +55,18 @@
 		<view class="buy-buttom">
 			<view class="buy-buttom-content">
 				<view class="flex just-between align-center">
-					<view></view>
-					<view></view>
+					<view class="carts flex1">
+						<view class="iconfont icon-cart_icon">
+							<view class="carts-dost">1</view>
+						</view>
+					</view>
+					<view>
+						<view class="settlement flex align-center">
+							<button class="settlement-left">-</button>
+							<view class="settlement-number flex1">1</view>
+							<button class="settlement-right">+</button>
+						</view>
+					</view>
 					<button class="go-buys">加入购物车</button>
 				</view>
 			</view>
@@ -116,7 +131,12 @@
 		background-color: #fff;
 	}
 	.sp-title{
-		font-size: 16px;
+		font-size: 17px;
+		margin-top: 5px;
+	}
+	.sp-sun-title{
+		margin-top: 15px;
+		margin-bottom: 5px;
 	}
 	.mao-weight{
 		font-size: 13px;
@@ -179,8 +199,92 @@
 		line-height: 50px;
 		text-align: center;
 		border-radius: 0;
+		margin-left: 15px;
+		background-color: #DBDBDB;
+		color: #fff;
 	}
 	button::after{
 		border: none;
+	}
+	.banner{
+		position: relative;
+	}
+	.banner-lables{
+		min-width: 60rpx;
+		height: 40rpx;
+		background-color: rgba(0,0,0,.3);
+		text-align: center;
+		line-height: 40rpx;
+		padding: 10px;
+		color: #fff;
+		font-size: 14px;
+		position: absolute;
+		bottom: 15px;
+		right: 0;
+		border-top-left-radius: 55rpx;
+		border-bottom-left-radius: 55rpx;
+	}
+	.banner-lables text{
+		font-size: 16px;
+	}
+	.carts{
+		padding-left: 10px;
+	}
+	.carts .icon-cart_icon{
+		font-size: 28px;
+		position: relative;
+		color: #8C8C8C;
+	}
+	.settlement{
+		border-radius: 25px;
+		width: 90px;
+		border: 1px solid #ddd;
+		overflow: hidden;
+	}
+	.settlement button{
+		width: 25px;
+		height: 25px;
+		border-radius: 0;
+		text-align: center;
+		line-height: 25px;
+		padding: 0;
+		color: #878787;
+	}
+	.settlement-left{
+		border-right: 1px solid #ddd;
+	}
+	.settlement-right{
+		border-left: 1px solid #ddd;
+	}
+	.settlement-number{
+		text-align: center;
+		color: #878787;
+	}
+	.carts-dost{
+		height: 15px;
+		min-width: 15px;
+		background-color: #FF4F55;
+		color: #fff;
+		text-align: center;
+		line-height: 15px;
+		position: absolute;
+		top: -6px;
+		left: 28px;
+		border-radius: 15px;
+		border-bottom-left-radius: 0;
+		font-size: 8px;
+	}
+	.atric{
+		position: absolute;
+		left: 10px;
+		top: 0;
+		width: 90rpx;
+		background-color: #ff7a01;
+		border-bottom-left-radius: 90rpx;
+		border-bottom-right-radius: 90rpx;
+		font-size: 16px;
+		color: #fff;
+		text-align: center;
+		padding-bottom: 12px;
 	}
 </style>

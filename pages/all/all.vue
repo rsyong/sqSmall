@@ -12,7 +12,7 @@
 				<view class="sp-left-list" @click="navClick(index)" :class="{active:activeNum==index}" v-for="(item,index) in leftData" :key="index">{{item}}</view>
 			</view>
 			<view class="sp-right flex1">
-				<view class="sp-list flex">
+				<view class="sp-list flex" @click="gotoDetails">
 					<view class="atric">商家直供</view>
 					<view class="sp-list-img">
 						<image :src="imgUrl"></image>
@@ -22,12 +22,14 @@
 						<view class="sp-list-weight">商家直供</view>
 						<view class="sp-list-weight">约37斤</view>
 						<view class="flex just-between">
-							<view class="starating">***</view>
+							<view class="starating">
+								<stars />
+							</view>
 						</view>
 						<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 					</view>
 				</view>
-				<view class="sp-list flex">
+				<view class="sp-list flex" @click="gotoDetails">
 					<view class="atric">商家直供</view>
 					<view class="sp-list-img">
 						<image :src="imgUrl"></image>
@@ -37,7 +39,9 @@
 						<view class="sp-list-weight">商家直供</view>
 						<view class="sp-list-weight">约37斤</view>
 						<view class="flex just-between">
-							<view class="starating">***</view>
+							<view class="starating">
+								<stars />
+							</view>
 						</view>
 						<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 					</view>
@@ -68,6 +72,11 @@
 			},
 			search(){
 				
+			},
+			gotoDetails(){
+				uni.navigateTo({
+					url:"../shoppingDetails/shoppingDetails"
+				})
 			}
 		}
 	}

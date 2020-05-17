@@ -10,26 +10,30 @@
 					<view v-else class="authorization">点击授权</view>
 				</button>
 				<view class="v flex" v-if="myuserInfo.avatarUrl">
-					<view class="v-text">V</view>
+					<view class="v-text">
+						<view class="iconfont icon-v"></view>
+					</view>
 					<view>已绑定</view>
 				</view>
 			</view>
-			<view class="morn flex just-center align-center" @click="toPersonal">></view>
+			<view class="morn flex just-center align-center" @click="toPersonal">
+				<uni-icons type="arrowright" size="14" color="#D2B85B"></uni-icons>
+			</view>
 		</view>
 		<view class="order flex just-around align-center">
-			<view class="flex just-center align-center flex-column">
+			<view class="flex just-center align-center flex-column" @click="toOrder(0)">
 				<view class="iconfont icon-dingdan my-icon"></view>
 				<view>全部订单</view>
 			</view>
-			<view class="flex just-center align-center flex-column">
+			<view class="flex just-center align-center flex-column" @click="toOrder(1)">
 				<view class="iconfont icon-dengdaiqueren my-icon"></view>
 				<view>待确认</view>
 			</view>
-			<view class="flex just-center align-center flex-column">
+			<view class="flex just-center align-center flex-column" @click="toOrder(2)">
 				<view class="iconfont icon-daishouhuo my-icon"></view>
 				<view>待收货</view>
 			</view>
-			<view class="flex just-center align-center flex-column">
+			<view class="flex just-center align-center flex-column" @click="makePhoneCall">
 				<view class="iconfont icon-shouhou my-icon"></view>
 				<view>售后</view>
 			</view>
@@ -130,6 +134,11 @@
 				uni.navigateTo({
 					url:'../personal/personal'
 				})
+			},
+			toOrder(pageNum=0){
+				uni.navigateTo({
+					url:'../order/order?pageNum='+pageNum
+				})
 			}
 		}
 	}
@@ -200,11 +209,11 @@
 	.v{
 		position: absolute;
 		bottom: 0;
-		width: 65px;
+		width: 60px;
 		height: 15px;
 		line-height: 15px;
 		left: 47px;
-		background-color: #554625;
+		background-color: rgba(86,71,38,.8);
 		font-size: 10px;
 		border-radius: 15px;
 		color: #D2B85B;
@@ -235,5 +244,8 @@
 		font-size: 22px;
 		color: #EEBD5E;
 		margin-bottom: 3px;
+	}
+	.icon-v{
+		font-size: 10px;
 	}
 </style>

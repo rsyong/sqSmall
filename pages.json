@@ -48,6 +48,19 @@
 		    "path" : "pages/personal/personal",
 		    "style" : {}
 		}
+        ,{
+            "path" : "pages/order/order",
+            "style" : {
+				"usingComponents":{
+					"van-tabs": "/wxcomponents/vant/dist/tabs/index",
+					"van-tab": "/wxcomponents/vant/dist/tab/index"
+				}
+			}
+        }
+        ,{
+            "path" : "pages/personal/certification/certification",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationStyle":"custom",

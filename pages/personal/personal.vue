@@ -45,7 +45,7 @@
 		<view class="my-buttom">
 			<view class="my-buttom-view flex just-between">
 				<button class="my-buttom-s">进入商场</button>
-				<button class="my-buttom-s rz">马上认证</button>
+				<button class="my-buttom-s rz" @click="toCertification">马上认证</button>
 			</view>
 		</view>
 	</view>
@@ -89,6 +89,11 @@
 						this.myuserInfo=myuserInfo;
 				    }
 				});
+			},
+			toCertification(){
+				uni.navigateTo({
+					url:"certification/certification"
+				})
 			}
 		}
 	}

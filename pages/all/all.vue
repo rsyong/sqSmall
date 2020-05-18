@@ -84,16 +84,17 @@
 
 <style>
 	.sp-left-list{
-		height: 45px;
-		line-height: 45px;
+		height: 100rpx;
+		line-height: 100rpx;
 		text-align: center;
-		font-size: 14px;
-		padding: 0 15px;
+		font-size: 12px;
+		width: 160rpx;
+		text-align: center;
 	}
 	.sp-right{
 		background-color: #fff;
-		padding: 0 10px;
-		min-height: calc(100vh - 116px);
+		padding: 3px 15px;
+		min-height: calc(100vh - 110px);
 	}
 	.sp-list{
 		margin-top: 15px;
@@ -103,8 +104,9 @@
 		font-size: 12px;
 	}
 	.active{
-		color: #dc8f1c;
+		color: #EFBB24;
 		background-color: #fff;
+		font-weight: 600;
 	}
 	.atric{
 		position: absolute;

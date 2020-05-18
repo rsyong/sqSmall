@@ -68,11 +68,11 @@
 
 <style>
 	.swiper-box2{
-		height: 450px;
+		height: 900rpx;
 	}
 	.swiper-item2{
 		flex: 1;
-		height: 450px;
+		height: 900rpx;
 	}
 	.swiper-item-list{
 		flex-wrap: wrap;

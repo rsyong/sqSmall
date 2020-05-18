@@ -45,7 +45,9 @@
 				<view class="my-title-line"></view>
 			</view>
 			<view class="notice-list flex" v-for="(item,index) in noticeList" :key="index">
-				<view class="incons">i</view>
+				<view class="incons">
+					<view class="iconfont my-icon" :class="[item.icon]"></view>
+				</view>
 				<view class="flex1">
 					<view class="notice-list-title">{{item.title}}</view>
 					<view class="notice-list-subtitle">{{item.subtitle}}</view>
@@ -91,15 +93,19 @@
 				current:0,
 				noticeList:[{
 					title:'产品等级 | A级最好',
+					icon:'icon-dengji',
 					subtitle:'标果根据产品口感、颜色、果形、外观等优劣综合评判，将产品分为A/B/C/D四个级别，等级越高，产品的综合品质越好、价格越高；等级与单果规格无关；'
 				},{
 					title:'属性星级 | 五星最好',
+					icon:'icon-techreport-',
 					subtitle:'产品口感、颜色、果形、外观四个属性的好坏程度用以星级表示、星级越高、表示属性越好，例如：“口感星级5”或者“标果5星”表示口感最好；'
 				},{
 					title:'好货保障 | 可赔可换',
+					icon:'icon-love',
 					subtitle:'每个产品详情均有不良率、售后范围、不可售后范围等说明，请仔细阅读；由于农产品特性，不良率以内的货损、不可售后范围中的情况、超出售后时效均不支持售后；'
 				},{
 					title:'客服支持 | 有问必答',
+					icon:'icon-kefu',
 					subtitle:'如有任何关于商品及平台的问题，请联系您的专属销售人员或客服，客服电话：028-86337508'
 				}]
 			}
@@ -286,5 +292,10 @@
 		color: #fff;
 		text-align: center;
 		padding-bottom: 12px;
+	}
+	.my-icon{
+		font-size: 18px;
+		color: #F8BF2C;
+		margin-top: 2px;
 	}
 </style>

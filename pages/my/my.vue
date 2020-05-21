@@ -82,11 +82,9 @@
 				});
 			},
 			getOpenId(code){
-				var appid=getApp().globalData.appid;
-				var appSecret=getApp().globalData.appSecret;
-				var JSCODE=code;
-				var url='https://api.weixin.qq.com/sns/jscode2session?appid='+appid+'&secret='+appSecret+'&js_code='+JSCODE+'&grant_type=authorization_code';
-				this.request(url,{},{method:'GET'}).then(res=>{
+				this.request(this.baseURL+'/api/login/login',{
+					code:code
+				},{method:'POST'}).then(res=>{
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();

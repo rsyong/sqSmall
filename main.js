@@ -7,6 +7,8 @@ Vue.config.productionTip = false
 
 Vue.prototype.request=request;
 Vue.prototype.goBack=goBack;
+Vue.prototype.baseURL='http://wanjiaguopin.com';
+Vue.prototype.baseURLImg='http://wanjiaguopin.com';
 Vue.component("stars",stars);
 App.mpType = 'app'
 

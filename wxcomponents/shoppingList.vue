@@ -7,8 +7,8 @@
 					<image :src="imgUrl"></image>
 				</view>
 				<view class="list-text">
-					<view class="list-title only-line-2">水果很好水果很好水果很好水果很好水果很好水果很好</view>
-					<view class="list-subtitle only-line-2">水果很好水果很好水果很好水果很好</view>
+					<view class="list-title only-line-2">{{item.name}}</view>
+					<view class="list-subtitle only-line-2">{{item.nickname}}</view>
 					<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 				</view>
 			</view>
@@ -20,8 +20,8 @@
 					<image :src="imgUrl"></image>
 				</view>
 				<view class="list-text">
-					<view class="list-title only-line-2">水果很好</view>
-					<view class="list-subtitle only-line-2">水果很好水果很好水果很好水果很好</view>
+					<view class="list-title only-line-2">{{item.name}}</view>
+					<view class="list-subtitle only-line-2">{{item.nickname}}</view>
 					<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 				</view>
 			</view>
@@ -40,14 +40,16 @@
 				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg'
 			}
 		},
-		created(){
-			this.mydata.forEach((item,key)=>{
-				if(key%2==0){
-					this.leftData.push(item);
-				}else{
-					this.rightData.push(item);
-				}
-			})
+		watch:{
+			dataList(newVal){
+				newVal.forEach((item,key)=>{
+					if(key%2==0){
+						this.leftData.push(item);
+					}else{
+						this.rightData.push(item);
+					}
+				})
+			}
 		},
 		methods: {
 			onPress(item){

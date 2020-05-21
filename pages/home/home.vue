@@ -17,11 +17,11 @@
 		</uni-nav-bar>
 		<view class="back-view"><view class="back-qiu"></view></view>
 		<view style="margin-top: -120px;"></view>
-		<uni-swiper-dot :info="info" mode="round" :current="current" field="content" border="rgba(255, 255, 255, .3)" selectedBackgroundColor="#fff">
+		<uni-swiper-dot :info="bannerList" mode="round" :current="current" field="content" border="rgba(255, 255, 255, .3)" selectedBackgroundColor="#fff">
 		    <swiper class="swiper-box" @change="change" circular autoplay easing-function="easeOutCubic">
-		        <swiper-item v-for="(item ,index) in info" :key="index" @click="gotoDetails">
+		        <swiper-item v-for="(item ,index) in bannerList" :key="index" @click="gotoDetails">
 		            <view class="swiper-item">
-		                <image :src="imgUrl"></image>
+		                <image :src="baseURLImg+item.image"></image>
 		            </view>
 		        </swiper-item>
 		    </swiper>
@@ -39,13 +39,13 @@
 		<!-- 限时秒杀 -->
 		<view class="seckill mag-center-10">
 			<swiper class="swiper-box-miao" circular autoplay interval="4000" display-multiple-items="2" next-margin="170rpx">
-			    <swiper-item v-for="(item ,index) in info" :key="index">
+			    <swiper-item v-for="(item ,index) in killlist" :key="index">
 			        <view class="swiper-item-miao" @click="gotoDetails">
 			            <view class="sp-list">
 			            	<view class="sp-list-img">
 			            		<image :src="imgUrl"></image>
 			            	</view>
-			            	<view class="sp-list-name only-line-2">【爆品】《肖月宣》海南25号小事按实际卢卡斯加克拉斯</view>
+			            	<view class="sp-list-name only-line-2">{{item.content}}</view>
 			            	<view class="flex just-between align-center">
 			            		<text class="sp-list-weight max-lenth only-line-1">约179808斤</text>
 			            		<van-count-down use-slot :time="30 * 60 * 60 * 1000" @change="timeonChange">
@@ -65,7 +65,7 @@
 		<van-tabs :active="active" @change="onChange" color="#F9BC2D">
 			<van-tab :title="item.content" v-for="(item,index) in info" :key="index"></van-tab>
 		</van-tabs>
-		<shoppingList :dataList="[1,2,3,4,5]" @onPress="gotoDetails" />
+		<shoppingList :dataList="shoppingList" @onPress="gotoDetails" />
 	</view>
 </template>
 
@@ -75,6 +75,10 @@
 		components:{shoppingList},
 		data() {
 			return {
+				bannerList:[], //banner列表
+				baseURLImg:this.baseURLImg,
+				killlist:[], //秒杀
+				shoppingList:[],
 				info: [{
 					content: '今日推荐'
 				}, {
@@ -93,6 +97,10 @@
 				active:0,
 				timeData: {},
 			}
+		},
+		onLoad(){
+			this.getHome();
+			this.getType()
 		},
 		methods: {
 			//跳转搜索
@@ -113,6 +121,48 @@
 			gotoDetails(){
 				uni.navigateTo({
 					url:"../shoppingDetails/shoppingDetails"
+				})
+			},
+			//首页接口
+			getHome(){
+				uni.showLoading();
+				this.request(this.baseURL+'/api/index/index',{},{method:'GET'}).then(res=>{
+					uni.hideLoading();
+					this.bannerList=res.rotation_list; //轮播数据
+					//秒杀
+					if(res.kill_list.length<=1){
+						res.kill_list=res.kill_list.concat(res.kill_list);
+					}
+					this.killList=res.kill_list;
+					console.log(this.killList,88)
+					this.shoppingList=res.category_list;
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			//商品列表
+			getShopping(){
+				uni.showLoading();
+				this.request(this.baseURL+'/api/goods/getList',{
+					page:1,
+					size:10
+				},{method:'GET'}).then(res=>{
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			//获取商品类型
+			getType(){
+				this.request(this.baseURL+'/api/goods/getAllList',{
+					
+				},{method:'GET'}).then(res=>{
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
 				})
 			}
 		}

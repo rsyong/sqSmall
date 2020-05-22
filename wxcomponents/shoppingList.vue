@@ -4,11 +4,11 @@
 			<view class="list" v-for="(item,key) in leftData" :key="key" @click="onPress(item)">
 				<view class="atric">商家直供</view>
 				<view class="list-img">
-					<image :src="imgUrl"></image>
+					<image :src="baseURLImg+item.image"></image>
 				</view>
 				<view class="list-text">
 					<view class="list-title only-line-2">{{item.name}}</view>
-					<view class="list-subtitle only-line-2">{{item.nickname}}</view>
+					<view class="list-subtitle only-line-2">{{item.note}}</view>
 					<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 				</view>
 			</view>
@@ -17,11 +17,11 @@
 			<view class="list" v-for="(item,key) in rightData" :key="key" @click="onPress(item)">
 				<view class="atric">商家直供</view>
 				<view class="list-img">
-					<image :src="imgUrl"></image>
+					<image :src="baseURLImg+item.image"></image>
 				</view>
 				<view class="list-text">
 					<view class="list-title only-line-2">{{item.name}}</view>
-					<view class="list-subtitle only-line-2">{{item.nickname}}</view>
+					<view class="list-subtitle only-line-2">{{item.note}}</view>
 					<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 				</view>
 			</view>
@@ -37,7 +37,7 @@
 				mydata:this.dataList,
 				leftData:[],
 				rightData:[],
-				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg'
+				baseURLImg:this.baseURLImg,
 			}
 		},
 		watch:{

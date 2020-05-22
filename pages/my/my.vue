@@ -54,10 +54,12 @@
 				provider:'',
 				myuserInfo:{
 					avatarUrl:''
-				}
+				},
+				loginRes:''
 			}
 		},
 		onLoad(){
+			//获取设备信息
 			uni.getProvider({
 			    service: 'oauth',
 			    success:(res) => {
@@ -67,12 +69,13 @@
 			});
 		},
 		methods: {
+			//登录
 			login(){
 				uni.showLoading({title: '加载中'});
 				uni.login({
 				    provider: this.provider,
 				    success: (loginRes) => {
-						this.getOpenId(loginRes.code);
+						this.loginRes=loginRes;
 						this.getUserInfo();
 				    },
 					fail:err=>{
@@ -81,9 +84,12 @@
 					}
 				});
 			},
-			getOpenId(code){
+			//获取token
+			getOpenId(data){
 				this.request(this.baseURL+'/api/login/login',{
-					code:code
+					code:this.loginRes.code,
+					iv:data.iv,
+					encryptedData:data.encryptedData
 				},{method:'POST'}).then(res=>{
 					uni.hideLoading();
 				}).catch(err=>{
@@ -91,8 +97,8 @@
 					uni.showToast({title: err});
 				})
 			},
+			// 查看是否授权
 			getUserInfo(){
-				// 查看是否授权
 				uni.getSetting({
 					success:(res)=>{
 						if (res.authSetting['scope.userInfo']) {
@@ -101,9 +107,18 @@
 							success: (res) => {
 								this.myuserInfo=res.userInfo;
 								getApp().globalData.myuserInfo=this.myuserInfo;
+								this.getOpenId(res);
+							},
+							fail:()=>{
+								uni.hideLoading();
 							}
 						  })
+						}else{
+							uni.hideLoading();
 						}
+					},
+					fail:()=>{
+						uni.hideLoading();
 					}
 				})
 			},
@@ -111,6 +126,7 @@
 			userInfo(e){
 				this.myuserInfo=e.detail.userInfo;
 				getApp().globalData.myuserInfo=this.myuserInfo;
+				this.getOpenId(e.detail);
 			},
 			//拨打电话
 			makePhoneCall(){

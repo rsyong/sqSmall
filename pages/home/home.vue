@@ -39,16 +39,16 @@
 		<!-- 限时秒杀 -->
 		<view class="seckill mag-center-10">
 			<swiper class="swiper-box-miao" circular autoplay interval="4000" display-multiple-items="2" next-margin="170rpx">
-			    <swiper-item v-for="(item ,index) in killlist" :key="index">
+			    <swiper-item v-for="(item ,index) in miaoshaList" :key="index">
 			        <view class="swiper-item-miao" @click="gotoDetails">
 			            <view class="sp-list">
 			            	<view class="sp-list-img">
-			            		<image :src="imgUrl"></image>
+			            		<image :src="baseURLImg+item.image"></image>
 			            	</view>
-			            	<view class="sp-list-name only-line-2">{{item.content}}</view>
+			            	<view class="sp-list-name only-line-2">【{{item.type_note}}】{{item.name}}</view>
 			            	<view class="flex just-between align-center">
-			            		<text class="sp-list-weight max-lenth only-line-1">约179808斤</text>
-			            		<van-count-down use-slot :time="30 * 60 * 60 * 1000" @change="timeonChange">
+			            		<text class="sp-list-weight max-lenth only-line-1">约{{item.sale_num}}斤</text>
+			            		<van-count-down use-slot :time="item.end_time - item.start_time" @change="timeonChange">
 			            		  <text class="item">{{ timeData.hours }}</text>
 			            		  <text class="item-dost">:</text>
 			            		  <text class="item">{{ timeData.minutes }}:</text>
@@ -63,7 +63,7 @@
 		</view>
 		<!-- 分类 -->
 		<van-tabs :active="active" @change="onChange" color="#F9BC2D">
-			<van-tab :title="item.content" v-for="(item,index) in info" :key="index"></van-tab>
+			<van-tab :title="item.name" v-for="(item,index) in typeList" :key="index"></van-tab>
 		</van-tabs>
 		<shoppingList :dataList="shoppingList" @onPress="gotoDetails" />
 	</view>
@@ -77,30 +77,17 @@
 			return {
 				bannerList:[], //banner列表
 				baseURLImg:this.baseURLImg,
-				killlist:[], //秒杀
 				shoppingList:[],
-				info: [{
-					content: '今日推荐'
-				}, {
-					content: '内容 B'
-				}, {
-					content: '内容 C'
-				}, {
-					content: '内容 C'
-				}, {
-					content: '内容 C'
-				}, {
-					content: '内容 C'
-				}],
+				miaoshaList:[],
+				typeList:[],
 				current: 0,
-				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
 				active:0,
 				timeData: {},
 			}
 		},
 		onLoad(){
 			this.getHome();
-			this.getType()
+			this.getRecommendList();
 		},
 		methods: {
 			//跳转搜索
@@ -133,9 +120,8 @@
 					if(res.kill_list.length<=1){
 						res.kill_list=res.kill_list.concat(res.kill_list);
 					}
-					this.killList=res.kill_list;
-					console.log(this.killList,88)
-					this.shoppingList=res.category_list;
+					this.miaoshaList=res.kill_list;
+					this.typeList=res.category_list;
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err});
@@ -154,11 +140,13 @@
 					uni.showToast({title: err});
 				})
 			},
-			//获取商品类型
-			getType(){
-				this.request(this.baseURL+'/api/goods/getAllList',{
-					
+			//获取商品列表
+			getRecommendList(){
+				this.request(this.baseURL+'/api/goods/getRecommendList',{
+					page:1,
+					size:10
 				},{method:'GET'}).then(res=>{
+					this.shoppingList=res
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();

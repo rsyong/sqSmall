@@ -4,7 +4,7 @@
 			<view class="list" v-for="(item,key) in leftData" :key="key" @click="onPress(item)">
 				<view class="atric">商家直供</view>
 				<view class="list-img">
-					<image :src="baseURLImg+item.image"></image>
+					<image :src="item.image"></image>
 				</view>
 				<view class="list-text">
 					<view class="list-title only-line-2">{{item.name}}</view>
@@ -17,7 +17,7 @@
 			<view class="list" v-for="(item,key) in rightData" :key="key" @click="onPress(item)">
 				<view class="atric">商家直供</view>
 				<view class="list-img">
-					<image :src="baseURLImg+item.image"></image>
+					<image :src="item.image"></image>
 				</view>
 				<view class="list-text">
 					<view class="list-title only-line-2">{{item.name}}</view>
@@ -42,6 +42,8 @@
 		},
 		watch:{
 			dataList(newVal){
+				this.leftData=[];
+				this.rightData=[];
 				newVal.forEach((item,key)=>{
 					if(key%2==0){
 						this.leftData.push(item);

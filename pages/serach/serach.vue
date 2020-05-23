@@ -6,10 +6,10 @@
 			<view class="hot-serach" v-if="showHot">
 				<view class="flex align-center"><view class="iconfont icon-ai-hot my-icon"></view> <text class="hot-text">热门搜索</text></view>
 				<view class="serach-tars flex">
-					<view class="serach-tars-list" v-for="(item,index) in tasData" :key="index">芒果</view>
+					<view class="serach-tars-list" v-for="(item,index) in serachList" :key="index">芒果</view>
 				</view>
 			</view>
-			<shoppingListMorn v-else />
+			<shoppingListMorn v-else  :dataList="shoppingList" />
 		</view>
 	</view>
 </template>
@@ -20,9 +20,16 @@
 		components:{shoppingListMorn},
 		data() {
 			return {
-				tasData:[1,2,3,4,5,6,7,8,9],
+				serachList:[],
 				showHot:true,//显示热门搜索
+				page:1,
+				size:10,
+				shoppingList:[]
 			}
+		},
+		onLoad(){
+			// this.getSerachList();
+			this.getShoppingList();
 		},
 		methods: {
 			cancel(){
@@ -34,6 +41,29 @@
 			},
 			searchinput(e){
 				if(!e.value) return this.showHot=true;
+			},
+			//获取搜索列表
+			getSerachList(){
+				this.request(this.baseURL+"/api/esearch/getMessag",{},{method:'GET'}).then(res=>{
+					this.serachList=res
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			//获取商品列表
+			getShoppingList(){
+				this.request(this.baseURL+"/api/goods/getList",{
+					page:this.page,
+					size:this.size
+				},{method:'GET'}).then(res=>{
+					this.shoppingList=res
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
 			}
 		}
 	}

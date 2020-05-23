@@ -3,10 +3,25 @@ export default {
 	globalData:{
 		appid:'wx99e7a5d35d7d086d',
 		appSecret:'8514346960e863e5748524da781cb984',
-		myuserInfo:{}
+		myuserInfo:{},
+		token:'',
+		goodsAllNum:0
+	},
+	data() {
+		return {
+			provider:'',
+			loginRes:''
+		}
 	},
 	onLaunch: function() {
 		//第一次启动
+		uni.getProvider({
+		    service: 'oauth',
+		    success:(res) => {
+				this.provider=res.provider[0];
+				this.login();
+		    }
+		});
 	},
 	onShow: function() {
 		//打开
@@ -17,6 +32,46 @@ export default {
 	},
 	onHide: function() {
 		//关闭
+	},
+	methods:{
+		//获取设备信息
+		login(){
+			uni.login({
+			    provider: this.provider,
+			    success: (loginRes) => {
+					this.loginRes=loginRes;
+					this.getUserInfo();
+			    }
+			});
+		},
+		getUserInfo(){
+			uni.getSetting({
+				success:(res)=>{
+					if (res.authSetting['scope.userInfo']) {
+					  // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+						uni.getUserInfo({
+							success: (res) => {
+								this.globalData.myuserInfo=res.userInfo;
+								this.getOpenId(res);
+							}
+						})
+					}
+				}
+			})
+		},
+		getOpenId(data){
+			this.request(this.baseURL+'/api/login/login',{
+				code:this.loginRes.code,
+				iv:data.iv,
+				encryptedData:data.encryptedData
+			},{method:'POST'}).then(res=>{
+				this.globalData.token=res.token;
+				uni.hideLoading();
+			}).catch(err=>{
+				uni.hideLoading();
+				uni.showToast({title: err});
+			})
+		}
 	}
 };
 </script>

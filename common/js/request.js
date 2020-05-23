@@ -4,6 +4,9 @@ export const request=(url,data={},params={})=>{
 			url: url, //仅为示例，并非真实接口地址。
 			method:params?.method || 'POST',
 			data: params?.method=="GET" ? data : JSON.stringify(data),
+			header:{
+				"token":getApp().globalData.token || ''
+			},
 			success: (res) => {
 				if(res.statusCode==200){
 					res=res.data;

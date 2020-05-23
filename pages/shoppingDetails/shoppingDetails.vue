@@ -3,34 +3,65 @@
 		<uni-nav-bar @clickLeft="goBack" title="商品详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="banner">
 			<swiper class="swiper-box" @change="change">
-			    <swiper-item v-for="(item ,index) in info" :key="index">
+			    <swiper-item v-for="(item ,index) in Alldata.images" :key="index">
 			        <view class="swiper-item">
-			            <image :src="imgUrl"></image>
+			            <image :src="item"></image>
 			        </view>
 			    </swiper-item>
 			</swiper>
 			<view class="atric">商家直供</view>
-			<view class="banner-lables"><text>{{current+1}}</text>/{{info.length}}</view>
+			<view class="banner-lables"><text>{{current+1}}</text>/{{Alldata.images.length}}</view>
 		</view>
 		<view class="content">
 			<stars />
-			<view class="sp-title mb-5">我是标题我是标题我是标题我是标题我是标题我是标题我是标题</view>
-			<view class="sp-list-weight sp-sun-title">我是副标题我是副标题我是副标题我是副标题我是副标题我是副标题</view>
+			<view class="sp-title mb-5">{{Alldata.name}}</view>
+			<view class="sp-list-weight sp-sun-title">{{Alldata.note}}</view>
 			<view class="sp-list-weight mb-5">约27斤</view>
 			<view class="flex just-between">
 				<view class="mao-weight">毛重</view>
-				<view class="mao-weight">实收斤数结算</view>
+				<view class="mao-weight">{{Alldata.type}}</view>
 			</view>
 			<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 		</view>
 		<view class="content">
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">免赔情况</view>
-				<view>--</view>
+				<view class="sp-details-left">免赔情况</view><view>{{Alldata.compensate}}</view>
 			</view>
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">免赔情况</view>
-				<view>--</view>
+				<view class="sp-details-left">可售后情况</view><view>{{Alldata.sale_situation}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">备注</view><view>{{Alldata.remarks}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">产地</view><view>--</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">等级</view><view>{{Alldata.grades.name || ''}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">单果重量</view><view>--</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">口感星级</view><view>{{Alldata.texture_star}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">颜色星级</view><view>{{Alldata.color_star}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">外观星级</view><view>{{Alldata.exterior_star}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">果形星级</view><view>{{Alldata.shape_star}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">包装类型</view><view>{{Alldata.packing.name || ''}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">售后时效</view><view>{{Alldata.sale_time}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">不良率</view><view>--</view>
 			</view>
 		</view>
 		<view class="content">
@@ -59,17 +90,17 @@
 				<view class="flex just-between align-center">
 					<view class="carts flex1">
 						<view class="iconfont icon-cart_icon">
-							<view class="carts-dost">1</view>
+							<view class="carts-dost">{{goodsAllNum}}</view>
 						</view>
 					</view>
 					<view>
 						<view class="settlement flex align-center">
-							<button class="settlement-left">-</button>
-							<view class="settlement-number flex1">1</view>
-							<button class="settlement-right">+</button>
+							<button class="settlement-left" @click="removeNum" :disabled="goodNum<=1">-</button>
+							<view class="settlement-number flex1">{{goodNum}}</view>
+							<button class="settlement-right" @click="addNum" :disabled="goodNum>=Alldata.stock">+</button>
 						</view>
 					</view>
-					<button class="go-buys">加入购物车</button>
+					<button class="go-buys" @click="addCars">加入购物车</button>
 				</view>
 			</view>
 		</view>
@@ -82,13 +113,6 @@
 		components:{recomSP},
 		data() {
 			return {
-				info: [{
-					content: '今日推荐'
-				}, {
-					content: '内容 B'
-				}, {
-					content: '内容 C'
-				}],
 				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
 				current:0,
 				noticeList:[{
@@ -107,13 +131,64 @@
 					title:'客服支持 | 有问必答',
 					icon:'icon-kefu',
 					subtitle:'如有任何关于商品及平台的问题，请联系您的专属销售人员或客服，客服电话：028-86337508'
-				}]
+				}],
+				id:"",
+				Alldata:'',
+				goodNum:1,
+				goodsAllNum:getApp().globalData.goodsAllNum,//购物车数量
 			}
+		},
+		onLoad(option){
+			this.id=option.id;
+			console.log(getApp().globalData.token)
+			this.getGoodsDetail();
 		},
 		methods: {
 			change(e) {
 				this.current = e.detail.current;
 			},
+			//获取商品详细
+			getGoodsDetail(){
+				this.request(this.baseURL+"/api/goods/detail",{
+					id:this.id
+				},{method:'GET'}).then(res=>{
+					this.Alldata=res;
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			//加
+			addNum(){
+				if(this.goodNum>=this.Alldata.stock){
+					uni.showToast({title: "已超出最大库存"});
+					return;
+				}
+				this.goodNum++;
+			},
+			removeNum(){
+				if(this.goodNum==1) return;
+				this.goodNum--;
+			},
+			addCars(){
+				uni.showLoading({});
+				this.request(this.baseURL+"/api/goods/detail",{
+					id:this.Alldata.id,
+					num:this.goodNum
+				},{method:'POST'}).then(res=>{
+					uni.hideLoading();
+					getApp().globalData.goodsAllNum+=this.goodNum;
+					this.goodsAllNum=getApp().globalData.goodsAllNum;
+					uni.setTabBarBadge({
+						index:3,
+						text:this.goodsAllNum
+					})
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			}
 		}
 	}
 </script>
@@ -206,7 +281,7 @@
 		text-align: center;
 		border-radius: 0;
 		margin-left: 15px;
-		background-color: #DBDBDB;
+		background-color: #ECAC1E;
 		color: #fff;
 	}
 	button::after{

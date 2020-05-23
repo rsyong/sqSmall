@@ -19,9 +19,9 @@
 		<view style="margin-top: -120px;"></view>
 		<uni-swiper-dot :info="bannerList" mode="round" :current="current" field="content" border="rgba(255, 255, 255, .3)" selectedBackgroundColor="#fff">
 		    <swiper class="swiper-box" @change="change" circular autoplay easing-function="easeOutCubic">
-		        <swiper-item v-for="(item ,index) in bannerList" :key="index" @click="gotoDetails">
+		        <swiper-item v-for="(item ,index) in bannerList" :key="index" @click="gotoDetails(item)">
 		            <view class="swiper-item">
-		                <image :src="baseURLImg+item.image"></image>
+		                <image :src="item.image"></image>
 		            </view>
 		        </swiper-item>
 		    </swiper>
@@ -38,12 +38,12 @@
 		</view>
 		<!-- 限时秒杀 -->
 		<view class="seckill mag-center-10">
-			<swiper class="swiper-box-miao" circular autoplay interval="4000" display-multiple-items="2" next-margin="170rpx">
+			<swiper class="swiper-box-miao" circular autoplay interval="4000" :display-multiple-items="miaoshaList.length>1 ? 2 : 1" next-margin="170rpx">
 			    <swiper-item v-for="(item ,index) in miaoshaList" :key="index">
-			        <view class="swiper-item-miao" @click="gotoDetails">
+			        <view class="swiper-item-miao" @click="gotoDetails(item)">
 			            <view class="sp-list">
 			            	<view class="sp-list-img">
-			            		<image :src="baseURLImg+item.image"></image>
+			            		<image :src="item.image"></image>
 			            	</view>
 			            	<view class="sp-list-name only-line-2">【{{item.type_note}}】{{item.name}}</view>
 			            	<view class="flex just-between align-center">
@@ -65,7 +65,7 @@
 		<van-tabs :active="active" @change="onChange" color="#F9BC2D">
 			<van-tab :title="item.name" v-for="(item,index) in typeList" :key="index"></van-tab>
 		</van-tabs>
-		<shoppingList :dataList="shoppingList" @onPress="gotoDetails" />
+		<shoppingList :dataList="shoppingList" @onPress="gotoDetails(item)" />
 	</view>
 </template>
 
@@ -83,11 +83,13 @@
 				current: 0,
 				active:0,
 				timeData: {},
+				page:1,
+				size:10
 			}
 		},
 		onLoad(){
 			this.getHome();
-			this.getRecommendList();
+			this.getRecommendList(0);
 		},
 		methods: {
 			//跳转搜索
@@ -100,14 +102,15 @@
 				this.current = e.detail.current;
 			},
 			onChange(event){
-				console.log(event.detail.index)
+				this.page=1;
+				this.getRecommendList(event.detail.index);
 			},
 			timeonChange(e){
 				this.timeData=e.detail
 			},
-			gotoDetails(){
+			gotoDetails(item){
 				uni.navigateTo({
-					url:"../shoppingDetails/shoppingDetails"
+					url:"../shoppingDetails/shoppingDetails?id="+item.id
 				})
 			},
 			//首页接口
@@ -117,10 +120,8 @@
 					uni.hideLoading();
 					this.bannerList=res.rotation_list; //轮播数据
 					//秒杀
-					if(res.kill_list.length<=1){
-						res.kill_list=res.kill_list.concat(res.kill_list);
-					}
 					this.miaoshaList=res.kill_list;
+					res.category_list.unshift({name:'推荐'});
 					this.typeList=res.category_list;
 				}).catch(err=>{
 					uni.hideLoading();
@@ -131,8 +132,8 @@
 			getShopping(){
 				uni.showLoading();
 				this.request(this.baseURL+'/api/goods/getList',{
-					page:1,
-					size:10
+					page:this.page,
+					size:this.size
 				},{method:'GET'}).then(res=>{
 					uni.hideLoading();
 				}).catch(err=>{
@@ -141,10 +142,14 @@
 				})
 			},
 			//获取商品列表
-			getRecommendList(){
-				this.request(this.baseURL+'/api/goods/getRecommendList',{
-					page:1,
-					size:10
+			getRecommendList(num){
+				let url='/api/goods/getRecommendList';
+				if(num>0){
+					url="/api/goods/getAllList";
+				}
+				this.request(this.baseURL+url,{
+					page:this.page,
+					size:this.size
 				},{method:'GET'}).then(res=>{
 					this.shoppingList=res
 					uni.hideLoading();

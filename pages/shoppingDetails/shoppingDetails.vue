@@ -173,7 +173,7 @@
 			},
 			addCars(){
 				uni.showLoading({});
-				this.request(this.baseURL+"/api/goods/detail",{
+				this.request(this.baseURL+"/api/goods/addCart",{
 					id:this.Alldata.id,
 					num:this.goodNum
 				},{method:'POST'}).then(res=>{

@@ -6,7 +6,7 @@
 			<view class="hot-serach" v-if="showHot">
 				<view class="flex align-center"><view class="iconfont icon-ai-hot my-icon"></view> <text class="hot-text">热门搜索</text></view>
 				<view class="serach-tars flex">
-					<view class="serach-tars-list" v-for="(item,index) in serachList" :key="index">芒果</view>
+					<view class="serach-tars-list" v-for="(item,index) in serachList" :key="index">{{item}}</view>
 				</view>
 			</view>
 			<shoppingListMorn v-else  :dataList="shoppingList" />
@@ -28,8 +28,7 @@
 			}
 		},
 		onLoad(){
-			// this.getSerachList();
-			this.getShoppingList();
+			this.getSerachList();
 		},
 		methods: {
 			cancel(){
@@ -44,7 +43,7 @@
 			},
 			//获取搜索列表
 			getSerachList(){
-				this.request(this.baseURL+"/api/esearch/getMessag",{},{method:'GET'}).then(res=>{
+				this.request(this.baseURL+"/api/search/getMessage",{},{method:'GET'}).then(res=>{
 					this.serachList=res
 					uni.hideLoading();
 				}).catch(err=>{

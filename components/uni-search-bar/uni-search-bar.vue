@@ -55,13 +55,17 @@
 			maxlength: {
 				type: [Number, String],
 				default: 100
+			},
+			value: {
+				type: [ String],
+				default: ''
 			}
 		},
 		data() {
 			return {
 				show: false,
 				showSync: false,
-				searchVal: ""
+				searchVal: this.value
 			}
 		},
 		watch: {
@@ -69,6 +73,9 @@
 				this.$emit("input", {
 					value: this.searchVal
 				})
+			},
+			value(e){
+				this.searchVal=e
 			}
 		},
 		methods: {

@@ -145,7 +145,7 @@
 			getRecommendList(num){
 				let url='/api/goods/getRecommendList';
 				if(num>0){
-					url="/api/goods/getAllList";
+					url="/api/goods/getList";
 				}
 				this.request(this.baseURL+url,{
 					page:this.page,

@@ -2,11 +2,11 @@
 	<view>
 		<uni-nav-bar @clickLeft="goBack" title="商品搜索" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="content">
-			<uni-search-bar :radius="100" @confirm="search" @input="searchinput" @cancel="cancel"></uni-search-bar>
+			<uni-search-bar :radius="100" @confirm="search" @input="searchinput" @cancel="cancel" :value="name"></uni-search-bar>
 			<view class="hot-serach" v-if="showHot">
 				<view class="flex align-center"><view class="iconfont icon-ai-hot my-icon"></view> <text class="hot-text">热门搜索</text></view>
 				<view class="serach-tars flex">
-					<view class="serach-tars-list" v-for="(item,index) in serachList" :key="index">{{item}}</view>
+					<view class="serach-tars-list" @click="toSerach(item)" v-for="(item,index) in serachList" :key="index">{{item}}</view>
 				</view>
 			</view>
 			<shoppingListMorn v-else  :dataList="shoppingList" />
@@ -24,7 +24,8 @@
 				showHot:true,//显示热门搜索
 				page:1,
 				size:10,
-				shoppingList:[]
+				shoppingList:[],
+				name:''
 			}
 		},
 		onLoad(){
@@ -41,6 +42,11 @@
 			searchinput(e){
 				if(!e.value) return this.showHot=true;
 			},
+			toSerach(item){
+				this.name=item;
+				this.showHot=false;
+				this.getShoppingList();
+			},
 			//获取搜索列表
 			getSerachList(){
 				this.request(this.baseURL+"/api/search/getMessage",{},{method:'GET'}).then(res=>{
@@ -55,7 +61,8 @@
 			getShoppingList(){
 				this.request(this.baseURL+"/api/goods/getList",{
 					page:this.page,
-					size:this.size
+					size:this.size,
+					name:this.name
 				},{method:'GET'}).then(res=>{
 					this.shoppingList=res
 					uni.hideLoading();

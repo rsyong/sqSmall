@@ -45,16 +45,10 @@
 			            	<view class="sp-list-img">
 			            		<image :src="item.image"></image>
 			            	</view>
-			            	<view class="sp-list-name only-line-2">【{{item.type_note}}】{{item.name}}</view>
+			            	<view class="sp-list-name only-line-2">{{item.name}}</view>
 			            	<view class="flex just-between align-center">
-			            		<text class="sp-list-weight max-lenth only-line-1">约{{item.sale_num}}斤</text>
-			            		<van-count-down use-slot :time="item.end_time - item.start_time" @change="timeonChange">
-			            		  <text class="item">{{ timeData.hours }}</text>
-			            		  <text class="item-dost">:</text>
-			            		  <text class="item">{{ timeData.minutes }}:</text>
-			            		  <text class="item-dost">:</text>
-			            		  <text class="item">{{ timeData.seconds }}</text>
-			            		</van-count-down>
+			            		<text class="sp-list-weight max-lenth only-line-1">{{item.type_note}}</text>
+								<van-count-down :time="item.end_time - item.start_time" />
 			            	</view>
 			            </view>
 			        </view>
@@ -84,7 +78,8 @@
 				active:0,
 				timeData: {},
 				page:1,
-				size:10
+				size:10,
+				tabIndex:0
 			}
 		},
 		onLoad(){
@@ -103,12 +98,22 @@
 			},
 			onChange(event){
 				this.page=1;
-				this.getRecommendList(event.detail.index);
+				this.shoppingList=[];
+				this.tabIndex=event.detail.index;
+				this.getRecommendList();
 			},
 			timeonChange(e){
 				this.timeData=e.detail
 			},
 			gotoDetails(item){
+				if(item.type){
+					if(item.type==1){
+						item.id=item.goods_id
+					}else{
+						//跳转webview
+						return;
+					}
+				}
 				uni.navigateTo({
 					url:"../shoppingDetails/shoppingDetails?id="+item.id
 				})
@@ -128,35 +133,31 @@
 					uni.showToast({title: err});
 				})
 			},
-			//商品列表
-			getShopping(){
-				uni.showLoading();
-				this.request(this.baseURL+'/api/goods/getList',{
+			//获取商品列表
+			getRecommendList(){
+				let url='/api/goods/getRecommendList';
+				let type='';
+				if(this.tabIndex>0){
+					url="/api/goods/getList";
+					type=this.typeList[this.tabIndex].id;
+				}
+				this.request(this.baseURL+url,{
 					page:this.page,
-					size:this.size
+					size:this.size,
+					type:type
 				},{method:'GET'}).then(res=>{
+					this.shoppingList=this.shoppingList.concat(res);
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err});
 				})
 			},
-			//获取商品列表
-			getRecommendList(num){
-				let url='/api/goods/getRecommendList';
-				if(num>0){
-					url="/api/goods/getList";
-				}
-				this.request(this.baseURL+url,{
-					page:this.page,
-					size:this.size
-				},{method:'GET'}).then(res=>{
-					this.shoppingList=res
-					uni.hideLoading();
-				}).catch(err=>{
-					uni.hideLoading();
-					uni.showToast({title: err});
-				})
+			//下拉加载更多
+			onReachBottom(){
+				this.page++;
+				uni.showLoading({})
+				this.getRecommendList();
 			}
 		}
 	}
@@ -240,19 +241,6 @@
 		color: #84785D;
 		font-size: 14px;
 		padding-left: 10px;
-	}
-	.item {
-	  display: inline-block;
-	  width: 18px;
-	  color: #ED5758;
-	  font-size: 10px;
-	  text-align: center;
-	  background-color: #FDEDE3;
-	  border-radius: 4px;
-	}
-	.item-dost{
-		color: #ED5758;
-		margin: 0 2px;
 	}
 	.max-lenth{
 		max-width: 86rpx;

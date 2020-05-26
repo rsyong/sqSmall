@@ -2,27 +2,29 @@
 	<view class="flex just-between container">
 		<view class="left">
 			<view class="list" v-for="(item,key) in leftData" :key="key" @click="onPress(item)">
-				<view class="atric">商家直供</view>
+				<view class="atric" v-if="item.is_business==1">商家直供</view>
 				<view class="list-img">
 					<image :src="item.image"></image>
 				</view>
 				<view class="list-text">
 					<view class="list-title only-line-2">{{item.name}}</view>
 					<view class="list-subtitle only-line-2">{{item.note}}</view>
-					<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
+					<view class="list-subtitle" v-if="item.type_note">{{item.type_note}}</view>
+					<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 				</view>
 			</view>
 		</view>
 		<view class="right">
 			<view class="list" v-for="(item,key) in rightData" :key="key" @click="onPress(item)">
-				<view class="atric">商家直供</view>
+				<view class="atric" v-if="item.is_business==1">商家直供</view>
 				<view class="list-img">
 					<image :src="item.image"></image>
 				</view>
 				<view class="list-text">
 					<view class="list-title only-line-2">{{item.name}}</view>
 					<view class="list-subtitle only-line-2">{{item.note}}</view>
-					<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
+					<view class="list-subtitle" v-if="item.type_note">{{item.type_note}}</view>
+					<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 				</view>
 			</view>
 		</view>

@@ -2,26 +2,26 @@
 	<view>
 		<uni-nav-bar @clickLeft="goBack" title="商品详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="banner">
-			<swiper class="swiper-box" @change="change">
+			<swiper class="swiper-box" @change="change" autoplay>
 			    <swiper-item v-for="(item ,index) in Alldata.images" :key="index">
 			        <view class="swiper-item">
 			            <image :src="item"></image>
 			        </view>
 			    </swiper-item>
 			</swiper>
-			<view class="atric">商家直供</view>
+			<view class="atric" v-if="Alldata.is_business==1">商家直供</view>
 			<view class="banner-lables"><text>{{current+1}}</text>/{{Alldata.images.length}}</view>
 		</view>
 		<view class="content">
-			<stars />
+			<stars :starNumber="Alldata.star" />
 			<view class="sp-title mb-5">{{Alldata.name}}</view>
 			<view class="sp-list-weight sp-sun-title">{{Alldata.note}}</view>
-			<view class="sp-list-weight mb-5">约27斤</view>
+			<!-- <view class="sp-list-weight mb-5">{{Alldata.type_note}}</view> -->
 			<view class="flex just-between">
-				<view class="mao-weight">毛重</view>
+				<view class="mao-weight">{{type_note}}</view>
 				<view class="mao-weight">{{Alldata.type}}</view>
 			</view>
-			<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
+			<view class="list-slogo" v-if="Alldata.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 		</view>
 		<view class="content">
 			<view class="sp-details-list flex">
@@ -172,6 +172,13 @@
 				this.goodNum--;
 			},
 			addCars(){
+				if(!getApp().globalData.token){
+					uni.showToast({title: "请登录!"});
+					uni.switchTab({
+						url:'../my/my'
+					})
+					return;
+				}
 				uni.showLoading({});
 				this.request(this.baseURL+"/api/goods/addCart",{
 					id:this.Alldata.id,
@@ -184,6 +191,7 @@
 						index:3,
 						text:this.goodsAllNum
 					})
+					uni.showToast({title: res});
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err});
@@ -214,6 +222,7 @@
 	.sp-title{
 		font-size: 17px;
 		margin-top: 5px;
+		font-weight: 600;
 	}
 	.sp-sun-title{
 		margin-top: 15px;

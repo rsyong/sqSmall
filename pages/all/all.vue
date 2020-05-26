@@ -7,45 +7,30 @@
 				搜索
 			</view>
 		</view>
-		<view class="sp-content flex just-between">
-			<view class="sp-left">
-				<view class="sp-left-list" @click="navClick(index)" :class="{active:activeNum==index}" v-for="(item,index) in leftData" :key="index">{{item}}</view>
-			</view>
+		<view class="sp-content flex">
+			<scroll-view scroll-y class="sp-left-scroll sp-left">
+				<view class="sp-left-list" @click="navClick(item,index)" :class="{active:activeNum==index}" v-for="(item,index) in leftData" :key="index">{{item.name}}</view>
+			</scroll-view>
 			<view class="sp-right flex1">
-				<view class="sp-list flex" @click="gotoDetails">
-					<view class="atric">商家直供</view>
-					<view class="sp-list-img">
-						<image :src="imgUrl"></image>
-					</view>
-					<view>
-						<view class="list-title">我是包体数据库垃圾卢卡斯体数据库垃圾卢卡斯数据库垃圾卢卡斯</view>
-						<view class="sp-list-weight">商家直供</view>
-						<view class="sp-list-weight">约37斤</view>
-						<view class="flex just-between">
-							<view class="starating">
-								<stars />
-							</view>
+				<scroll-view scroll-y class="sp-left-scroll" @scrolltolower="toBottom">
+					<view class="sp-list flex" @click="gotoDetails(item)" v-for="(item,index) in rightData" :key="index">
+						<view class="atric" v-if="item.is_business==1">商家直供</view>
+						<view class="sp-list-img">
+							<image :src="item.image"></image>
 						</view>
-						<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
-					</view>
-				</view>
-				<view class="sp-list flex" @click="gotoDetails">
-					<view class="atric">商家直供</view>
-					<view class="sp-list-img">
-						<image :src="imgUrl"></image>
-					</view>
-					<view>
-						<view class="list-title">我是包体数据库垃圾卢卡斯体数据库垃圾卢卡斯</view>
-						<view class="sp-list-weight">商家直供</view>
-						<view class="sp-list-weight">约37斤</view>
-						<view class="flex just-between">
-							<view class="starating">
-								<stars />
+						<view>
+							<view class="list-title">{{item.name}}</view>
+							<view class="sp-list-weight">{{item.note}}</view>
+							<view class="sp-list-weight">{{item.type_note}}</view>
+							<view class="flex just-between">
+								<view class="starating">
+									<stars :starNumber="item.star" />
+								</view>
 							</view>
+							<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 						</view>
-						<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
 					</view>
-				</view>
+				</scroll-view>
 			</view>
 		</view>
 	</view>
@@ -56,13 +41,22 @@
 		data() {
 			return {
 				activeNum:0,
-				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
-				leftData:['商家直供','标果精选','近期上新','畅销产品','进口水果','网红小货','标果小件','本地专供']
+				leftData:['商家直供','标果精选','近期上新','畅销产品','进口水果','网红小货','标果小件','本地专供'],
+				rightData:[],
+				page:1,
+				size:10,
+				type:''
 			}
 		},
+		onLoad(){
+			this.getShoppingList();
+		},
 		methods: {
-			navClick(index){
+			navClick(item,index){
 				this.activeNum=index;
+				this.page=0;
+				this.type=item.id;
+				this.toBottom();
 			},
 			//跳转搜索
 			toSerach(){
@@ -70,12 +64,42 @@
 				    url: '../serach/serach'
 				});
 			},
-			search(){
-				
-			},
-			gotoDetails(){
+			gotoDetails(item){
 				uni.navigateTo({
-					url:"../shoppingDetails/shoppingDetails"
+					url:"../shoppingDetails/shoppingDetails?id="+item.id
+				})
+			},
+			//获取商品列表
+			getShoppingList(){
+				uni.showLoading({});
+				this.request(this.baseURL+"/api/goods/getAllList",{
+					
+				},{method:'GET'}).then(res=>{
+					uni.hideLoading();
+					this.leftData=res;
+					if(res.length>0){
+						this.rightData=res[0].goods;
+						this.type=res[0].id;
+					}
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			//下拉加载更多
+			toBottom(){
+				this.page++;
+				uni.showLoading({});
+				this.request(this.baseURL+'/api/goods/getList',{
+					page:this.page,
+					size:this.size,
+					type:this.type
+				},{method:'GET'}).then(res=>{
+					this.rightData=this.rightData.concat(res);
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
 				})
 			}
 		}
@@ -83,6 +107,15 @@
 </script>
 
 <style>
+	page{
+		overflow: hidden;
+	}
+	.sp-left-scroll{
+		height: calc(100vh - 120px);
+	}
+	.sp-left{
+		width: 160rpx;
+	}
 	.sp-left-list{
 		height: 100rpx;
 		line-height: 100rpx;
@@ -93,12 +126,11 @@
 	}
 	.sp-right{
 		background-color: #fff;
-		padding: 3px 15px;
-		min-height: calc(100vh - 110px);
 	}
 	.sp-list{
 		margin-top: 15px;
 		position: relative;
+		margin-left: 10px;
 	}
 	.selected{
 		font-size: 12px;
@@ -147,5 +179,8 @@
 		background-color: #F8F8F8;
 		font-size: 14px;
 		text-align: center;
+	}
+	.sp-list-weight{
+		margin: 3px 0;
 	}
 </style>

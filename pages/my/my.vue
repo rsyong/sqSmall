@@ -86,11 +86,16 @@
 			},
 			//获取token
 			getOpenId(data){
+				if(getApp().globalData.token) {
+					uni.hideLoading();
+					return;
+				};
 				this.request(this.baseURL+'/api/login/login',{
 					code:this.loginRes.code,
 					iv:data.iv,
 					encryptedData:data.encryptedData
 				},{method:'POST'}).then(res=>{
+					getApp().globalData.token=res.token;
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();

@@ -2,46 +2,24 @@
 	<view>
 		<uni-nav-bar title="购物车" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="content">
-			<view class="sp-list flex just-between align-center">
-				<view class="c-radio"><radio value="r1" color="#F0B426" :checked="radioChecked" @click="radioChange" /></view>
-				<view class="sp-list-detiles flex just-between" @click="gotoDetails">
-					<view class="sp-list-img">
-						<image :src="imgUrl"></image>
-					</view>
-					<view class="flex flex-column just-between">
-						<view class="flex1 only-line-2">我是标题我是博爱提我赛欧加上沙口路基础课爱提我赛欧加上沙口路基础课</view>
-						<view class="flex sp-list-weight align-center">约13斤</view>
-						<view class="flex just-between align-center">
-							<stars />
-							<view class="flex align-center add-bottoms">
-								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50">
-									<uni-icons type="minus-filled" size="23" color="#F0B426"></uni-icons>
-								</view>
-								<view class="my-sp-number">0</view>
-								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50">
-									<uni-icons type="plus-filled" size="23" color="#F0B426"></uni-icons>
-								</view>
-							</view>
-						</view>
-					</view>
+			<view class="sp-list flex just-between align-center" v-for="(item,index) in goodsList" :key="index">
+				<view class="c-radio">
+					<radio color="#F0B426" :checked="Boolean(item.checked)" @click="radioChange(item)" />
 				</view>
-			</view>
-			<view class="sp-list flex just-between align-center">
-				<view class="c-radio"><radio value="r1" color="#F0B426" /></view>
-				<view class="sp-list-detiles flex just-between" @click="gotoDetails">
+				<view class="sp-list-detiles flex just-between" @click.stop="gotoDetails(item)">
 					<view class="sp-list-img">
-						<image :src="imgUrl"></image>
+						<image :src="item.image"></image>
 					</view>
 					<view class="flex flex-column just-between">
-						<view class="flex1 only-line-2">我是标题我是博爱提我赛欧加上沙口路基础课</view>
-						<view class="flex sp-list-weight align-center">约13斤</view>
+						<view class="flex1 only-line-2">{{item.name}}</view>
+						<view class="flex sp-list-weight align-center">{{item.type_note}}</view>
 						<view class="flex just-between align-center">
-							<stars />
+							<stars :starNumber="item.star" />
 							<view class="flex align-center add-bottoms">
 								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50">
 									<uni-icons type="minus-filled" size="23" color="#F0B426"></uni-icons>
 								</view>
-								<view class="my-sp-number">0</view>
+								<view class="my-sp-number">{{item.num}}</view>
 								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50">
 									<uni-icons type="plus-filled" size="23" color="#F0B426"></uni-icons>
 								</view>
@@ -55,7 +33,7 @@
 			<view class="nav-tuijan flex just-center">
 				<view>为您推荐</view>
 			</view>
-			<shoppingList :dataList="[1,2,3]" />
+			<shoppingList :dataList="dataList" />
 		</view>
 		<view class="nav-bottom">
 			<view class="flex just-between cart pad-center-10 align-center">
@@ -83,18 +61,39 @@
 		data() {
 			return {
 				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
-				radioChecked:false
+				radioChecked:false,
+				page:1,
+				size:10,
+				goodsList:[],
+				dataList:[]
 			}
 		},
+		onLoad() {
+			this.getShoppingList();
+		},
 		methods: {
-			radioChange(){
-				this.radioChecked=!this.radioChecked;
+			radioChange(item){
+				item.checked=!item.checked;
 			},
-			gotoDetails(){
+			gotoDetails(item){
 				uni.navigateTo({
-					url:"../shoppingDetails/shoppingDetails"
+					url:"../shoppingDetails/shoppingDetails?id="+item.id
 				})
-			}
+			},
+			//获取商品列表
+			getShoppingList(){
+				this.request(this.baseURL+"/api/cart/getList",{
+					page:this.page,
+					size:this.size
+				},{method:'GET'}).then(res=>{
+					this.goodsList=this.goodsList.concat(res.cart_list);
+					this.dataList=res.recommend_list;
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
 		}
 	}
 </script>

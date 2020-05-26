@@ -6,11 +6,12 @@
 			</view>
 			<view class="flex1">
 				<view>{{item.name}}</view>
-				<view class="sp-list-weight">约13斤</view>
+				<view class="sp-list-weight">{{item.note}}</view>
+				<view class="sp-list-weight">{{item.type_note}}</view>
 				<view class="flex just-between">
-					<stars />
+					<stars :starNumber="item.star" />
 				</view>
-				<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
+				<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家只供</text> 万家果品</view>
 			</view>
 		</view>
 	</view>
@@ -49,5 +50,8 @@
 		color: #424242;
 		position: absolute;
 		bottom: 13px;
+	}
+	.sp-list-weight{
+		margin: 3px 0;
 	}
 </style>

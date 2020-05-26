@@ -5,20 +5,20 @@
 		</uni-nav-bar> -->
 		<uni-nav-bar @clickLeft="goBack" title="精品秒杀" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="content">
-			<view class="sp-list flex just-between" v-for="(item,index) in shoppingList" :key="index">
+			<view class="sp-list flex just-between" v-for="(item,index) in shoppingList" :key="index" @click.stop="gotoDetails(item)">
 				<view class="sp-list-img">
 					<image :src="item.image"></image>
 				</view>
 				<view class="flex1">
 					<view>{{item.name}}</view>
-					<view class="sp-list-weight">约{{item.sale_num}}斤</view>
-					<view class="sp-list-weight">距离结束 <text>03:40:50</text></view>
+					<view class="sp-list-weight">{{item.type_note}}</view>
+					<view class="sp-list-weight">距离结束 <van-count-down :time="item.end_time - item.start_time" /></view>
 					<view class="flex just-between sp-bottom">
-						<view class="flex1 stars"><stars /></view>
-						<button class="sp-my-bottom" type="default">
+						<view class="flex1 stars"><stars :starNumber="item.star" /></view>
+						<button class="sp-my-bottom" type="default" @click.stop="goBuy(item)">
 							抢购
 							<view class="progress">
-								<progress percent="20" show-info stroke-width="3" border-radius="10" font-size="8" activeColor="#FEFFF7" backgroundColor="#F9B6A3" active />
+								<progress :percent="item.sale_num/item.num.toFixed(1)" show-info stroke-width="3" border-radius="10" font-size="8" activeColor="#FEFFF7" backgroundColor="#F9B6A3" active />
 							</view>
 						</button>
 					</view>
@@ -35,7 +35,6 @@
 				page:1,
 				size:10,
 				shoppingList:[],
-				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg'
 			}
 		},
 		onLoad(){
@@ -48,12 +47,26 @@
 					page:this.page,
 					size:this.size
 				},{method:'GET'}).then(res=>{
-					this.shoppingList=res
+					this.shoppingList=this.shoppingList.concat(res);
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err});
 				})
+			},
+			//跳转
+			gotoDetails(item){
+				uni.navigateTo({
+					url:"../shoppingDetails/shoppingDetails?id="+item.id
+				})
+			},
+			goBuy(){
+				
+			},
+			onReachBottom(){
+				this.page++;
+				uni.showLoading({})
+				this.getShoppingList();
 			}
 		}
 	}
@@ -88,5 +101,8 @@
 	}
 	.progress{
 		margin-top: -10px;
+	}
+	.sp-list-weight{
+		margin: 3px 0;
 	}
 </style>

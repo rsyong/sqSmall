@@ -37,12 +37,19 @@
 			},
 			search(e){
 				if(!e.value) return this.showHot=true;
+				this.page=1;
+				this.shoppingList=[];
+				this.name=e.value;
 				this.showHot=false;
+				uni.showLoading({})
+				this.getShoppingList();
 			},
 			searchinput(e){
 				if(!e.value) return this.showHot=true;
 			},
 			toSerach(item){
+				this.page=1;
+				this.shoppingList=[];
 				this.name=item;
 				this.showHot=false;
 				this.getShoppingList();
@@ -64,12 +71,18 @@
 					size:this.size,
 					name:this.name
 				},{method:'GET'}).then(res=>{
-					this.shoppingList=res
+					this.shoppingList=this.shoppingList.concat(res)
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err});
 				})
+			},
+			//下拉加载更多
+			onReachBottom(){
+				this.page++;
+				uni.showLoading({})
+				this.getShoppingList();
 			}
 		}
 	}

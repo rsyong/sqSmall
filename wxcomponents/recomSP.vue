@@ -1,19 +1,19 @@
 <template>
 	<view style="position: relative;">
-		<uni-swiper-dot :info="info" :current="current" field="content"  mode="round" :dotsStyles="dotsStyles" >
+		<uni-swiper-dot :info="myAlldata" :current="current" field="content"  mode="round" :dotsStyles="dotsStyles" >
 		    <swiper class="swiper-box2" @change="change" circular autoplay>
-		        <swiper-item v-for="(item ,index) in info" :key="index">
+		        <swiper-item v-for="(item ,index) in myAlldata" :key="index">
 		            <view class="swiper-item2">
 		    			<view class="flex swiper-item-list just-between">
-		    				<view class="list" v-for="(item,key) in info2" :key="key">
-		    					<view class="atric">商家直供</view>
+		    				<view class="list" v-for="(item2,key) in myAlldata[index]" :key="key">
+		    					<view class="atric" v-if="item2.is_business==1">商家直供</view>
 		    					<view class="list-img">
-		    						<image :src="imgUrl"></image>
+		    						<image :src="item2.image"></image>
 		    					</view>
 		    					<view class="list-text">
-		    						<view class="list-title only-line-2">水果很好水果很好水果很好水果很好水果很好水果很好</view>
-		    						<view class="list-subtitle only-line-2">约17斤</view>
-		    						<view class="list-slogo"><text class="business">商家只供</text> 青阳果业</view>
+		    						<view class="list-title only-line-2">{{item2.name}}</view>
+		    						<view class="list-subtitle only-line-2">{{item2.note}}</view>
+		    						<view class="list-slogo" v-if="item2.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 		    					</view>
 		    				</view>
 		    			</view>
@@ -28,39 +28,42 @@
 	export default{
 		data(){
 			return {
-				info: [{
-					content: '今日推荐'
-				}, {
-					content: '内容 B'
-				}, {
-					content: '内容 C'
-				}],
-				info2: [{
-					content: '今日推荐'
-				}, {
-					content: '内容 B'
-				}, {
-					content: '内容 C'
-				},{
-					content: '今日推荐'
-				}, {
-					content: '内容 B'
-				}, {
-					content: '内容 C'
-				}],
-				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
 				current:0,
 				dotsStyles:{
 					backgroundColor:"#DFDFDF",
 					border:"#DFDFDF",
 					selectedBackgroundColor:"#F2B500",
 					selectedBorder:"#F2B500",
-				}
+				},
+				myAlldata:[]
 			}
+		},
+		mounted() {
+			this.getRecommendList();
 		},
 		methods:{
 			change(e) {
 				this.current = e.detail.current;
+			},
+			//获取商品列表
+			getRecommendList(){
+				let url='/api/goods/getRecommendList';
+				this.request(this.baseURL+url,{
+					page:1,
+					size:24,
+				},{method:'GET'}).then(res=>{
+					let myarr=[];
+					res.forEach((item,index)=>{
+						if(myarr[Math.floor(index/6)]){
+							myarr[Math.floor(index/6)].push(item);
+						}else{
+							myarr[Math.floor(index/6)]=[item];
+						}
+					})
+					this.myAlldata=myarr;
+				}).catch(err=>{
+					uni.showToast({title: err});
+				})
 			},
 		}
 	}
@@ -69,6 +72,7 @@
 <style>
 	.swiper-box2{
 		height: 900rpx;
+		min-height: 430px;
 	}
 	.swiper-item2{
 		flex: 1;

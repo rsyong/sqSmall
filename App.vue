@@ -142,6 +142,10 @@ export default {
 	.uni-navbar--border{
 		border-bottom-color: #000 !important;
 	}
+	view.van-count-down{
+		color: #ED5758;
+		font-size: 10px;
+	}
 	
 	.sp-list-weight{
 		font-size: 10px;

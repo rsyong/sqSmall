@@ -3,8 +3,8 @@
 		<uni-nav-bar title="购物车" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="content">
 			<view class="sp-list flex just-between align-center" v-for="(item,index) in goodsList" :key="index">
-				<view class="c-radio">
-					<radio color="#F0B426" :checked="Boolean(item.checked)" @click="radioChange(item)" />
+				<view class="c-radio" @click="radioChange(item)">
+					<myRadio color="#F0B426" :checked="item.checked" />
 				</view>
 				<view class="sp-list-detiles flex just-between" @click.stop="gotoDetails(item)">
 					<view class="sp-list-img">
@@ -16,11 +16,11 @@
 						<view class="flex just-between align-center">
 							<stars :starNumber="item.star" />
 							<view class="flex align-center add-bottoms">
-								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50">
+								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50" @click.stop="removeNum(item)">
 									<uni-icons type="minus-filled" size="23" color="#F0B426"></uni-icons>
 								</view>
 								<view class="my-sp-number">{{item.num}}</view>
-								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50">
+								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50" @click.stop="addNum(item)">
 									<uni-icons type="plus-filled" size="23" color="#F0B426"></uni-icons>
 								</view>
 							</view>
@@ -39,15 +39,17 @@
 			<view class="flex just-between cart pad-center-10 align-center">
 				<view class="flex align-center">
 					<view class="flex align-center">
-						<radio value="r1" color="#F0B426" :checked="radioChecked" @click="radioChange" /> 全选
-						<view class="all-monye">
-							<view><text class="all-monye-text">合计:</text><text class="all-monye-monye">￥0.00</text></view>
+						<view  @click="radioAllChange" class="flex align-center">
+							<myRadio color="#F0B426" :checked="AllCheck"/> <text style="margin-left: 10px;">全选</text>
+						</view>
+						<view class="all-monye flex">
+							<!-- <view><text class="all-monye-text">合计:</text><text class="all-monye-monye">￥0.00</text></view> -->
 							<view class="small-font">仅为商品费用</view>
 						</view>
 					</view>
 				</view>
 				<view>
-					<van-button round  color="#F0B426" custom-style="width: 100px;">现在结算</van-button>
+					<van-button round  color="#F0B426" custom-style="width: 100px;" @click="bugsGoods">现在结算</van-button>
 				</view>
 			</view>
 		</view>
@@ -56,24 +58,46 @@
 
 <script>
 	import shoppingList from '../../wxcomponents/shoppingList.vue'
+	import myRadio from '../../wxcomponents/my-radio/my-radio.vue'
 	export default {
-		components:{shoppingList},
+		components:{shoppingList,myRadio},
 		data() {
 			return {
-				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
-				radioChecked:false,
+				AllCheck:false,
 				page:1,
 				size:10,
 				goodsList:[],
 				dataList:[]
 			}
 		},
-		onLoad() {
+		onShow() {
+			this.goodsList=[];
 			this.getShoppingList();
 		},
 		methods: {
 			radioChange(item){
 				item.checked=!item.checked;
+				let list=this.goodsList;
+				this.goodsList=[];
+				this.goodsList=list;
+				let find=this.goodsList.filter(o=>o.checked);
+				this.AllCheck=find.length === list.length;
+			},
+			//全选
+			radioAllChange(){
+				this.AllCheck=!this.AllCheck;
+				let list=this.goodsList;
+				list.forEach(item=>{
+					item.checked=this.AllCheck;
+				})
+				this.goodsList=[];
+				this.goodsList=list;
+			},
+			addNum(item){
+				item.num++;
+			},
+			removeNum(item){
+				item.num--;
 			},
 			gotoDetails(item){
 				uni.navigateTo({
@@ -94,6 +118,27 @@
 					uni.showToast({title: err});
 				})
 			},
+			//现在结算
+			bugsGoods(){
+				let obj={};
+				this.goodsList.forEach(item=>{
+					if(item.checked){
+						obj['cart['+item.id+']']=item.num;
+					}
+				})
+				console.log(obj)
+				if(JSON.stringify(obj) == "{}"){
+					return uni.showToast({title: '请选择商品'});
+				}
+				uni.showLoading({});
+				this.request(this.baseURL+"/api/order/placeOrder",obj,{method:'POST'}).then(res=>{
+					uni.hideLoading();
+					uni.showToast({title: '加入成功'});
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			}
 		}
 	}
 </script>

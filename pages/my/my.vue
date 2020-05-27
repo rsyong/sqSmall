@@ -52,13 +52,12 @@
 			return {
 				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
 				provider:'',
-				myuserInfo:{
-					avatarUrl:''
-				},
+				myuserInfo:getApp().globalData.myuserInfo || '',
 				loginRes:''
 			}
 		},
 		onLoad(){
+			if(this.myuserInfo) return;
 			//获取设备信息
 			uni.getProvider({
 			    service: 'oauth',

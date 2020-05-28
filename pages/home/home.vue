@@ -59,7 +59,7 @@
 		<van-tabs :active="active" @change="onChange" color="#F9BC2D">
 			<van-tab :title="item.name" v-for="(item,index) in typeList" :key="index"></van-tab>
 		</van-tabs>
-		<shoppingList :dataList="shoppingList" @onPress="gotoDetails(item)" />
+		<shoppingList :dataList="shoppingList" @onPress="gotoDetails" />
 	</view>
 </template>
 

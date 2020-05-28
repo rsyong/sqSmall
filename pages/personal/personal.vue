@@ -4,17 +4,17 @@
 		<uni-list>
 		    <uni-list-item title="头像" @click="getUserImg">
 				<template v-slot:right="">
-					<image class="user-img" :src="myuserInfo.avatarUrl" mode="widthFix"></image>
+					<image class="user-img" :src="myuserInfo.avatar" mode="aspectFill"></image>
 				</template>
 			</uni-list-item>
 		    <uni-list-item title="用户名" :show-arrow="false">
 				<template v-slot:right="">
-					<input type="text" :value="myuserInfo.nickName" class="my-input" />
+					<input type="text" v-model="myuserInfo.wechat_name" class="my-input" />
 				</template>
 			</uni-list-item>
 			<uni-list-item title="绑定手机号" :show-arrow="false">
 				<template v-slot:right="">
-					<input type="text" value="13594284610" class="my-input" />
+					<input type="text" v-model="myuserInfo.mobile" class="my-input" />
 				</template>
 			</uni-list-item>
 		</uni-list>
@@ -22,77 +22,122 @@
 		<uni-list>
 		    <uni-list-item title="店铺名称" :show-arrow="false">
 				<template v-slot:right="">
-					<input type="text" placeholder="请录入" class="my-input" maxlength="20" />
+					<input type="text" placeholder="请录入" v-model="myuserInfo.shop_name" class="my-input" maxlength="20" />
 				</template>
 			</uni-list-item>
 		    <uni-list-item title="联系人" :show-arrow="false">
 				<template v-slot:right="">
-					<input type="text" placeholder="请录入" class="my-input" maxlength="10" />
+					<input type="text" placeholder="请录入" v-model="myuserInfo.shop_nickname" class="my-input" maxlength="10" />
 				</template>
 			</uni-list-item>
 			<uni-list-item title="联系人手机号" :show-arrow="false">
 				<template v-slot:right="">
-					<input type="number" placeholder="请录入" class="my-input" maxlength="11" />
+					<input type="number" placeholder="请录入" v-model="myuserInfo.shop_mobile" class="my-input" maxlength="11" />
 				</template>
 			</uni-list-item>
 			<uni-list-item title="选择地址" :show-arrow="false" @click="changeAdess">
 				<template v-slot:right="">
-					<view class="my-input">{{myuserInfo.name || '请选择地址'}}</view>
+					<view class="my-input">{{myuserInfo.name || '选择地址'}}</view>
 				</template>
 			</uni-list-item>
-			<textarea :value="myuserInfo.address" class="textarea" placeholder="店铺详细地址如街道、门牌号、小区等" maxlength="80"></textarea>
+			<textarea  v-model="myuserInfo.shop_address" class="textarea" placeholder="店铺详细地址如街道、门牌号、小区等" maxlength="80"></textarea>
 		</uni-list>
 		<view class="my-buttom">
 			<view class="my-buttom-view flex just-between">
-				<button class="my-buttom-s">进入商场</button>
-				<button class="my-buttom-s rz" @click="toCertification">马上认证</button>
+				<button class="my-buttom-s" @click="goHome">进入商场</button>
+				<button class="my-buttom-s rz" @click="toCertification">{{myuserInfo.is_auth==1 ? '更新资料' :'马上认证'}}</button>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {rqusetFile} from '../../common/js/request.js'
 	export default {
 		data() {
 			return {
-				myuserInfo:{}
+				myuserInfo:{},
+				oldMyuserInfo:{}
 			}
 		},
 		onLoad(){
-			let {avatarUrl,nickName} = getApp().globalData.myuserInfo;
-			let myuserInfo={
-				avatarUrl,
-				nickName
-			}
-			this.myuserInfo=myuserInfo;
-			console.log(this.myuserInfo)
+			this.getInfo();
 		},
 		methods: {
+			//选择头像
 			getUserImg(){
 				uni.chooseImage({
 				    count: 1, //默认9
 				    sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
 				    sourceType: ['album'], //从相册选择
 				    success: (res) => {
-						this.myuserInfo.avatarUrl=[res.tempFilePaths];
+						this.uploadImage(res.tempFilePaths[0])
 				    }
 				});
 			},
+			//上传头像
+			uploadImage(filePath){
+				uni.showLoading({title:"加载中..."});
+				rqusetFile(this.baseURL+'/api/upload/image',{
+					filePath
+				}).then(res=>{
+					uni.hideLoading();
+					this.myuserInfo.avatar=res.path;
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			//改变地址
 			changeAdess(){
 				uni.chooseLocation({
 				    success: (res)=> {
 						let myuserInfo={
 							...this.myuserInfo,
 							name:res.name,
-							address:res.address+res.name,
+							shop_address:res.address+res.name,
 						}
 						this.myuserInfo=myuserInfo;
 				    }
 				});
 			},
+			//认证
 			toCertification(){
-				uni.navigateTo({
-					url:"certification/certification"
+				if(JSON.stringify(this.myuserInfo)==JSON.stringify(this.oldMyuserInfo)){
+					uni.showToast({title: '请修改资料'});
+					return;
+				}
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+"/api/personal/updateMessage",this.myuserInfo,{method:'POST'}).then(res=>{
+					uni.hideLoading();
+					if(this.myuserInfo.is_auth!=1){
+						uni.navigateTo({
+							url:"certification/certification"
+						})
+					}
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			//获取详细信息
+			getInfo(){
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+"/api/personal/getUserInfo",{
+					
+				},{method:'GET'}).then(res=>{
+					uni.hideLoading();
+					this.myuserInfo=res;
+					this.oldMyuserInfo={...res};
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			//进入商场
+			goHome(){
+				uni.switchTab({
+					url:'../home/home'
 				})
 			}
 		}
@@ -111,7 +156,7 @@
 	.textarea{
 		height: 80px;
 		width: 100%;
-		padding: 10px;
+		padding: 10px 30rpx;
 		box-sizing: border-box;
 	}
 	.my-buttom{

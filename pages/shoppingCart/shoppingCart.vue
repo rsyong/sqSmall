@@ -59,6 +59,7 @@
 <script>
 	import shoppingList from '../../wxcomponents/shoppingList.vue'
 	import myRadio from '../../wxcomponents/my-radio/my-radio.vue'
+	import {getAllNum} from '../../common/js/untils'
 	export default {
 		components:{shoppingList,myRadio},
 		data() {
@@ -70,9 +71,11 @@
 				dataList:[]
 			}
 		},
+		onLoad() {
+			uni.showLoading({title:"加载中..."});
+		},
 		onShow() {
-			this.goodsList=[];
-			this.getShoppingList();
+			this.getShoppingList(true);
 		},
 		methods: {
 			radioChange(item){
@@ -94,11 +97,11 @@
 				this.goodsList=list;
 			},
 			addNum(item){
-				item.num++;
+				this.updateCars(item,2);
 			},
 			removeNum(item){
 				if(item.num==1) return;
-				item.num--;
+				this.updateCars(item,1);
 			},
 			gotoDetails(item){
 				uni.navigateTo({
@@ -106,17 +109,24 @@
 				})
 			},
 			//获取商品列表
-			getShoppingList(){
+			getShoppingList(noConcat){
 				this.request(this.baseURL+"/api/cart/getList",{
 					page:this.page,
 					size:this.size
 				},{method:'GET'}).then(res=>{
 					uni.hideLoading();
-					this.goodsList=this.goodsList.concat(res.cart_list);
-					this.dataList=res.recommend_list;
+					if(noConcat){
+						this.goodsList=res.cart_list;
+					}else{
+						this.goodsList=this.goodsList.concat(res.cart_list);
+					}
+					if(this.dataList.length==0){
+						this.dataList=res.recommend_list;
+					}
+					getApp().globalData.goodsAllNum=getAllNum(res.cart_list);
 					uni.setTabBarBadge({
 						index:3,
-						text:this.goodsList.length+''
+						text:getApp().globalData.goodsAllNum
 					})
 				}).catch(err=>{
 					uni.hideLoading();
@@ -139,6 +149,37 @@
 				this.request(this.baseURL+"/api/order/placeOrder",obj,{method:'POST'}).then(res=>{
 					uni.hideLoading();
 					uni.showToast({title: '加入成功'});
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			//更新商品数量
+			updateCars(item,status){
+				if(!getApp().globalData.token){
+					uni.showToast({title: "请登录!"});
+					uni.switchTab({
+						url:'../my/my'
+					})
+					return;
+				}
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+"/api/cart/updateCart",{
+					id:item.id,
+					num:status==1 ?item.num-1:item.num+1
+				},{method:'POST'}).then(res=>{
+					uni.hideLoading();
+					if(status==1){ //减
+						item.num--;
+						getApp().globalData.goodsAllNum--;
+					}else{
+						item.num++;
+						getApp().globalData.goodsAllNum++;
+					}
+					uni.setTabBarBadge({
+						index:3,
+						text:getApp().globalData.goodsAllNum+''
+					})
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err});

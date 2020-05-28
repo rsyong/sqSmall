@@ -50,38 +50,43 @@
             "urlCheck" : false,
             "es6" : true,
             "postcss" : false,
-            "minified" : false
+            "minified" : true
         },
         "uniStatistics" : {
             "enable" : true
+        },
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "获取你的地址"
+            }
         }
     },
     "uniStatistics" : {
-        "enable" : true
+        "enable" : false
     },
     "h5" : {
         "uniStatistics" : {
-            "enable" : true
+            "enable" : false
         }
     },
     "mp-alipay" : {
         "uniStatistics" : {
-            "enable" : true
+            "enable" : false
         }
     },
     "mp-baidu" : {
         "uniStatistics" : {
-            "enable" : true
+            "enable" : false
         }
     },
     "mp-qq" : {
         "uniStatistics" : {
-            "enable" : true
+            "enable" : false
         }
     },
     "mp-toutiao" : {
         "uniStatistics" : {
-            "enable" : true
+            "enable" : false
         }
     }
 }

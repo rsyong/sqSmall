@@ -25,3 +25,31 @@ export const request=(url,data={},params={})=>{
 		})
 	})
 }
+export const rqusetFile=(url,data={})=>{
+	return new Promise((resolve,reject)=>{
+		uni.uploadFile({
+			url:url,
+			filePath:data.filePath,
+			name:data.name || 'file',
+			header:{
+				"token":getApp().globalData.token || ''
+			},
+			success:(res)=>{
+				if(res.statusCode==200){
+					res=res.data;
+					if(typeof res =="string"){
+						res=JSON.parse(res);
+					}
+					if(res.code==1){
+						resolve(res.data);
+					}else{
+						reject(res.msg);
+					}
+				}else{
+					reject(res.errMsg);
+				}
+				
+			}
+		})
+	})
+}

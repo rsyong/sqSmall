@@ -4,20 +4,20 @@
 		<uni-list>
 		    <uni-list-item title="邀请码" :show-arrow="false">
 				<template v-slot:right="">
-					<input type="number" placeholder="请输入邀请码" class="my-input" maxlength="6" />
+					<input type="number" placeholder="请输入邀请码" v-model="Alldata.code" class="my-input" maxlength="6" />
 				</template>
 			</uni-list-item>
-		    <uni-list-item title="上传门头照片" :show-arrow="false">
+		    <uni-list-item title="上传门头照片" :show-arrow="false" @click="getUserImg(1)">
 				<template v-slot:right="">
 					<view class="my-camera flex just-center align-center">
-						<image class="defalut" src="/static/image/camera_full.png"></image>
+						<image :class="{defalut:Alldata.topImg.indexOf('http')==-1}" :src="Alldata.topImg" mode="aspectFill"></image>
 					</view>
 				</template>
 			</uni-list-item>
-			<uni-list-item title="上传店内照片" :show-arrow="false">
+			<uni-list-item title="上传店内照片" :show-arrow="false" @click="getUserImg(2)">
 				<template v-slot:right="">
 					<view class="my-camera flex just-center align-center">
-						<image class="defalut" src="/static/image/camera_full.png"></image>
+						<image :class="{defalut:Alldata.bottomImg.indexOf('http')==-1}" :src="Alldata.bottomImg" mode="aspectFill"></image>
 					</view>
 				</template>
 			</uni-list-item>
@@ -26,38 +26,45 @@
 		<uni-list>
 		    <uni-list-item title="公司名称" :show-arrow="false">
 				<template v-slot:right="">
-					<input type="text" placeholder="选填" class="my-input" maxlength="20" />
+					<input type="text" placeholder="选填" v-model="Alldata.name" class="my-input" maxlength="20" />
 				</template>
 			</uni-list-item>
 		    <uni-list-item title="法人" :show-arrow="false">
 				<template v-slot:right="">
-					<input type="text" placeholder="选填" class="my-input" maxlength="20" />
+					<input type="text" placeholder="选填" v-model="Alldata.nickname" class="my-input" maxlength="20" />
 				</template>
 			</uni-list-item>
 			<uni-list-item title="营业执照号" :show-arrow="false">
 				<template v-slot:right="">
-					<input type="text" placeholder="选填" class="my-input" maxlength="20" />
+					<input type="text" placeholder="选填" v-model="Alldata.number" class="my-input" maxlength="20" />
 				</template>
 			</uni-list-item>
 			<uni-list-item title="选择地址" :show-arrow="false" @click="changeAdess">
 				<template v-slot:right="">
-					<view class="flex1" style="max-width: 500rpx;">{{adress || '请选择地址'}}</view>
+					<view class="flex1" style="max-width: 500rpx;">{{Alldata.address || '请选择地址'}}</view>
 				</template>
 			</uni-list-item>
 		</uni-list>
 		<view class="my-buttom">
 			<view class="my-buttom-view flex just-between">
-				<button class="my-buttom-s rz">提交认证</button>
+				<button class="my-buttom-s rz" @click="toCertification">提交认证</button>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {rqusetFile} from '../../../common/js/request.js';
+	const topImg="/static/image/camera_full.png";
+	const bottomImg="/static/image/camera_full.png";
 	export default {
 		data() {
 			return {
-				adress:''
+				Alldata:{
+					topImg:topImg,
+					bottomImg:bottomImg,
+					address:''
+				}
 			}
 		},
 		onLoad(){
@@ -67,9 +74,53 @@
 			changeAdess(){
 				uni.chooseLocation({
 				    success: (res)=> {
-						this.adress=res.address+res.name;
+						this.Alldata.address=res.address+res.name
 				    }
 				});
+			},
+			//上传图片
+			getUserImg(num){
+				uni.chooseImage({
+				    count: 1, //默认9
+				    sizeType: ['original'], //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album'], //从相册选择
+				    success: (res) => {
+						this.uploadImage(res.tempFilePaths[0],num)
+				    }
+				});
+			},
+			//上传头像
+			uploadImage(filePath,num){
+				uni.showLoading({title:"加载中..."});
+				rqusetFile(this.baseURL+'/api/upload/image',{
+					filePath
+				}).then(res=>{
+					uni.hideLoading();
+					if(num==1){
+						this.Alldata.topImg=res.path;
+					}else{
+						this.Alldata.bottomImg=res.path;
+					}
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			//提交认证
+			toCertification(){
+				let Alldata={...this.Alldata};
+				if(!Alldata.code) return uni.showToast({title: "请输入邀请码"});
+				if(Alldata.topImg==topImg) return uni.showToast({title: "请上传门头照片"});
+				if(Alldata.bottomImg==bottomImg) return uni.showToast({title: "请上传店内照片"});
+				Alldata.image=Alldata.topImg;
+				Alldata.images=[Alldata.bottomImg];
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+"/api/personal/authMerchant",Alldata,{method:'POST'}).then(res=>{
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
 			}
 		}
 	}

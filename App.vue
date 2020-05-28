@@ -1,4 +1,5 @@
 <script>
+import {getAllNum} from './common/js/untils.js'
 export default {
 	globalData:{
 		appid:'wx99e7a5d35d7d086d',
@@ -79,12 +80,11 @@ export default {
 				page:1,
 				size:10
 			},{method:'GET'}).then(res=>{
-				let lg=res.cart_list.length;
-				if(lg==0) return;
-				this.globalData.goodsAllNum=res.cart_list.length;
+				this.globalData.goodsAllNum=getAllNum(res.cart_list);
+				if(this.globalData.goodsAllNum==0) return;
 				uni.setTabBarBadge({
 					index:3,
-					text:lg+''
+					text:this.globalData.goodsAllNum+''
 				})
 			}).catch(err=>{
 				

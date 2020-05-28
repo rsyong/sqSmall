@@ -9,7 +9,7 @@
 					<image :src="myuserInfo.avatarUrl" v-if="myuserInfo.avatarUrl"></image>
 					<view v-else class="authorization">点击授权</view>
 				</button>
-				<view class="v flex" v-if="myuserInfo.avatarUrl">
+				<view class="v flex" v-if="myuserInfo.is_auth==1">
 					<view class="v-text">
 						<view class="iconfont icon-v"></view>
 					</view>
@@ -50,14 +50,15 @@
 	export default {
 		data() {
 			return {
-				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
 				provider:'',
-				myuserInfo:getApp().globalData.myuserInfo || '',
+				myuserInfo:{},
 				loginRes:''
 			}
 		},
 		onLoad(){
-			if(this.myuserInfo) return;
+			if(getApp().globalData.token){
+				return this.getInfo();
+			}
 			//获取设备信息
 			uni.getProvider({
 			    service: 'oauth',
@@ -82,24 +83,6 @@
 						uni.showToast({title: '登录失败了'});
 					}
 				});
-			},
-			//获取token
-			getOpenId(data){
-				if(getApp().globalData.token) {
-					uni.hideLoading();
-					return;
-				};
-				this.request(this.baseURL+'/api/login/login',{
-					code:this.loginRes.code,
-					iv:data.iv,
-					encryptedData:data.encryptedData
-				},{method:'POST'}).then(res=>{
-					getApp().globalData.token=res.token;
-					uni.hideLoading();
-				}).catch(err=>{
-					uni.hideLoading();
-					uni.showToast({title: err});
-				})
 			},
 			// 查看是否授权
 			getUserInfo(){
@@ -132,6 +115,24 @@
 				getApp().globalData.myuserInfo=this.myuserInfo;
 				this.getOpenId(e.detail);
 			},
+			//获取token
+			getOpenId(data){
+				if(getApp().globalData.token) {
+					uni.hideLoading();
+					return;
+				};
+				this.request(this.baseURL+'/api/login/login',{
+					code:this.loginRes.code,
+					iv:data.iv,
+					encryptedData:data.encryptedData
+				},{method:'POST'}).then(res=>{
+					getApp().globalData.token=res.token;
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
 			//拨打电话
 			makePhoneCall(){
 				const phone="13594284610";
@@ -148,16 +149,31 @@
 				    }
 				});
 			},
+			//认证
 			toPersonal(){
 				uni.navigateTo({
 					url:'../personal/personal'
 				})
 			},
+			//跳转订单
 			toOrder(pageNum=0){
 				uni.navigateTo({
 					url:'../order/order?pageNum='+pageNum
 				})
-			}
+			},
+			//获取详细信息
+			getInfo(){
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+"/api/personal/getUserInfo",{
+					
+				},{method:'GET'}).then(res=>{
+					uni.hideLoading();
+					this.myuserInfo=res;
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
 		}
 	}
 </script>

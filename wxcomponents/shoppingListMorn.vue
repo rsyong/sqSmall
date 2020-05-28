@@ -3,7 +3,7 @@
 		<view class="sp-list flex just-between" v-for="(item,index) in mydata" :key="index" @click="onPress(item)">
 			<view class="atric" v-if="item.is_business==1">商家直供</view>
 			<view class="sp-list-img">
-				<image :src="item.image"></image>
+				<image :src="item.image" mode="aspectFill"></image>
 			</view>
 			<view class="flex1">
 				<view>{{item.name}}</view>

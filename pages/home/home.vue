@@ -21,7 +21,7 @@
 		    <swiper class="swiper-box" @change="change" circular autoplay easing-function="easeOutCubic">
 		        <swiper-item v-for="(item ,index) in bannerList" :key="index" @click="gotoDetails(item)">
 		            <view class="swiper-item">
-		                <image :src="item.image"></image>
+		                <image :src="item.image" mode="aspectFill"></image>
 		            </view>
 		        </swiper-item>
 		    </swiper>
@@ -43,7 +43,7 @@
 			        <view class="swiper-item-miao" @click="gotoDetails(item)">
 			            <view class="sp-list">
 			            	<view class="sp-list-img">
-			            		<image :src="item.image"></image>
+			            		<image :src="item.image" mode="aspectFill"></image>
 			            	</view>
 			            	<view class="sp-list-name only-line-2">{{item.name}}</view>
 			            	<view class="flex just-between align-center">

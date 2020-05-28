@@ -8,7 +8,7 @@
 				</view>
 				<view class="sp-list-detiles flex just-between" @click.stop="gotoDetails(item)">
 					<view class="sp-list-img">
-						<image :src="item.image"></image>
+						<image :src="item.image" mode="aspectFill"></image>
 					</view>
 					<view class="flex flex-column just-between">
 						<view class="flex1 only-line-2">{{item.name}}</view>
@@ -97,6 +97,7 @@
 				item.num++;
 			},
 			removeNum(item){
+				if(item.num==1) return;
 				item.num--;
 			},
 			gotoDetails(item){

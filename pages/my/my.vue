@@ -3,7 +3,7 @@
 		<uni-nav-bar title="个人中心" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="back-view"><view class="back-qiu"></view></view>
 		<view class="cras flex just-center">
-			<image class="cras-back" src="/static/image/back2.jpg"></image>
+			<image class="cras-back" src="/static/image/back2.jpg" mode="aspectFill"></image>
 			<view class="user-img">
 				<button @getuserinfo="userInfo" open-type="getUserInfo" plain class="user-button">
 					<image :src="myuserInfo.avatarUrl" v-if="myuserInfo.avatarUrl"></image>

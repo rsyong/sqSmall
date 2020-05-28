@@ -8,7 +8,7 @@
 		    				<view class="list" v-for="(item2,key) in myAlldata[index]" :key="key">
 		    					<view class="atric" v-if="item2.is_business==1">商家直供</view>
 		    					<view class="list-img">
-		    						<image :src="item2.image"></image>
+		    						<image :src="item2.image" mode="aspectFill"></image>
 		    					</view>
 		    					<view class="list-text">
 		    						<view class="list-title only-line-2">{{item2.name}}</view>

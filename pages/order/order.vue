@@ -10,7 +10,7 @@
 			<view class="sp-list flex just-between align-center" v-for="(item,index) in shoppingList" :key="index" @click="gotoDetails">
 				<view class="sp-list-detiles flex just-between">
 					<view class="sp-list-img">
-						<image :src="item.goods[0].goods_data.image"></image>
+						<image :src="item.goods[0].goods_data.image" mode="aspectFill"></image>
 					</view>
 					<view class="flex flex-column just-between">
 						<view class="flex1 only-line-2">{{item.goods[0].goods_data.name}}</view>

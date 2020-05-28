@@ -5,7 +5,7 @@
 			<swiper class="swiper-box" @change="change" autoplay>
 			    <swiper-item v-for="(item ,index) in Alldata.images" :key="index">
 			        <view class="swiper-item">
-			            <image :src="item"></image>
+			            <image :src="item" mode="aspectFill"></image>
 			        </view>
 			    </swiper-item>
 			</swiper>

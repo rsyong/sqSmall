@@ -16,7 +16,7 @@
 					<view class="sp-list flex" @click="gotoDetails(item)" v-for="(item,index) in rightData" :key="index">
 						<view class="atric" v-if="item.is_business==1">商家直供</view>
 						<view class="sp-list-img">
-							<image :src="item.image"></image>
+							<image :src="item.image" mode="aspectFill"></image>
 						</view>
 						<view>
 							<view class="list-title">{{item.name}}</view>

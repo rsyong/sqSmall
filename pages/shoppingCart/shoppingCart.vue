@@ -111,9 +111,13 @@
 					page:this.page,
 					size:this.size
 				},{method:'GET'}).then(res=>{
+					uni.hideLoading();
 					this.goodsList=this.goodsList.concat(res.cart_list);
 					this.dataList=res.recommend_list;
-					uni.hideLoading();
+					uni.setTabBarBadge({
+						index:3,
+						text:this.goodsList.length+''
+					})
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err});

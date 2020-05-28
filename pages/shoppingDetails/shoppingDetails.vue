@@ -18,7 +18,7 @@
 			<view class="sp-list-weight sp-sun-title">{{Alldata.note}}</view>
 			<!-- <view class="sp-list-weight mb-5">{{Alldata.type_note}}</view> -->
 			<view class="flex just-between">
-				<view class="mao-weight">{{type_note}}</view>
+				<view class="mao-weight">{{Alldata.type_note}}</view>
 				<view class="mao-weight">{{Alldata.type}}</view>
 			</view>
 			<view class="list-slogo" v-if="Alldata.is_business==1"><text class="business">商家直供</text> 万家果品</view>
@@ -34,13 +34,13 @@
 				<view class="sp-details-left">备注</view><view>{{Alldata.remarks}}</view>
 			</view>
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">产地</view><view>--</view>
+				<view class="sp-details-left">产地</view><view>{{Alldata.source}}</view>
 			</view>
 			<view class="sp-details-list flex">
 				<view class="sp-details-left">等级</view><view>{{Alldata.grades.name || ''}}</view>
 			</view>
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">单果重量</view><view>--</view>
+				<view class="sp-details-left">单果重量</view><view>{{Alldata.weight}}g</view>
 			</view>
 			<view class="sp-details-list flex">
 				<view class="sp-details-left">口感星级</view><view>{{Alldata.texture_star}}</view>
@@ -61,7 +61,7 @@
 				<view class="sp-details-left">售后时效</view><view>{{Alldata.sale_time}}</view>
 			</view>
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">不良率</view><view>--</view>
+				<view class="sp-details-left">不良率</view><view>{{Alldata.adverse_rate || 0}}%</view>
 			</view>
 		</view>
 		<view class="content">
@@ -187,10 +187,6 @@
 					uni.hideLoading();
 					getApp().globalData.goodsAllNum+=this.goodNum;
 					this.goodsAllNum=getApp().globalData.goodsAllNum;
-					uni.setTabBarBadge({
-						index:3,
-						text:this.goodsAllNum
-					})
 					uni.showToast({title: res});
 				}).catch(err=>{
 					uni.hideLoading();
@@ -229,7 +225,8 @@
 		margin-bottom: 5px;
 	}
 	.mao-weight{
-		font-size: 13px;
+		font-size: 12px;
+		color: #888;
 	}
 	.list-slogo{
 		font-size: 10px;

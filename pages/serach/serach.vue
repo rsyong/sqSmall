@@ -9,7 +9,7 @@
 					<view class="serach-tars-list" @click="toSerach(item)" v-for="(item,index) in serachList" :key="index">{{item}}</view>
 				</view>
 			</view>
-			<shoppingListMorn v-else  :dataList="shoppingList" />
+			<shoppingListMorn v-else  :dataList="shoppingList" @onPress="gotoDetails" />
 		</view>
 	</view>
 </template>
@@ -41,8 +41,8 @@
 				this.shoppingList=[];
 				this.name=e.value;
 				this.showHot=false;
-				uni.showLoading({title:"加载中..."});
 				this.getShoppingList();
+				this.serachList.push(this.name);
 			},
 			searchinput(e){
 				if(!e.value) return this.showHot=true;
@@ -66,6 +66,7 @@
 			},
 			//获取商品列表
 			getShoppingList(){
+				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/goods/getList",{
 					page:this.page,
 					size:this.size,
@@ -83,7 +84,13 @@
 				this.page++;
 				uni.showLoading({title:"加载中..."});
 				this.getShoppingList();
-			}
+			},
+			gotoDetails(item){
+				console.log(item,66)
+				uni.navigateTo({
+					url:"../shoppingDetails/shoppingDetails?id="+item.id
+				})
+			},
 		}
 	}
 </script>

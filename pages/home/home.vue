@@ -48,7 +48,7 @@
 			            	<view class="sp-list-name only-line-2">{{item.name}}</view>
 			            	<view class="flex just-between align-center">
 			            		<text class="sp-list-weight max-lenth only-line-1">{{item.type_note}}</text>
-								<van-count-down :time="item.end_time - item.start_time" />
+								<van-count-down :time="item.end_time" />
 			            	</view>
 			            </view>
 			        </view>
@@ -86,7 +86,17 @@
 			this.getHome();
 			this.getRecommendList(0);
 		},
+		onShow() {
+			this.setTabBarBadge();
+		},
 		methods: {
+			setTabBarBadge(){
+				if(getApp().globalData.goodsAllNum==0) return;
+				uni.setTabBarBadge({
+					index:3,
+					text:getApp().globalData.goodsAllNum+''
+				})
+			},
 			//跳转搜索
 			toSerach(){
 				uni.navigateTo({

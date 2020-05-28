@@ -67,11 +67,29 @@ export default {
 			},{method:'POST'}).then(res=>{
 				this.globalData.token=res.token;
 				uni.hideLoading();
+				this.getShoppingList();
 			}).catch(err=>{
 				uni.hideLoading();
 				uni.showToast({title: err});
 			})
-		}
+		},
+		//获取商品列表
+		getShoppingList(){
+			this.request(this.baseURL+"/api/cart/getList",{
+				page:1,
+				size:10
+			},{method:'GET'}).then(res=>{
+				let lg=res.cart_list.length;
+				if(lg==0) return;
+				this.globalData.goodsAllNum=res.cart_list.length;
+				uni.setTabBarBadge({
+					index:3,
+					text:lg+''
+				})
+			}).catch(err=>{
+				
+			})
+		},
 	}
 };
 </script>

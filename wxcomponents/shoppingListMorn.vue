@@ -1,6 +1,7 @@
 <template>
-	<view>
-		<view class="sp-list flex just-between" v-for="(item,index) in mydata" :key="index">
+	<view style="padding-top: 10px;">
+		<view class="sp-list flex just-between" v-for="(item,index) in mydata" :key="index" @click="onPress(item)">
+			<view class="atric" v-if="item.is_business==1">商家直供</view>
 			<view class="sp-list-img">
 				<image :src="item.image"></image>
 			</view>
@@ -32,7 +33,9 @@
 			}
 		},
 		methods: {
-			
+			onPress(item){
+				this.$emit("onPress",item);
+			}
 		}
 	}
 </script>
@@ -41,7 +44,6 @@
 	.sp-list{
 		background-color: #FFFFFF;
 		border-radius: 6px;
-		padding: 10px;
 		margin-top: 10px;
 		position: relative;
 	}
@@ -49,9 +51,22 @@
 		font-size: 10px;
 		color: #424242;
 		position: absolute;
-		bottom: 13px;
+		bottom: 0px;
 	}
 	.sp-list-weight{
 		margin: 3px 0;
+	}
+	.atric{
+		position: absolute;
+		left: 10px;
+		top: 0;
+		width: 25px;
+		background-color: #ff7a01;
+		border-bottom-left-radius: 14px;
+		border-bottom-right-radius: 14px;
+		font-size: 10px;
+		color: #fff;
+		text-align: center;
+		padding-bottom: 6px;
 	}
 </style>

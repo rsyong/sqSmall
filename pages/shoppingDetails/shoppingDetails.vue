@@ -179,7 +179,7 @@
 					})
 					return;
 				}
-				uni.showLoading({});
+				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/goods/addCart",{
 					id:this.Alldata.id,
 					num:this.goodNum

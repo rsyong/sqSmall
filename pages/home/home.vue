@@ -120,7 +120,7 @@
 			},
 			//首页接口
 			getHome(){
-				uni.showLoading();
+				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+'/api/index/index',{},{method:'GET'}).then(res=>{
 					uni.hideLoading();
 					this.bannerList=res.rotation_list; //轮播数据
@@ -156,7 +156,7 @@
 			//下拉加载更多
 			onReachBottom(){
 				this.page++;
-				uni.showLoading({})
+				uni.showLoading({title:"加载中..."});
 				this.getRecommendList();
 			}
 		}

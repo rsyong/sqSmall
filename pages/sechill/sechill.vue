@@ -65,7 +65,7 @@
 			},
 			onReachBottom(){
 				this.page++;
-				uni.showLoading({})
+				uni.showLoading({title:"加载中..."});
 				this.getShoppingList();
 			}
 		}

@@ -130,7 +130,7 @@
 				if(JSON.stringify(obj) == "{}"){
 					return uni.showToast({title: '请选择商品'});
 				}
-				uni.showLoading({});
+				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/order/placeOrder",obj,{method:'POST'}).then(res=>{
 					uni.hideLoading();
 					uni.showToast({title: '加入成功'});

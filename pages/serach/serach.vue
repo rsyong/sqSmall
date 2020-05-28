@@ -41,7 +41,7 @@
 				this.shoppingList=[];
 				this.name=e.value;
 				this.showHot=false;
-				uni.showLoading({})
+				uni.showLoading({title:"加载中..."});
 				this.getShoppingList();
 			},
 			searchinput(e){
@@ -81,7 +81,7 @@
 			//下拉加载更多
 			onReachBottom(){
 				this.page++;
-				uni.showLoading({})
+				uni.showLoading({title:"加载中..."});
 				this.getShoppingList();
 			}
 		}

@@ -71,7 +71,7 @@
 			},
 			//获取商品列表
 			getShoppingList(){
-				uni.showLoading({});
+				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/goods/getAllList",{
 					
 				},{method:'GET'}).then(res=>{
@@ -89,7 +89,7 @@
 			//下拉加载更多
 			toBottom(){
 				this.page++;
-				uni.showLoading({});
+				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+'/api/goods/getList',{
 					page:this.page,
 					size:this.size,

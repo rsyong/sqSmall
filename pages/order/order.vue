@@ -82,7 +82,7 @@
 			//下拉加载更多
 			onReachBottom(){
 				this.page++;
-				uni.showLoading({})
+				uni.showLoading({title:"加载中..."});
 				this.getShoppingList();
 			}
 		}

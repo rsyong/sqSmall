@@ -61,6 +61,7 @@
 				},{method:'GET'}).then(res=>{
 					uni.hideLoading();
 					this.goodsList=this.goodsList.concat(res);
+					uni.stopPullDownRefresh()
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err});
@@ -80,6 +81,11 @@
 					uni.showToast({title: err});
 				})
 			},
+			//下拉刷新
+			onPullDownRefresh(){
+				this.goodsList=[];
+				this.getShoppingList();
+			}
 		}
 	}
 </script>

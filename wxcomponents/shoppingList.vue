@@ -106,7 +106,6 @@
 	.list-subtitle{
 		font-size: 12px;
 		color: #888;
-		-webkit-line-clamp: 3; /** 显示的行数 **/
 		margin-bottom: 5px;
 	}
 	.list-slogo{

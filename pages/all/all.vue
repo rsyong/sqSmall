@@ -20,7 +20,7 @@
 						</view>
 						<view>
 							<view class="list-title">{{item.name}}</view>
-							<view class="sp-list-weight">{{item.note}}</view>
+							<view class="sp-list-weight only-line-2">{{item.note}}</view>
 							<view class="sp-list-weight">{{item.type_note}}</view>
 							<view class="flex just-between">
 								<view class="starating">
@@ -56,6 +56,7 @@
 				this.activeNum=index;
 				this.page=0;
 				this.type=item.id;
+				this.rightData=[];
 				this.toBottom();
 			},
 			//跳转搜索

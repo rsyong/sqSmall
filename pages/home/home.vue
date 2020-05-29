@@ -79,7 +79,8 @@
 				timeData: {},
 				page:1,
 				size:10,
-				tabIndex:0
+				tabIndex:0,
+				isBottom:false
 			}
 		},
 		onLoad(){
@@ -110,6 +111,7 @@
 				this.page=1;
 				this.shoppingList=[];
 				this.tabIndex=event.detail.index;
+				this.isBottom=false;
 				this.getRecommendList();
 			},
 			timeonChange(e){
@@ -136,8 +138,11 @@
 					this.bannerList=res.rotation_list; //轮播数据
 					//秒杀
 					this.miaoshaList=res.kill_list;
-					res.category_list.unshift({name:'推荐'});
+					if(res.category_list.length>0 && res.category_list[0].name!="推荐"){
+						res.category_list.unshift({name:'推荐'});
+					}
 					this.typeList=res.category_list;
+					uni.stopPullDownRefresh()
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err});
@@ -156,6 +161,9 @@
 					size:this.size,
 					type:type
 				},{method:'GET'}).then(res=>{
+					if(res.length==0){
+						this.isBottom=true;
+					}
 					this.shoppingList=this.shoppingList.concat(res);
 					uni.hideLoading();
 				}).catch(err=>{
@@ -165,9 +173,14 @@
 			},
 			//下拉加载更多
 			onReachBottom(){
+				if(this.isBottom) return;
 				this.page++;
 				uni.showLoading({title:"加载中..."});
 				this.getRecommendList();
+			},
+			//下拉刷新
+			onPullDownRefresh(){
+				this.getHome();
 			}
 		}
 	}

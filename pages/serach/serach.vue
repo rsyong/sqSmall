@@ -86,7 +86,6 @@
 				this.getShoppingList();
 			},
 			gotoDetails(item){
-				console.log(item,66)
 				uni.navigateTo({
 					url:"../shoppingDetails/shoppingDetails?id="+item.id
 				})

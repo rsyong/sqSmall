@@ -7,13 +7,14 @@
 			<view class="user-img">
 				<button @getuserinfo="userInfo" open-type="getUserInfo" plain class="user-button">
 					<image :src="myuserInfo.avatarUrl" v-if="myuserInfo.avatarUrl"></image>
-					<view v-else class="authorization">点击授权</view>
+					<view v-else class="authorization">点击登录</view>
 				</button>
-				<view class="v flex" v-if="myuserInfo.is_auth==1">
-					<view class="v-text">
+				<view class="v flex">
+					<view class="v-text" v-if="myuserInfo.is_auth==1">
 						<view class="iconfont icon-v"></view>
 					</view>
-					<view>已绑定</view>
+					<view v-if="myuserInfo.is_auth==1">已绑定</view>
+					<view v-else style="padding-left: 20px;">未绑定</view>
 				</view>
 			</view>
 			<view class="morn flex just-center align-center" @click="toPersonal">
@@ -151,9 +152,13 @@
 			},
 			//认证
 			toPersonal(){
-				uni.navigateTo({
-					url:'../personal/personal'
-				})
+				if(getApp().globalData.token){
+					uni.navigateTo({
+						url:'../personal/personal'
+					})
+				}else{
+					uni.showToast({title: "请先授权！"});
+				}
 			},
 			//跳转订单
 			toOrder(pageNum=0){

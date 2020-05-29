@@ -117,6 +117,9 @@
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/personal/authMerchant",Alldata,{method:'POST'}).then(res=>{
 					uni.hideLoading();
+					uni.switchTab({
+						url:'../../home/home'
+					})
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err});

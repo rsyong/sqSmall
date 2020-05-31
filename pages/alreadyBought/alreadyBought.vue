@@ -44,11 +44,21 @@
 			}
 		},
 		onLoad() {
-			this.getShoppingList();
 			if(!getApp().globalData.token){
-				return uni.showToast({title: '请先授权',image:'../../static/image/error.png'});
+				return uni.showModal({
+				    title: '提示',
+				    content: '请先登录',
+				    success: function (res) {
+				        if (res.confirm) {
+				            uni.switchTab({
+				            	url:'../my/my'
+				            })
+				        } 
+				    }
+				});
 			}
 			this.getRecommendList();
+			this.getShoppingList();
 		},
 		methods: {
 			gotoDetails(item){
@@ -87,6 +97,9 @@
 			},
 			//下拉刷新
 			onPullDownRefresh(){
+				if(!getApp().globalData.token){
+					return uni.showToast({title: '请先登录',image:'../../static/image/error.png'});
+				}
 				this.goodsList=[];
 				this.getShoppingList();
 			}

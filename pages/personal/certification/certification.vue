@@ -4,7 +4,7 @@
 		<uni-list>
 		    <uni-list-item title="邀请码" :show-arrow="false">
 				<template v-slot:right="">
-					<input type="number" placeholder="请输入邀请码" v-model="Alldata.code" class="my-input" maxlength="6" />
+					<input type="text" placeholder="请输入邀请码" v-model="Alldata.code" class="my-input" maxlength="6" />
 				</template>
 			</uni-list-item>
 		    <uni-list-item title="上传门头照片" :show-arrow="false" @click="getUserImg(1)">
@@ -108,15 +108,22 @@
 			},
 			//提交认证
 			toCertification(){
-				let Alldata={...this.Alldata};
-				if(!Alldata.code) return  uni.showToast({title: "请输入邀请码",image:'../../../static/image/error.png'});
-				if(Alldata.topImg==topImg) return uni.showToast({title: "请上传门头照片",image:'../../../static/image/error.png'});
-				if(Alldata.bottomImg==bottomImg) return uni.showToast({title: "请上传店内照片",image:'../../../static/image/error.png'});
-				Alldata.image=Alldata.topImg;
-				Alldata.images=[Alldata.bottomImg];
+				// let Alldata={...this.Alldata};
+				// if(!Alldata.code) return  uni.showToast({title: "请输入邀请码",image:'../../../static/image/error.png'});
+				// if(Alldata.topImg==topImg) return uni.showToast({title: "请上传门头照片",image:'../../../static/image/error.png'});
+				// if(Alldata.bottomImg==bottomImg) return uni.showToast({title: "请上传店内照片",image:'../../../static/image/error.png'});
+				// Alldata.image=Alldata.topImg;
+				// Alldata.images=[Alldata.bottomImg];
 				uni.showLoading({title:"加载中..."});
-				this.request(this.baseURL+"/api/personal/authMerchant",Alldata,{method:'POST'}).then(res=>{
+				this.request(this.baseURL+"/api/personal/authMerchant",{
+					code:'123456',
+					image:'/api/upload/image',
+					images:['/api/upload/image']
+				},{method:'POST'}).then(res=>{
 					uni.hideLoading();
+					getApp().userInfo={
+						is_auth:1
+					}
 					uni.switchTab({
 						url:'../../home/home'
 					})

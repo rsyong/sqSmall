@@ -2,12 +2,13 @@
 	<view style="padding-top: 10px;">
 		<view class="sp-list flex just-between" v-for="(item,index) in mydata" :key="index" @click="onPress(item)">
 			<view class="atric" v-if="item.is_business==1">商家直供</view>
+			<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 			<view class="sp-list-img">
 				<image :src="item.image" mode="aspectFill"></image>
 			</view>
 			<view class="flex1">
 				<view>{{item.name}}</view>
-				<view class="sp-list-weight">{{item.note}}</view>
+				<view class="sp-list-weight only-line-2">{{item.note}}</view>
 				<view class="sp-list-weight">{{item.type_note}}</view>
 				<view class="flex just-between">
 					<stars :starNumber="item.star" />
@@ -69,5 +70,15 @@
 		color: #fff;
 		text-align: center;
 		padding-bottom: 6px;
+	}
+	.full-des{
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		background-color: rgba(236,177,41,.7);
+		font-size: 10px;
+		color: #fff;
+		text-align: center;
+		padding: 3px 10px;
 	}
 </style>

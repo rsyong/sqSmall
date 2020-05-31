@@ -10,7 +10,12 @@
 			    </swiper-item>
 			</swiper>
 			<view class="atric" v-if="Alldata.is_business==1">商家直供</view>
-			<view class="banner-lables"><text>{{current+1}}</text>/{{Alldata.images.length}}</view>
+			<view class="share flex just-center align-center">
+				<button open-type='share' plain style="border: none;padding-left: 0;padding-right: 0;">
+					<uni-icons type="redo" size="20" color="#fff"></uni-icons>
+				</button>
+			</view>
+			<view class="banner-lables"><text>{{current+1}}</text>/{{Alldata.images.length || 0}}</view>
 		</view>
 		<view class="content">
 			<stars :starNumber="Alldata.star" />
@@ -40,7 +45,7 @@
 				<view class="sp-details-left">等级</view><view>{{Alldata.grades.name || ''}}</view>
 			</view>
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">单果重量</view><view>{{Alldata.weight}}g</view>
+				<view class="sp-details-left">单果重量</view><view>{{Alldata.weight || 0}}g</view>
 			</view>
 			<view class="sp-details-list flex">
 				<view class="sp-details-left">口感星级</view><view>{{Alldata.texture_star}}</view>
@@ -140,7 +145,6 @@
 		},
 		onLoad(option){
 			this.id=option.id;
-			console.log(getApp().globalData.token)
 			this.getGoodsDetail();
 		},
 		methods: {
@@ -149,6 +153,7 @@
 			},
 			//获取商品详细
 			getGoodsDetail(){
+				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/goods/detail",{
 					id:this.id
 				},{method:'GET'}).then(res=>{
@@ -172,14 +177,31 @@
 				this.goodNum--;
 			},
 			addCars(){
+				if(!getApp().globalData.token){
+					return uni.showModal({
+					    title: '提示',
+					    content: '请先登录',
+					    success: function (res) {
+					        if (res.confirm) {
+					            uni.switchTab({
+					            	url:'../my/my'
+					            })
+					        } 
+					    }
+					});
+				}
 				if(getApp().globalData.userInfo.is_auth!=1){
-					uni.showToast({title: '请先认证!',image:'../../static/image/error.png'});
-					setTimeout(()=>{
-						uni.switchTab({
-							url:'../my/my'
-						})
-					},1500)
-					return;
+					return uni.showModal({
+					    title: '提示',
+					    content: '请先认证',
+					    success: function (res) {
+					        if (res.confirm) {
+								uni.navigateTo({
+									url:'../personal/personal'
+								})
+					        } 
+					    }
+					});
 				}
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/goods/addCart",{
@@ -385,5 +407,14 @@
 		font-size: 18px;
 		color: #F8BF2C;
 		margin-top: 2px;
+	}
+	.share{
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		background-color: rgba(0,0,0,.5);
+		position: absolute;
+		right: 10px;
+		top: 10px;
 	}
 </style>

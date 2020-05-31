@@ -14,7 +14,7 @@
 			</uni-list-item>
 			<uni-list-item title="绑定手机号" :show-arrow="false">
 				<template v-slot:right="">
-					<input type="text" v-model="myuserInfo.mobile" class="my-input" />
+					<input type="number" v-model="myuserInfo.mobile" class="my-input" />
 				</template>
 			</uni-list-item>
 		</uni-list>
@@ -35,10 +35,10 @@
 					<input type="number" placeholder="请录入" v-model="myuserInfo.shop_mobile" class="my-input" maxlength="11" />
 				</template>
 			</uni-list-item>
-			<uni-list-item title="选择地址" :show-arrow="false">
+			<uni-list-item title="选择城市" :show-arrow="false">
 				<template v-slot:right="">
 					<picker @change="box" mode="region">
-						<view>{{data}}</view>
+						<view>{{myuserInfo.shop_city || '选择城市'}}</view>
 					</picker>
 					<!-- <view class="my-input">{{myuserInfo.name || '选择地址'}}</view> -->
 				</template>
@@ -56,13 +56,14 @@
 
 <script>
 	import {rqusetFile} from '../../common/js/request.js'
-	let adrssInfo='选择地址'
 	export default {
 		data() {
 			return {
-				myuserInfo:{},
+				myuserInfo:{
+					shop_city:''
+				},
 				oldMyuserInfo:{},
-				data: adrssInfo
+				data: ''
 			}
 		},
 		onLoad(){
@@ -71,7 +72,7 @@
 		methods: {
 			box: function(e) {
 				this.data = e.target.value.join('')
-				this.myuserInfo.shop_address=this.data+this.myuserInfo.shop_address;
+				this.myuserInfo.shop_city=this.data;
 			},
 			//选择头像
 			getUserImg(){
@@ -137,12 +138,11 @@
 				if(!isphone.test(this.myuserInfo.shop_mobile)){
 					return uni.showToast({title: '绑定手机号格式有误',image:'../../static/image/error.png'});
 				}
+				if(!this.myuserInfo.shop_city){
+					return uni.showToast({title: '请选择城市',image:'../../static/image/error.png'});
+				}
 				if(!this.myuserInfo.shop_address){
 					return uni.showToast({title: '请输入详细地址',image:'../../static/image/error.png'});
-				}
-				if(JSON.stringify(this.myuserInfo)==JSON.stringify(this.oldMyuserInfo)){
-					uni.showToast({title: '请修改资料',image:'../../static/image/error.png'});
-					return;
 				}
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/personal/updateMessage",this.myuserInfo,{method:'POST'}).then(res=>{

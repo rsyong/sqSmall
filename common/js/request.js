@@ -16,7 +16,7 @@ export const request=(url,data={},params={})=>{
 						reject(res.msg);
 					}
 				}else{
-					reject(res.errMsg);
+					reject('服务器出错了');
 				}
 			},
 			fail:(err)=>{

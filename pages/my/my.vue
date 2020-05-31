@@ -14,7 +14,7 @@
 						<view class="iconfont icon-v"></view>
 					</view>
 					<view v-if="myuserInfo.is_auth==1">已绑定</view>
-					<view v-else style="padding-left: 20px;">未绑定</view>
+					<view v-else style="text-align: center;" class="flex just-center">未绑定</view>
 				</view>
 			</view>
 			<view class="morn flex just-center align-center" @click="toPersonal">
@@ -78,11 +78,7 @@
 				    success: (loginRes) => {
 						this.loginRes=loginRes;
 						this.getUserInfo();
-				    },
-					fail:err=>{
-						uni.hideLoading();
-						uni.showToast({title: '登录失败了',image:'../../static/image/error.png'});
-					}
+				    }
 				});
 			},
 			// 查看是否授权
@@ -129,6 +125,7 @@
 				},{method:'POST'}).then(res=>{
 					getApp().globalData.token=res.token;
 					uni.hideLoading();
+					this.getInfo();
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: '登录失败了',image:'../../static/image/error.png'});
@@ -136,7 +133,7 @@
 			},
 			//拨打电话
 			makePhoneCall(){
-				const phone="13594284610";
+				const phone="18502319565";
 				uni.showModal({
 				    title: '客服电话',
 				    content: phone,
@@ -157,7 +154,7 @@
 						url:'../personal/personal'
 					})
 				}else{
-					uni.showToast({title: "请先授权！",image:'../../static/image/error.png'});
+					uni.showToast({title: "请先登录！",image:'../../static/image/error.png'});
 				}
 			},
 			//跳转订单
@@ -174,6 +171,7 @@
 				},{method:'GET'}).then(res=>{
 					uni.hideLoading();
 					this.myuserInfo=res;
+					getApp().globalData.userInfo=res;
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err,image:'../../static/image/error.png'});

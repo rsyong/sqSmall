@@ -13,7 +13,7 @@
 					<text style="margin-left: 8px;">搜索</text>
 				</view>
 			</view>
-			<view solt="right">22</view>
+			<view solt="right"><view style="width: 20px;"></view></view>
 		</uni-nav-bar>
 		<view class="back-view"><view class="back-qiu"></view></view>
 		<view style="margin-top: -120px;"></view>

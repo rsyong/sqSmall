@@ -85,6 +85,21 @@
 			},
 			//获取商品列表
 			getShoppingList(){
+				if(!getApp().globalData.token){
+					return uni.showModal({
+					    title: '提示',
+					    content: '请先登录',
+					    success: function (res) {
+					        if (res.confirm) {
+					            uni.switchTab({
+					            	url:'../my/my'
+					            })
+					        }else{
+								uni.navigateBack({})
+							}
+					    }
+					});
+				}
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/order/myOrder",{
 					page:this.page,

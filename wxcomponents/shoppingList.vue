@@ -3,6 +3,7 @@
 		<view class="left">
 			<view class="list" v-for="(item,key) in leftData" :key="key" @click="onPress(item)">
 				<view class="atric" v-if="item.is_business==1">商家直供</view>
+				<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 				<view class="list-img">
 					<image :src="item.image" mode="aspectFill"></image>
 				</view>
@@ -17,6 +18,7 @@
 		<view class="right">
 			<view class="list" v-for="(item,key) in rightData" :key="key" @click="onPress(item)">
 				<view class="atric" v-if="item.is_business==1">商家直供</view>
+				<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 				<view class="list-img">
 					<image :src="item.image" mode="aspectFill"></image>
 				</view>
@@ -95,9 +97,13 @@
 		color: #fff;
 		text-align: center;
 		padding-bottom: 6px;
+		z-index: 10;
 	}
 	.list-text{
 		padding: 10px;
+	}
+	.list-img{
+		position: relative;
 	}
 	.list-img image{
 		width: 100%;
@@ -115,5 +121,14 @@
 	.list-title{
 		margin-bottom: 5px;
 	}
-	
+	.full-des{
+		position: absolute;
+		right: 0;
+		top: 0;
+		background-color: rgba(236,177,41,.7);
+		font-size: 10px;
+		color: #fff;
+		text-align: center;
+		padding: 3px 10px;
+	}
 </style>

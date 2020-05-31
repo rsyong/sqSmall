@@ -6,8 +6,10 @@
 		<uni-nav-bar @clickLeft="goBack" title="精品秒杀" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="content">
 			<view class="sp-list flex just-between" v-for="(item,index) in shoppingList" :key="index" @click.stop="gotoDetails(item)">
+				<view class="atric" v-if="item.is_business==1">商家直供</view>
 				<view class="sp-list-img">
 					<image :src="item.image" mode="aspectFill"></image>
+					<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 				</view>
 				<view class="flex1">
 					<view>{{item.name}}</view>
@@ -111,6 +113,7 @@
 		border-radius: 6px;
 		padding: 10px;
 		margin-bottom: 10px;
+		position: relative;
 	}
 	.sp-bottom{
 		align-items: flex-end;
@@ -155,5 +158,32 @@
 		position: absolute;
 		top: 0;
 		right: 0;
+	}
+	.sp-list-img{
+		position: relative;
+	}
+	.atric{
+		position: absolute;
+		left: 10px;
+		top: 0;
+		width: 25px;
+		background-color: #ff7a01;
+		border-bottom-left-radius: 14px;
+		border-bottom-right-radius: 14px;
+		font-size: 10px;
+		color: #fff;
+		text-align: center;
+		padding-bottom: 6px;
+		z-index: 10;
+	}
+	.full-des{
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		background-color: rgba(236,177,41,.7);
+		font-size: 10px;
+		color: #fff;
+		text-align: center;
+		padding: 3px 10px;
 	}
 </style>

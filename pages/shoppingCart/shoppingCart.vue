@@ -40,7 +40,7 @@
 			<view class="nav-tuijan flex just-center" v-if="dataList.length>0">
 				<view>为您推荐</view>
 			</view>
-			<shoppingList :dataList="dataList" />
+			<shoppingList :dataList="dataList" @onPress="gotoDetails" />
 		</view>
 		<view class="nav-bottom">
 			<view class="flex just-between cart pad-center-10 align-center">
@@ -80,11 +80,22 @@
 		},
 		onLoad() {
 			if(!getApp().globalData.token){
-				return uni.showToast({title: '请先授权',image:'../../static/image/error.png'});
+				return uni.showModal({
+				    title: '提示',
+				    content: '请先登录',
+				    success: function (res) {
+				        if (res.confirm) {
+				            uni.switchTab({
+				            	url:'../my/my'
+				            })
+				        } 
+				    }
+				});
 			}
 			uni.showLoading({title:"加载中..."});
 		},
 		onShow() {
+			if(!getApp().globalData.token) return;
 			this.getShoppingList(true);
 		},
 		methods: {

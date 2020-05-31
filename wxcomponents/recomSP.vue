@@ -9,9 +9,10 @@
 		    					<view class="atric" v-if="item2.is_business==1">商家直供</view>
 		    					<view class="list-img">
 		    						<image :src="item2.image" mode="aspectFill"></image>
+									<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 		    					</view>
 		    					<view class="list-text">
-		    						<view class="list-title only-line-2">{{item2.name}}</view>
+		    						<view class="list-title only-line-1">{{item2.name}}</view>
 		    						<view class="list-subtitle only-line-2">{{item2.note}}</view>
 		    						<view class="list-slogo" v-if="item2.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 		    					</view>
@@ -100,9 +101,13 @@
 		color: #fff;
 		text-align: center;
 		padding-bottom: 6px;
+		z-index: 10;
 	}
 	.list-text{
 		padding: 10px;
+	}
+	.list-img{
+		position: relative;
 	}
 	.list-img image{
 		width: 220rpx;
@@ -121,5 +126,15 @@
 	}
 	.list-title{
 		margin-bottom: 5px;
+	}
+	.full-des{
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		background-color: rgba(236,177,41,.7);
+		font-size: 10px;
+		color: #fff;
+		text-align: center;
+		padding: 3px 10px;
 	}
 </style>

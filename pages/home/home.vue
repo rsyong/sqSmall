@@ -38,7 +38,7 @@
 		</view>
 		<!-- 限时秒杀 -->
 		<view class="seckill mag-center-10">
-			<swiper class="swiper-box-miao" circular autoplay interval="4000" :display-multiple-items="miaoshaList.length>1 ? 2 : 1" next-margin="170rpx">
+			<swiper  v-if="miaoshaList.length>0" class="swiper-box-miao" circular autoplay interval="4000" :display-multiple-items="miaoshaList.length>1 ? 2 : 1" next-margin="170rpx">
 			    <swiper-item v-for="(item ,index) in miaoshaList" :key="index">
 			        <view class="swiper-item-miao" @click="gotoDetails(item)">
 			            <view class="sp-list">
@@ -54,12 +54,14 @@
 			        </view>
 			    </swiper-item>
 			</swiper>
+			<myNull v-if="miaoshaList.length==0" />
 		</view>
 		<!-- 分类 -->
 		<van-tabs :active="active" @change="onChange" color="#F9BC2D">
 			<van-tab :title="item.name" v-for="(item,index) in typeList" :key="index"></van-tab>
 		</van-tabs>
 		<shoppingList :dataList="shoppingList" @onPress="gotoDetails" />
+		<myNull v-if="shoppingList.length==0" />
 	</view>
 </template>
 
@@ -92,7 +94,12 @@
 		},
 		methods: {
 			setTabBarBadge(){
-				if(getApp().globalData.goodsAllNum==0) return;
+				if(getApp().globalData.goodsAllNum==0) {
+					uni.removeTabBarBadge({
+						index:3
+					})
+					return
+				};
 				uni.setTabBarBadge({
 					index:3,
 					text:getApp().globalData.goodsAllNum+''
@@ -145,7 +152,7 @@
 					uni.stopPullDownRefresh()
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//获取商品列表
@@ -168,7 +175,7 @@
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//下拉加载更多

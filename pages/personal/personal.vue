@@ -35,9 +35,12 @@
 					<input type="number" placeholder="请录入" v-model="myuserInfo.shop_mobile" class="my-input" maxlength="11" />
 				</template>
 			</uni-list-item>
-			<uni-list-item title="选择地址" :show-arrow="false" @click="changeAdess">
+			<uni-list-item title="选择地址" :show-arrow="false">
 				<template v-slot:right="">
-					<view class="my-input">{{myuserInfo.name || '选择地址'}}</view>
+					<picker @change="box" mode="region">
+						<view>{{data}}</view>
+					</picker>
+					<!-- <view class="my-input">{{myuserInfo.name || '选择地址'}}</view> -->
 				</template>
 			</uni-list-item>
 			<textarea  v-model="myuserInfo.shop_address" class="textarea" placeholder="店铺详细地址如街道、门牌号、小区等" maxlength="80"></textarea>
@@ -53,17 +56,23 @@
 
 <script>
 	import {rqusetFile} from '../../common/js/request.js'
+	let adrssInfo='选择地址'
 	export default {
 		data() {
 			return {
 				myuserInfo:{},
-				oldMyuserInfo:{}
+				oldMyuserInfo:{},
+				data: adrssInfo
 			}
 		},
 		onLoad(){
 			this.getInfo();
 		},
 		methods: {
+			box: function(e) {
+				this.data = e.target.value.join('')
+				this.myuserInfo.shop_address=this.data+this.myuserInfo.shop_address;
+			},
 			//选择头像
 			getUserImg(){
 				uni.chooseImage({
@@ -85,7 +94,7 @@
 					this.myuserInfo.avatar=res.path;
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//改变地址
@@ -103,8 +112,36 @@
 			},
 			//认证
 			toCertification(){
+				let isphone=/^1(3|4|5|6|7|8|9)\d{9}$/;
+				if(!this.myuserInfo.wechat_name){
+					return uni.showToast({title: '请输入用户名',image:'../../static/image/error.png'});
+				}
+				if(!this.myuserInfo.mobile){
+					return uni.showToast({title: '请输入绑定手机号',image:'../../static/image/error.png'});
+				}
+				if(!isphone.test(this.myuserInfo.mobile)){
+					return uni.showToast({title: '绑定手机号格式有误',image:'../../static/image/error.png'});
+				}
+				if(!this.myuserInfo.mobile){
+					return uni.showToast({title: '请输入绑定手机号',image:'../../static/image/error.png'});
+				}
+				if(!this.myuserInfo.shop_name){
+					return uni.showToast({title: '请输入店铺名称',image:'../../static/image/error.png'});
+				}
+				if(!this.myuserInfo.shop_nickname){
+					return uni.showToast({title: '请输入联系人',image:'../../static/image/error.png'});
+				}
+				if(!this.myuserInfo.shop_mobile){
+					return uni.showToast({title: '请输入联系人手机号',image:'../../static/image/error.png'});
+				}
+				if(!isphone.test(this.myuserInfo.shop_mobile)){
+					return uni.showToast({title: '绑定手机号格式有误',image:'../../static/image/error.png'});
+				}
+				if(!this.myuserInfo.shop_address){
+					return uni.showToast({title: '请输入详细地址',image:'../../static/image/error.png'});
+				}
 				if(JSON.stringify(this.myuserInfo)==JSON.stringify(this.oldMyuserInfo)){
-					uni.showToast({title: '请修改资料'});
+					uni.showToast({title: '请修改资料',image:'../../static/image/error.png'});
 					return;
 				}
 				uni.showLoading({title:"加载中..."});
@@ -117,7 +154,7 @@
 					}
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//获取详细信息
@@ -131,7 +168,7 @@
 					this.oldMyuserInfo={...res};
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//进入商场

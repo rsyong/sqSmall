@@ -20,8 +20,9 @@
 						</view>
 					</view>
 				</view>
+				<myNull v-if="goodsList.length==0" />
 			</view>
-			<view class="nav-tuijan flex just-center">
+			<view class="nav-tuijan flex just-center" v-if="shoppingList.length>0">
 				<view>为您推荐</view>
 			</view>
 			<shoppingList :dataList="shoppingList" @onPress="gotoDetails" />
@@ -44,6 +45,9 @@
 		},
 		onLoad() {
 			this.getShoppingList();
+			if(!getApp().globalData.token){
+				return uni.showToast({title: '请先授权',image:'../../static/image/error.png'});
+			}
 			this.getRecommendList();
 		},
 		methods: {
@@ -64,7 +68,7 @@
 					uni.stopPullDownRefresh()
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//获取商品列表
@@ -78,7 +82,7 @@
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//下拉刷新

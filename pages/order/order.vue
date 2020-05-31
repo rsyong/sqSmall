@@ -27,6 +27,7 @@
 					</view>
 				</view>
 			</view>
+			<myNull v-if="shoppingList.length==0" />
 		</view>
 	</view>
 </template>
@@ -94,7 +95,7 @@
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//下拉加载更多
@@ -113,7 +114,7 @@
 					uni.showToast({title: "取消成功"});
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//支付
@@ -135,7 +136,7 @@
 							uni.showToast({title: "支付成功"});
 						},
 						fail: (err) => {
-							uni.showToast({title: "支付失败"});
+							uni.showToast({title: err,image:'../../static/image/error.png'});
 						},
 						complete: () => {
 							uni.hideLoading();
@@ -143,7 +144,7 @@
 					})
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 		}

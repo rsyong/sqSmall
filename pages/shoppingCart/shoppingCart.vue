@@ -11,10 +11,16 @@
 						<image :src="item.image" mode="aspectFill"></image>
 					</view>
 					<view class="flex flex-column just-between">
-						<view class="flex1 only-line-2">{{item.name}}</view>
+						<view class="flex">
+							<view class="flex1 only-line-2">{{item.name}}</view>
+							<view class="iconfont icon-shanchu my-icon" @click.stop="todetele(item)"></view>
+						</view>
+						
 						<view class="flex sp-list-weight align-center">{{item.type_note}}</view>
 						<view class="flex just-between align-center">
-							<stars :starNumber="item.star" />
+							<view>
+								<stars :starNumber="item.star" />
+							</view>
 							<view class="flex align-center add-bottoms">
 								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50" @click.stop="removeNum(item)">
 									<uni-icons type="minus-filled" size="23" color="#F0B426"></uni-icons>
@@ -28,9 +34,10 @@
 					</view>
 				</view>
 			</view>
+			<myNull v-if="goodsList.length==0" />
 		</view>
 		<view>
-			<view class="nav-tuijan flex just-center">
+			<view class="nav-tuijan flex just-center" v-if="dataList.length>0">
 				<view>为您推荐</view>
 			</view>
 			<shoppingList :dataList="dataList" />
@@ -72,6 +79,9 @@
 			}
 		},
 		onLoad() {
+			if(!getApp().globalData.token){
+				return uni.showToast({title: '请先授权',image:'../../static/image/error.png'});
+			}
 			uni.showLoading({title:"加载中..."});
 		},
 		onShow() {
@@ -115,6 +125,9 @@
 					size:this.size
 				},{method:'GET'}).then(res=>{
 					uni.hideLoading();
+					res.cart_list.forEach(item=>{
+						item.checked=this.AllCheck;
+					})
 					if(noConcat){
 						this.goodsList=res.cart_list;
 					}else{
@@ -124,40 +137,51 @@
 						this.dataList=res.recommend_list;
 					}
 					getApp().globalData.goodsAllNum=getAllNum(res.cart_list);
+					if(getApp().globalData.goodsAllNum==0) {
+						uni.removeTabBarBadge({
+							index:3
+						})
+						return;
+					};
 					uni.setTabBarBadge({
 						index:3,
-						text:getApp().globalData.goodsAllNum
+						text:getApp().globalData.goodsAllNum+''
 					})
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//现在结算
 			bugsGoods(){
-				let obj={};
+				let obj=[];
 				this.goodsList.forEach(item=>{
 					if(item.checked){
-						obj['cart['+item.id+']']=item.num;
+						obj.push({
+							id:item.id,
+							num:item.num
+						})
 					}
 				})
-				console.log(obj)
-				if(JSON.stringify(obj) == "{}"){
-					return uni.showToast({title: '请选择商品'});
+				if(obj.length==0){
+					return uni.showToast({title: '请选择商品',image:'../../static/image/error.png'});
 				}
 				uni.showLoading({title:"加载中..."});
-				this.request(this.baseURL+"/api/order/placeOrder",obj,{method:'POST'}).then(res=>{
+				this.request(this.baseURL+"/api/order/placeOrder",{
+					cart:obj
+				},{method:'POST'}).then(res=>{
 					uni.hideLoading();
-					uni.showToast({title: '加入成功'});
+					uni.showToast({title: '下单成功'});
+					this.getShoppingList(true);
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//更新商品数量
 			updateCars(item,status){
 				if(!getApp().globalData.token){
-					uni.showToast({title: "请登录!"});
+					uni.showToast({title: "请登录!",image:'../../static/image/error.png'});
 					uni.switchTab({
 						url:'../my/my'
 					})
@@ -182,7 +206,21 @@
 					})
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
+				})
+			},
+			//删除
+			todetele(item){
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+"/api/cart/updateCart",{
+					id:item.id,
+					num:0
+				},{method:'POST'}).then(res=>{
+					uni.hideLoading();
+					this.getShoppingList(true);
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			}
 		}
@@ -240,5 +278,9 @@
 	}
 	.hove-bg8{
 		background-color: rgba(0,0,0,.1);
+	}
+	.my-icon{
+		margin-left: 10px;
+		color: #A4A4A4;
 	}
 </style>

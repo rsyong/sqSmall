@@ -81,7 +81,7 @@
 				    },
 					fail:err=>{
 						uni.hideLoading();
-						uni.showToast({title: '登录失败了'});
+						uni.showToast({title: '登录失败了',image:'../../static/image/error.png'});
 					}
 				});
 			},
@@ -131,7 +131,7 @@
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: '登录失败了',image:'../../static/image/error.png'});
 				})
 			},
 			//拨打电话
@@ -157,7 +157,7 @@
 						url:'../personal/personal'
 					})
 				}else{
-					uni.showToast({title: "请先授权！"});
+					uni.showToast({title: "请先授权！",image:'../../static/image/error.png'});
 				}
 			},
 			//跳转订单
@@ -176,7 +176,7 @@
 					this.myuserInfo=res;
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 		}

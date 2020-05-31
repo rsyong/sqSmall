@@ -15,6 +15,7 @@
 				<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家只供</text> 万家果品</view>
 			</view>
 		</view>
+		<myNull v-if="mydata.length==0" />
 	</view>
 </template>
 

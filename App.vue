@@ -6,7 +6,8 @@ export default {
 		appSecret:'8514346960e863e5748524da781cb984',
 		myuserInfo:{},
 		token:'',
-		goodsAllNum:0
+		goodsAllNum:0,
+		userInfo:{}
 	},
 	data() {
 		return {
@@ -69,6 +70,7 @@ export default {
 				this.globalData.token=res.token;
 				uni.hideLoading();
 				this.getShoppingList();
+				this.getInfo();
 			}).catch(err=>{
 				uni.hideLoading();
 				uni.showToast({title: err});
@@ -88,6 +90,18 @@ export default {
 				})
 			}).catch(err=>{
 				
+			})
+		},
+		//获取详细信息
+		getInfo(){
+			this.request(this.baseURL+"/api/personal/getUserInfo",{
+				
+			},{method:'GET'}).then(res=>{
+				uni.hideLoading();
+				this.globalData.userInfo=res;
+			}).catch(err=>{
+				uni.hideLoading();
+				uni.showToast({title: err});
 			})
 		},
 	}
@@ -142,6 +156,9 @@ export default {
 	.mb-10{
 		margin-bottom: 10px;
 	}
+	.mr-10{
+		margin-right: 10px;
+	}
 	.only-line-1{
 		max-width: 100%;
 		white-space: nowrap;
@@ -155,6 +172,21 @@ export default {
 		display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
 		-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
 		-webkit-line-clamp: 2; /** 显示的行数 **/
+	}
+	.my-color{
+		color: #E4A711;
+	}
+	.my-background{
+		background-color: #E4A711;
+		background: linear-gradient(to right,#F6C252,#E7A40D);
+	}
+	.my-button{
+		color: #fff;
+		border-radius: 25px;
+		font-size: 14px;
+	}
+	button:after{
+		border: none;
 	}
 	
 	.uni-navbar--border{

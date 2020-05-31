@@ -7,7 +7,7 @@
 		<view class="content">
 			<view class="sp-list flex just-between" v-for="(item,index) in shoppingList" :key="index" @click.stop="gotoDetails(item)">
 				<view class="sp-list-img">
-					<image :src="item.image"></image>
+					<image :src="item.image" mode="aspectFill"></image>
 				</view>
 				<view class="flex1">
 					<view>{{item.name}}</view>
@@ -18,11 +18,18 @@
 						<button class="sp-my-bottom" type="default" @click.stop="goBuy(item)">
 							抢购
 							<view class="progress">
-								<progress :percent="item.sale_num/item.num.toFixed(1)" show-info stroke-width="3" border-radius="10" font-size="8" activeColor="#FEFFF7" backgroundColor="#F9B6A3" active />
+								<progress :percent="item.sale_num/item.num.toFixed(1)*100" show-info stroke-width="3" border-radius="10" font-size="8" activeColor="#FEFFF7" backgroundColor="#F9B6A3" active />
 							</view>
 						</button>
 					</view>
 				</view>
+			</view>
+			<myNull v-if="shoppingList.length==0" />
+		</view>
+		<view class="fi-cart">
+			<view class="iconfont icon-cart_icon my-icon"></view>
+			<view class="badge">
+				<uni-badge :text="goodsAllNum" type="error" size='small'></uni-badge>
 			</view>
 		</view>
 	</view>
@@ -35,6 +42,7 @@
 				page:1,
 				size:10,
 				shoppingList:[],
+				goodsAllNum:getApp().globalData.goodsAllNum
 			}
 		},
 		onLoad(){
@@ -51,7 +59,7 @@
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//跳转
@@ -60,8 +68,30 @@
 					url:"../shoppingDetails/shoppingDetails?id="+item.id
 				})
 			},
-			goBuy(){
-				
+			goBuy(item){
+				if(getApp().globalData.userInfo.is_auth!=1){
+					uni.showToast({title: "请先认证!",image:'../../static/image/error.png'});
+					uni.switchTab({
+						url:'../my/my'
+					})
+					return;
+				}
+				if(item.sale_num==item.num){
+					return uni.showToast({title: "当前已被抢完!",image:'../../static/image/error.png'});
+				}
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+"/api/goods/addCart",{
+					id:item.id,
+					num:1
+				},{method:'POST'}).then(res=>{
+					uni.hideLoading();
+					getApp().globalData.goodsAllNum++;
+					this.goodsAllNum=getApp().globalData.goodsAllNum;
+					uni.showToast({title: res});
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err,image:'../../static/image/error.png'});
+				})
 			},
 			onReachBottom(){
 				this.page++;
@@ -104,5 +134,26 @@
 	}
 	.sp-list-weight{
 		margin: 3px 0;
+	}
+	.fi-cart{
+		position: fixed;
+		left: 30px;
+		bottom: 100px;
+		width: 40px;
+		height: 40px;
+		background-color: rgba(0,0,0,.2);
+		border-radius: 50%;
+		text-align: center;
+		line-height: 40px;
+		z-index: 1000;
+	}
+	.my-icon{
+		font-size: 20px;
+		color: #fff;
+	}
+	.badge{
+		position: absolute;
+		top: 0;
+		right: 0;
 	}
 </style>

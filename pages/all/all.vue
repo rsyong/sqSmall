@@ -30,6 +30,7 @@
 							<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 						</view>
 					</view>
+					<myNull v-if="rightData.length==0" />
 				</scroll-view>
 			</view>
 		</view>
@@ -84,7 +85,7 @@
 					}
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//下拉加载更多
@@ -100,7 +101,7 @@
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			}
 		}

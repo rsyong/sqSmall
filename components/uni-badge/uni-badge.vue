@@ -1,5 +1,5 @@
 <template>
-	<text v-if="text" :class="inverted ? 'uni-badge--' + type + ' uni-badge--' + size + ' uni-badge--' + type + '-inverted' : 'uni-badge--' + type + ' uni-badge--' + size" :style="badgeStyle" class="uni-badge" @click="onClick()">{{ text }}</text>
+	<text v-if="text" :class="inverted ? 'uni-badge--' + type + ' uni-badge--' + size + ' uni-badge--' + type + '-inverted' : 'uni-badge--' + type + ' uni-badge--' + size" class="uni-badge" @click="onClick()">{{ text }}</text>
 </template>
 
 <script>
@@ -46,17 +46,9 @@
 				badgeStyle: ''
 			};
 		},
-		watch: {
-			text() {
-				this.setStyle()
-			}
-		},
-		mounted() {
-			this.setStyle()
-		},
 		methods: {
 			setStyle() {
-				this.badgeStyle = `width: ${String(this.text).length * 8 + 12}px`
+				// this.badgeStyle = `width: ${String(this.text).length * 8 + 12}px`
 			},
 			onClick() {
 				this.$emit('click');

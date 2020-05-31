@@ -103,15 +103,15 @@
 					}
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../../static/image/error.png'});
 				})
 			},
 			//提交认证
 			toCertification(){
 				let Alldata={...this.Alldata};
-				if(!Alldata.code) return uni.showToast({title: "请输入邀请码"});
-				if(Alldata.topImg==topImg) return uni.showToast({title: "请上传门头照片"});
-				if(Alldata.bottomImg==bottomImg) return uni.showToast({title: "请上传店内照片"});
+				if(!Alldata.code) return  uni.showToast({title: "请输入邀请码",image:'../../../static/image/error.png'});
+				if(Alldata.topImg==topImg) return uni.showToast({title: "请上传门头照片",image:'../../../static/image/error.png'});
+				if(Alldata.bottomImg==bottomImg) return uni.showToast({title: "请上传店内照片",image:'../../../static/image/error.png'});
 				Alldata.image=Alldata.topImg;
 				Alldata.images=[Alldata.bottomImg];
 				uni.showLoading({title:"加载中..."});
@@ -122,7 +122,7 @@
 					})
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../../static/image/error.png'});
 				})
 			}
 		}

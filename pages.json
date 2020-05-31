@@ -64,12 +64,20 @@
             "path" : "pages/personal/certification/certification",
             "style" : {}
         }
+        ,{
+            "path" : "pages/webView/webView",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/my/address/address",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationStyle":"custom",
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#007AFF",
+		"navigationBarTitleText": "万家果品",
+		"navigationBarBackgroundColor": "#000",
 		"backgroundColor": "#FFFFFF"
 	},
 	"tabBar":{

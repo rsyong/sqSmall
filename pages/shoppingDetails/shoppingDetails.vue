@@ -89,7 +89,7 @@
 			<view class="buy-buttom-content">
 				<view class="flex just-between align-center">
 					<view class="carts flex1">
-						<view class="iconfont icon-cart_icon">
+						<view class="iconfont icon-cart_icon" @click="toSP">
 							<view class="carts-dost">{{goodsAllNum}}</view>
 						</view>
 					</view>
@@ -156,13 +156,13 @@
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//加
 			addNum(){
 				if(this.goodNum>=this.Alldata.stock){
-					uni.showToast({title: "已超出最大库存"});
+					uni.showToast({title: "已超出最大库存",image:'../../static/image/error.png'});
 					return;
 				}
 				this.goodNum++;
@@ -172,11 +172,13 @@
 				this.goodNum--;
 			},
 			addCars(){
-				if(!getApp().globalData.token){
-					uni.showToast({title: "请登录!"});
-					uni.switchTab({
-						url:'../my/my'
-					})
+				if(getApp().globalData.userInfo.is_auth!=1){
+					uni.showToast({title: '请先认证!',image:'../../static/image/error.png'});
+					setTimeout(()=>{
+						uni.switchTab({
+							url:'../my/my'
+						})
+					},1500)
 					return;
 				}
 				uni.showLoading({title:"加载中..."});
@@ -190,7 +192,12 @@
 					uni.showToast({title: res});
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
+				})
+			},
+			toSP(){
+				uni.switchTab({
+					url:'../shoppingCart/shoppingCart'
 				})
 			}
 		}

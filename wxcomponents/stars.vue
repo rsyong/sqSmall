@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="flex">
-			<view v-for="(item,index) in starNumber" :key="index" class="iconfont icon-xingxing my-icon"></view>
+			<view v-for="(item,index) in starNumber" :key="index" class="iconfont icon-xingxing my-icons"></view>
 		</view>
 	</view>
 </template>
@@ -23,7 +23,7 @@
 </script>
 
 <style>
-	.my-icon{
+	.my-icons{
 		font-size: 8px;
 		color: #F9663D;
 	}

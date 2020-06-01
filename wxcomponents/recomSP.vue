@@ -77,7 +77,7 @@
 <style>
 	.swiper-box2{
 		height: 900rpx;
-		min-height: 400px;
+		min-height: 450px;
 	}
 	.swiper-item2{
 		flex: 1;

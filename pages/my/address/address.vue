@@ -6,10 +6,10 @@
 				<view class="iconfont icon-daishouhuo my-adress-icon"></view>
 			</view>
 			<view class="flex1">
-				<view>四川省南充市</view>
+				<view>{{Alldata.shop_city || ''}}{{Alldata.shop_address || ''}}</view>
 				<view class="flex just-between pople">
-					<view>so果</view>
-					<view>程良为 13890890898</view>
+					<view>{{Alldata.shop_nickname || ''}}</view>
+					<view>{{Alldata.wechat_name || ''}} {{Alldata.shop_mobile || ''}}</view>
 				</view>
 			</view>
 		</view>
@@ -21,10 +21,10 @@
 			<view>配送日期：5月29日</view>
 			<view class="flex just-between align-center mt-10 mb-10">
 				<view class="sp-list-img">
-					<image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=372372667,1126179944&fm=26&gp=0.jpg" mode="aspectFill"></image>
+					<image v-if="Alldata.goods_list.length>0" :src="Alldata.goods_list[0].image" mode="aspectFill"></image>
 				</view>
 				<view>
-					<text class="mr-10">共1种</text>
+					<text class="mr-10">共{{Alldata.goods_list.length}}种</text>
 					<uni-icons type="arrowright"></uni-icons>
 				</view>
 			</view>
@@ -35,7 +35,8 @@
 				</view>
 				<view class="flex just-between list">
 					<view>带货费</view>
-					<view class="monye my-color">￥193.64</view>
+					<view class="monye my-color" v-if="Alldata.freight">{{Alldata.freight}}</view>
+					<view v-else style="color: #888;">待发货可见</view>
 				</view>
 				<view class="flex just-between list">
 					<view>筐押金</view>
@@ -47,14 +48,14 @@
 				</view>
 				<view class="flex just-between list">
 					<view>合计</view>
-					<view class="monye my-color">￥203</view>
+					<view class="monye my-color">￥{{Alldata.total_price}}</view>
 				</view>
 			</view>
 		</view>
 		<view class="my-bottoms">
 			<view class="my-bottom-ceontent content flex just-between align-center">
 				<view class="my-color">
-					￥<text class="monye">203.00</text>
+					￥<text class="monye">{{Alldata.total_price}}</text>
 				</view>
 				<view>
 					<button class="my-background my-button">提交订单</button>
@@ -68,11 +69,33 @@
 	export default {
 		data() {
 			return {
-				
+				dataInfo:[],
+				Alldata:{
+					goods_list:[]
+				}
+			}
+		},
+		onLoad() {
+			this.dataInfo=getApp().globalData.orderInfo;
+			if(!this.dataInfo instanceof Array || this.dataInfo.length==0){
+				return uni.showToast({title: '商品列表为空',image:'../../../static/image/error.png'});
+			}else{
+				this.getInfo()
 			}
 		},
 		methods: {
-			
+			getInfo(){
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+"/api/order/placeOrderMessage",{
+					cart:this.dataInfo
+				},{method:'POST'}).then(res=>{
+					uni.hideLoading();
+					this.Alldata=res;
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err,image:'../../../static/image/error.png'});
+				})
+			}
 		}
 	}
 </script>

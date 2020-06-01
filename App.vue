@@ -7,6 +7,7 @@ export default {
 		token:'', //全局token
 		goodsAllNum:0, //全局购物车数量
 		userInfo:{}, //全局用户信息 后台返回
+		orderInfo:[], //购物车下单信息
 	},
 	data() {
 		return {

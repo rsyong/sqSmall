@@ -177,6 +177,11 @@
 				if(obj.length==0){
 					return uni.showToast({title: '请选择商品',image:'../../static/image/error.png'});
 				}
+				getApp().globalData.orderInfo=obj;
+				uni.navigateTo({
+					url:'../my/address/address'
+				})
+				return;
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/order/placeOrder",{
 					cart:obj

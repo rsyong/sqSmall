@@ -53,63 +53,19 @@
 			return {
 				provider:'',
 				myuserInfo:{},
-				loginRes:''
+				loginRes:'',
 			}
 		},
 		onLoad(){
 			if(getApp().globalData.token){
-				if(getApp().globalData.userInfo){
+				if(getApp().globalData.userInfo.is_auth==1){
 					return this.myuserInfo=getApp().globalData.userInfo
 				}else{
 					return this.getInfo();
 				}
-			}else{
-				//获取设备信息
-				uni.getProvider({
-				    service: 'oauth',
-				    success:(res) => {
-						this.provider=res.provider[0];
-						this.login();
-				    }
-				});
 			}
 		},
 		methods: {
-			//登录
-			login(){
-				uni.showLoading({title:"加载中..."});
-				uni.login({
-				    provider: this.provider,
-				    success: (loginRes) => {
-						this.loginRes=loginRes;
-						this.getUserInfo();
-				    }
-				});
-			},
-			// 查看是否授权
-			getUserInfo(){
-				uni.getSetting({
-					success:(res)=>{
-						if (res.authSetting['scope.userInfo']) {
-						  // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-						  uni.getUserInfo({
-							success: (res) => {
-								this.myuserInfo=res.userInfo;
-								this.getOpenId(res);
-							},
-							fail:()=>{
-								uni.hideLoading();
-							}
-						  })
-						}else{
-							uni.hideLoading();
-						}
-					},
-					fail:()=>{
-						uni.hideLoading();
-					}
-				})
-			},
 			//用户回调
 			userInfo(e){
 				if(getApp().globalData.token){
@@ -122,14 +78,17 @@
 				}
 				if(e.detail.errMsg=="getUserInfo:fail auth deny") return;
 				// this.myuserInfo=e.detail.userInfo;
-				this.getOpenId(e.detail);
+				uni.showLoading({title:"加载中..."});
+				uni.login({
+				    provider: this.provider,
+				    success: (loginRes) => {
+						this.loginRes=loginRes;
+						this.getOpenId(e.detail);
+				    }
+				});
 			},
 			//获取token
 			getOpenId(data){
-				if(getApp().globalData.token) {
-					uni.hideLoading();
-					return;
-				};
 				this.request(this.baseURL+'/api/login/login',{
 					code:this.loginRes.code,
 					iv:data.iv,
@@ -137,6 +96,20 @@
 				},{method:'POST'}).then(res=>{
 					getApp().globalData.token=res.token;
 					this.getInfo();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err,image:'../../static/image/error.png'});
+				})
+			},
+			//获取详细信息
+			getInfo(){
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+"/api/personal/getUserInfo",{
+					
+				},{method:'GET'}).then(res=>{
+					uni.hideLoading();
+					this.myuserInfo=res;
+					getApp().globalData.userInfo=res;
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err,image:'../../static/image/error.png'});
@@ -172,20 +145,6 @@
 			toOrder(pageNum=0){
 				uni.navigateTo({
 					url:'../order/order?pageNum='+pageNum
-				})
-			},
-			//获取详细信息
-			getInfo(){
-				uni.showLoading({title:"加载中..."});
-				this.request(this.baseURL+"/api/personal/getUserInfo",{
-					
-				},{method:'GET'}).then(res=>{
-					uni.hideLoading();
-					this.myuserInfo=res;
-					getApp().globalData.userInfo=res;
-				}).catch(err=>{
-					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 		}

@@ -17,7 +17,7 @@
 						<view class="atric" v-if="item.is_business==1">商家直供</view>
 						<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 						<view class="sp-list-img">
-							<image :src="item.image" mode="aspectFill"></image>
+							<image :src="item.image" mode="aspectFill" class="shadow-1"></image>
 						</view>
 						<view>
 							<view class="only-line-1">{{item.name}}</view>
@@ -143,7 +143,7 @@
 	.active{
 		color: #EFBB24;
 		background-color: #fff;
-		font-weight: 600;
+		font-weight: bold;
 	}
 	.atric{
 		position: absolute;

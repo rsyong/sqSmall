@@ -21,9 +21,9 @@
 			<stars :starNumber="Alldata.star" />
 			<view class="sp-title mb-5">{{Alldata.name}}</view>
 			<view class="sp-list-weight sp-sun-title">{{Alldata.note}}</view>
-			<!-- <view class="sp-list-weight mb-5">{{Alldata.type_note}}</view> -->
+			<view class="sp-list-weight mb-5">约{{Alldata.hair}}斤 <text class="my-color small-monye">￥{{Alldata | manyJin}}</text>/斤</view>
 			<view class="flex just-between">
-				<view class="mao-weight">{{Alldata.type_note}}</view>
+				<view class="mao-weight">毛重约{{Alldata.hair}}斤 净重约{{Alldata.weight}}斤</view>
 				<view class="mao-weight">{{Alldata.type}}</view>
 			</view>
 			<view v-if="Alldata.price" class="price mt-10">￥<text class="price-monye">{{Alldata.price}}</text></view>
@@ -71,8 +71,14 @@
 			</view>
 		</view>
 		<view class="content">
-			<view class="nav-tuijan flex just-center mb-10">
-				<view>为您推荐</view>
+			<view class="nav-tuijan flex just-center align-center mb-10">
+				<view class="dots-1"></view>
+				<view class="dots-2"></view>
+				<view class="dots-3"></view>
+				<view class="nav-tuijan-title">为您推荐</view>
+				<view class="dots-3"></view>
+				<view class="dots-2"></view>
+				<view class="dots-1"></view>
 			</view>
 			<recomSP @onPress="gotoDetails" />
 		</view>
@@ -422,5 +428,8 @@
 		position: absolute;
 		right: 10px;
 		top: 10px;
+	}
+	.small-monye{
+		margin-left: 10px;
 	}
 </style>

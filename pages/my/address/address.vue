@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<uni-nav-bar @clickLeft="goBack" title="提交订单" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
-		<view class="my-adress flex">
+		<view class="my-adress flex align-center">
 			<view class="mr-10">
 				<view class="iconfont icon-daishouhuo my-adress-icon"></view>
 			</view>
@@ -18,34 +18,30 @@
 			<view>货到付款</view>
 		</view>
 		<view class="content mt-10">
-			<view>配送日期：5月29日</view>
-			<view class="flex just-between align-center mt-10 mb-10">
-				<view class="sp-list-img">
-					<image v-if="Alldata.goods_list.length>0" :src="Alldata.goods_list[0].image" mode="aspectFill"></image>
+			<view>配送日期：{{Alldata.delivery_date}}</view>
+			<scroll-view scroll-x enable-flex class="flex mt-10 scroll-view">
+				<view v-for="(item,index) in Alldata.goods_list" @click="gotoDetails(item)">
+					<view class="sp-list-img">
+						<image :src="item.image" mode="aspectFill" class="shadow"></image>
+					</view>
+					<view class="mt-10 small-font">价格:<text class="my-color font-lg">￥{{item.price}}</text></view>
+					<view class="small-font">数量: <text class="my-color font-lg"> x{{item.num}}</text></view>
 				</view>
-				<view>
-					<text class="mr-10">共{{Alldata.goods_list.length}}种</text>
-					<uni-icons type="arrowright"></uni-icons>
-				</view>
-			</view>
-			<view>
-				<view class="flex just-between list">
-					<view >商品价格</view>
-					<view class="monye my-color">￥193.64</view>
-				</view>
+			</scroll-view>
+			<view class="mt-10">
 				<view class="flex just-between list">
 					<view>带货费</view>
 					<view class="monye my-color" v-if="Alldata.freight">{{Alldata.freight}}</view>
-					<view v-else style="color: #888;">待发货可见</view>
+					<view v-else style="color: #888;font-size: 12px;">待发货可见</view>
 				</view>
-				<view class="flex just-between list">
+				<!-- <view class="flex just-between list">
 					<view>筐押金</view>
 					<view class="monye my-color">￥193.64</view>
 				</view>
 				<view class="flex just-between list">
 					<view>退筐抵扣</view>
 					<view class="monye my-color">-￥0.00</view>
-				</view>
+				</view> -->
 				<view class="flex just-between list">
 					<view>合计</view>
 					<view class="monye my-color">￥{{Alldata.total_price}}</view>
@@ -58,7 +54,7 @@
 					￥<text class="monye">{{Alldata.total_price}}</text>
 				</view>
 				<view>
-					<button class="my-background my-button">提交订单</button>
+					<button class="my-background my-button shadow" @click="bugsGoods">提交订单</button>
 				</view>
 			</view>
 		</view>
@@ -95,7 +91,31 @@
 					uni.hideLoading();
 					uni.showToast({title: err,image:'../../../static/image/error.png'});
 				})
-			}
+			},
+			//现在结算
+			bugsGoods(){
+				if(this.dataInfo.length==0){
+					return uni.showToast({title: '请选择商品',image:'../../../static/image/error.png'});
+				}
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+"/api/order/placeOrder",{
+					cart:this.dataInfo
+				},{method:'POST'}).then(res=>{
+					uni.hideLoading();
+					uni.showToast({title: '下单成功'});
+					setTimeout(()=>{
+						uni.navigateBack({});
+					},1000)
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err,image:'../../../static/image/error.png'});
+				})
+			},
+			gotoDetails(item){
+				uni.navigateTo({
+					url:"../../shoppingDetails/shoppingDetails?id="+item.id
+				})
+			},
 		}
 	}
 </script>
@@ -138,5 +158,16 @@
 	}
 	.my-bottoms .monye{
 		font-size: 18px;
+	}
+	.small-font{
+		font-size: 12px;
+		color: #888;
+	}
+	.font-lg{
+		font-size: 15px;
+	}
+	.scroll-view{
+		max-height: 380rpx;
+		border-bottom: 1px solid #ECECEC;
 	}
 </style>

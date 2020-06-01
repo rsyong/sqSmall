@@ -12,6 +12,15 @@ Vue.prototype.baseURL='http://106.55.3.190';
 Vue.prototype.baseURLImg='http://106.55.3.190';
 Vue.component("stars",stars);
 Vue.component("myNull",myNull);
+
+Vue.filter('manyJin', function (value) {
+	if (!value) return '';
+	let price=Number(value.price || 0);
+	let hair=Number(value.hair || 0);
+	let monye=(price/hair).toFixed(2);
+	return monye;
+})
+
 App.mpType = 'app'
 
 const app = new Vue({

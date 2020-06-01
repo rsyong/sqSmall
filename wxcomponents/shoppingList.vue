@@ -1,11 +1,12 @@
 <template>
 	<view class="flex just-between container">
 		<view class="left">
-			<view class="list" v-for="(item,key) in leftData" :key="key" @click="onPress(item)">
+			<view class="list shadow" v-for="(item,key) in leftData" :key="key" @click="onPress(item)">
 				<view class="atric" v-if="item.is_business==1">商家直供</view>
 				<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 				<view class="list-img">
 					<image :src="item.image" mode="aspectFill"></image>
+					<view class="many-jin" v-if="item.hair">￥{{item | manyJin}}/斤</view>
 				</view>
 				<view class="list-text">
 					<view class="list-title only-line-2">{{item.name}}</view>
@@ -17,11 +18,12 @@
 			</view>
 		</view>
 		<view class="right">
-			<view class="list" v-for="(item,key) in rightData" :key="key" @click="onPress(item)">
+			<view class="list shadow" v-for="(item,key) in rightData" :key="key" @click="onPress(item)">
 				<view class="atric" v-if="item.is_business==1">商家直供</view>
 				<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 				<view class="list-img">
 					<image :src="item.image" mode="aspectFill"></image>
+					<view class="many-jin" v-if="item.hair">￥{{item | manyJin}}/斤</view>
 				</view>
 				<view class="list-text">
 					<view class="list-title only-line-2">{{item.name}}</view>
@@ -132,5 +134,19 @@
 		color: #fff;
 		text-align: center;
 		padding: 3px 10px;
+	}
+	.many-jin{
+		position: absolute;
+		bottom: 3px;
+		left: 0;
+		background-color: rgba(252,97,59,.9);
+		font-size: 10px;
+		color: #fff;
+		text-align: center;
+		padding: 3px;
+		padding-right: 8px;
+		border-top-right-radius: 10px;
+		z-index: 10;
+		font-size: 10px;
 	}
 </style>

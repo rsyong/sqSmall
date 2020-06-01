@@ -3,7 +3,7 @@
 		<uni-nav-bar title="常购清单" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view>
 			<view class="content">
-				<view class="sp-list flex just-between align-center" v-for="(item,index) in goodsList" :key="index" @click="gotoDetails(item.goods_data)">
+				<view class="sp-list flex just-between align-center shadow-1" v-for="(item,index) in goodsList" :key="index" @click="gotoDetails(item.goods_data)">
 					<view class="sp-list-detiles flex just-between">
 						<view class="sp-list-img">
 							<image :src="item.goods_data.image" mode="aspectFill"></image>
@@ -22,8 +22,14 @@
 				</view>
 				<myNull v-if="goodsList.length==0" />
 			</view>
-			<view class="nav-tuijan flex just-center" v-if="shoppingList.length>0">
-				<view>为您推荐</view>
+			<view class="nav-tuijan flex just-center align-center" v-if="shoppingList.length>0">
+				<view class="dots-1"></view>
+				<view class="dots-2"></view>
+				<view class="dots-3"></view>
+				<view class="nav-tuijan-title">为您推荐</view>
+				<view class="dots-3"></view>
+				<view class="dots-2"></view>
+				<view class="dots-1"></view>
 			</view>
 			<shoppingList :dataList="shoppingList" @onPress="gotoDetails" />
 		</view>
@@ -110,10 +116,13 @@
 <style>
 	.content{
 		padding: 10px;
-		background-color: #fff;
 		box-sizing: border-box;
 	}
 	.sp-list{
 		margin-bottom: 10px;
+		padding: 10px;
+		box-sizing: border-box;
+		border-radius: 10px;
+		background-color: #fff;
 	}
 </style>

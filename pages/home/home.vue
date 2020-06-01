@@ -37,19 +37,20 @@
 			</navigator>
 		</view>
 		<!-- 限时秒杀 -->
-		<view class="seckill mag-center-10">
+		<view class="seckill mag-center-10 shadow-1">
 			<swiper  v-if="miaoshaList.length>0" class="swiper-box-miao" circular autoplay interval="4000" :display-multiple-items="miaoshaList.length>1 ? 2 : 1" next-margin="170rpx">
 			    <swiper-item v-for="(item ,index) in miaoshaList" :key="index">
 			        <view class="swiper-item-miao" @click="gotoDetails(item)">
 			            <view class="sp-list">
 			            	<view class="sp-list-img">
-			            		<image :src="item.image" mode="aspectFill"></image>
+			            		<image :src="item.image" mode="aspectFill" class="shadow-1"></image>
 			            	</view>
 			            	<view class="sp-list-name only-line-2">{{item.name}}</view>
 							<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
 			            	<view class="flex just-between align-center">
 			            		<text class="sp-list-weight max-lenth only-line-1">{{item.type_note}}</text>
-								<van-count-down :time="item.end_time" />
+								<CountDown :endTime="item.end_time" :startTime="item.start_time" />
+								<!-- <van-count-down :time="item.end_time" /> -->
 			            	</view>
 			            </view>
 			        </view>
@@ -69,8 +70,9 @@
 <script>
 	import shoppingList from '../../wxcomponents/shoppingList.vue'
 	import {getAllNum} from '../../common/js/untils.js'
+	import CountDown from '../../wxcomponents/CountDown/CountDown.vue'
 	export default {
-		components:{shoppingList},
+		components:{shoppingList,CountDown},
 		data() {
 			return {
 				bannerList:[], //banner列表
@@ -221,7 +223,7 @@
 				this.page=1;
 				this.shoppingList=[];
 				this.tabIndex=event.detail.index;
-				this.isBottom=false;
+				this.isBottom=true;
 				this.getRecommendList();
 			},
 			timeonChange(e){
@@ -272,9 +274,7 @@
 					type:type
 				},{method:'GET'}).then(res=>{
 					uni.hideLoading();
-					if(res.length==0){
-						this.isBottom=true;
-					}
+					this.isBottom=res.length==0;
 					this.shoppingList=this.shoppingList.concat(res);
 				}).catch(err=>{
 					uni.hideLoading();

@@ -7,25 +7,26 @@
 			</van-tab>
 		</van-tabs>
 		<view class="content">
-			<view class="sp-list flex just-between align-center" v-for="(item,index) in shoppingList" :key="index" @click.stop="gotoDetails(item)">
-				<view class="sp-list-detiles flex just-between">
+			<view class="sp-list shadow-1" v-for="(item,index) in shoppingList" :key="index">
+				<view class="sp-list-detiles flex just-between mb-10" v-for="(item2,index2) in item.goods" @click.stop="gotoDetails(item2.goods_data)" :key="index2">
 					<view class="sp-list-img">
-						<image :src="item.goods[0].goods_data.image" mode="aspectFill"></image>
+						<image :src="item2.goods_data.image" mode="aspectFill"></image>
 					</view>
-					<view class="flex flex-column just-between">
-						<view class="only-line-2">{{item.goods[0].goods_data.name}}</view>
-						<view class="sp-list-weight align-center mb">{{item.goods[0].goods_data.type_note}}</view>
-						<view class="sp-list-weight align-center mb">x {{item.goods.length || 0}} 件</view>
-						<view class="just-between align-center">
-							<stars :starNumber="item.goods[0].goods_data.star" />
+					<view class="flex flex-column">
+						<view class="only-line-2">{{item2.goods_data.name}}</view>
+						<view class="sp-list-weight mb">{{item2.goods_data.type_note}}</view>
+						<view class="mb">
+							<stars :starNumber="item2.goods_data.star" />
 						</view>
-						<view class="flex align-center" style="justify-content: flex-end;">
-							<button v-if="[0,1].includes(item.status)" size="mini" class="my-bottom" plain @click.stop="cancel(item)">取消订单</button>
-							<button v-if="[2].includes(item.status)" size="mini" class="my-bottom play" plain @click.stop="play(item)">支付</button>
-							<text v-if="[3].includes(item.status)" class="my-status my-status-active">已完成</text>
-							<text v-if="[-1].includes(item.status)" class="my-status">已取消</text>
-						</view>
+						<view class="sp-list-weight mb" v-if="item2.num">数量: x{{item2.goods_data.num || 0}}</view>
+						<view class="price mb">价格: ￥{{item2.goods_data.price || 0}}</view>
 					</view>
+				</view>
+				<view class="flex align-center" style="justify-content: flex-end;">
+					<button v-if="[0,1].includes(item.status)" size="mini" class="my-bottom" plain @click.stop="cancel(item)">取消订单</button>
+					<button v-if="[2].includes(item.status)" size="mini" class="my-bottom play" plain @click.stop="play(item)">支付</button>
+					<text v-if="[3].includes(item.status)" class="my-status my-status-active">已完成</text>
+					<text v-if="[-1].includes(item.status)" class="my-status">已取消</text>
 				</view>
 			</view>
 			<myNull v-if="shoppingList.length==0" />
@@ -83,7 +84,7 @@
 			},
 			gotoDetails(item){
 				uni.navigateTo({
-					url:"../shoppingDetails/shoppingDetails?id="+item.goods[0].goods_data.id
+					url:"../shoppingDetails/shoppingDetails?id="+item.id
 				})
 			},
 			//获取商品列表
@@ -182,11 +183,14 @@
 <style>
 	.content{
 		padding: 10px;
-		background-color: #fff;
 		box-sizing: border-box;
 	}
 	.sp-list{
 		margin-bottom: 10px;
+		background-color: #fff;
+		border-radius: 10px;
+		padding: 10px;
+		box-sizing: border-box;
 	}
 	button.my-bottom{
 		margin: 0;

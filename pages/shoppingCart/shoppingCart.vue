@@ -4,11 +4,11 @@
 		<view class="content">
 			<view class="sp-list flex just-between align-center" v-for="(item,index) in goodsList" :key="index">
 				<view class="c-radio" @click="radioChange(item)">
-					<myRadio color="#F0B426" :checked="item.checked" />
+					<myRadio color="#F0B426" :checked="item.checked" v-if="item.status==1" />
 				</view>
 				<view class="sp-list-detiles flex just-between" @click.stop="gotoDetails(item)">
 					<view class="sp-list-img">
-						<image :src="item.image" mode="aspectFill"></image>
+						<image :src="item.image" mode="aspectFill" class="shadow"></image>
 					</view>
 					<view class="flex flex-column just-between">
 						<view class="flex">
@@ -21,13 +21,23 @@
 							<view>
 								<stars :starNumber="item.star" />
 							</view>
-							<view class="flex align-center add-bottoms">
-								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50" @click.stop="removeNum(item)">
-									<uni-icons type="minus-filled" size="23" color="#F0B426"></uni-icons>
+							<view v-if="item.goods_suatus==0">
+								<view v-if="item.goods_suatus==0" class="flex align-center add-bottoms">
+									<text class="sp-list-weight">已下架</text>
 								</view>
-								<view class="my-sp-number">{{item.num}}</view>
-								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50" @click.stop="addNum(item)">
-									<uni-icons type="plus-filled" size="23" color="#F0B426"></uni-icons>
+							</view>
+							<view v-else>
+								<view class="flex align-center add-bottoms" v-if="item.status==1">
+									<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50" @click.stop="removeNum(item)">
+										<uni-icons type="minus-filled" size="23" color="#F0B426"></uni-icons>
+									</view>
+									<view class="my-sp-number">{{item.num}}</view>
+									<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50" @click.stop="addNum(item)">
+										<uni-icons type="plus-filled" size="23" color="#F0B426"></uni-icons>
+									</view>
+								</view>
+								<view v-if="item.status==0" class="flex align-center add-bottoms">
+									<text class="sp-list-weight">已失效</text>
 								</view>
 							</view>
 						</view>
@@ -37,8 +47,14 @@
 			<myNull v-if="goodsList.length==0" />
 		</view>
 		<view>
-			<view class="nav-tuijan flex just-center" v-if="dataList.length>0">
-				<view>为您推荐</view>
+			<view class="nav-tuijan flex just-center align-center" v-if="dataList.length>0">
+				<view class="dots-1"></view>
+				<view class="dots-2"></view>
+				<view class="dots-3"></view>
+				<view class="nav-tuijan-title">为您推荐</view>
+				<view class="dots-3"></view>
+				<view class="dots-2"></view>
+				<view class="dots-1"></view>
 			</view>
 			<shoppingList :dataList="dataList" @onPress="gotoDetails" />
 		</view>
@@ -56,7 +72,8 @@
 					</view>
 				</view>
 				<view>
-					<van-button round  color="#F0B426" custom-style="width: 100px;" @click="bugsGoods">现在结算</van-button>
+					<button class="my-background my-button shadow" @click="bugsGoods">现在结算</button>
+					<!-- <van-button round  color="#F0B426" custom-style="width: 100px;" @click="bugsGoods">现在结算</van-button> -->
 				</view>
 			</view>
 		</view>
@@ -75,7 +92,8 @@
 				page:1,
 				size:10,
 				goodsList:[],
-				dataList:[]
+				dataList:[],
+				isBottom:false
 			}
 		},
 		onLoad() {
@@ -96,6 +114,7 @@
 		},
 		onShow() {
 			if(!getApp().globalData.token) return;
+			this.page=1;
 			this.getShoppingList(true);
 		},
 		methods: {
@@ -144,6 +163,7 @@
 					}else{
 						this.goodsList=this.goodsList.concat(res.cart_list);
 					}
+					this.isBottom=res.cart_list.length==0;
 					if(this.dataList.length==0){
 						this.dataList=res.recommend_list;
 					}
@@ -247,7 +267,13 @@
 				        } 
 				    }
 				});
-			}
+			},
+			//上拉加载更多
+			onReachBottom(){
+				if(this.isBottom) return;
+				this.page++;
+				this.getShoppingList();
+			},
 		}
 	}
 </script>
@@ -287,6 +313,7 @@
 		font-weight: bold;
 	}
 	.c-radio{
+		width: 27px;
 		margin-right: 3px;
 	}
 	.my-sp-buttom{

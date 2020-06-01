@@ -21,7 +21,7 @@
 				<uni-icons type="arrowright" size="14" color="#D2B85B"></uni-icons>
 			</view>
 		</view>
-		<view class="order flex just-around align-center">
+		<view class="order flex just-around align-center shadow-1">
 			<view class="flex just-center align-center flex-column" @click="toOrder(0)">
 				<view class="iconfont icon-dingdan my-icon"></view>
 				<view>全部订单</view>
@@ -41,7 +41,7 @@
 		</view>
 		<view class="mt-10">
 			<uni-list>
-			    <uni-list-item title="联系客服" @click="makePhoneCall"></uni-list-item>
+			    <uni-list-item title="联系客服" @click="makePhoneCall" class="shadow-1"></uni-list-item>
 			</uni-list>
 		</view>
 	</view>

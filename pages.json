@@ -22,11 +22,7 @@
         }
         ,{
             "path" : "pages/shoppingCart/shoppingCart",
-            "style": {
-            	"usingComponents":{
-            		"van-button": "/wxcomponents/vant/dist/button/index"
-            	}
-            }
+            "style": {}
         }
         ,{
             "path" : "pages/my/my",
@@ -34,7 +30,11 @@
         }
         ,{
             "path" : "pages/sechill/sechill",
-            "style" : {}
+            "style" : {
+				"usingComponents":{
+					"van-count-down": "/wxcomponents/vant/dist/count-down/index"
+				}
+			}
         }
         ,{
             "path" : "pages/shoppingList/shoppingList",

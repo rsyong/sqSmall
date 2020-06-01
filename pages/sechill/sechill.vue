@@ -5,20 +5,23 @@
 		</uni-nav-bar> -->
 		<uni-nav-bar @clickLeft="goBack" title="精品秒杀" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="content">
-			<view class="sp-list flex just-between" v-for="(item,index) in shoppingList" :key="index" @click.stop="gotoDetails(item)">
+			<view class="sp-list flex just-between shadow-1" v-for="(item,index) in shoppingList" :key="index" @click.stop="gotoDetails(item)">
 				<view class="atric" v-if="item.is_business==1">商家直供</view>
 				<view class="sp-list-img">
-					<image :src="item.image" mode="aspectFill"></image>
+					<image :src="item.image" mode="aspectFill" class="shadow-1"></image>
 					<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 				</view>
 				<view class="flex1">
-					<view>{{item.name}}</view>
-					<view class="sp-list-weight">{{item.type_note}}</view>
-					<view class="sp-list-weight">距离结束 <van-count-down :time="item.end_time - item.start_time" /></view>
+					<view class="only-line-1">{{item.name}}</view>
+					<view class="sp-list-weight only-line-1">{{item.type_note}}</view>
+					<view class="sp-list-weight flex align-center">距离结束:
+						<CountDown :endTime="item.end_time" :startTime="item.start_time" />
+						<!-- <van-count-down :time="item.end_time" /> -->
+					</view>
 					<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
 					<view class="flex just-between sp-bottom">
 						<view class="flex1 stars"><stars :starNumber="item.star" /></view>
-						<button class="sp-my-bottom" type="default" @click.stop="goBuy(item)">
+						<button class="sp-my-bottom shadow" type="default" @click.stop="goBuy(item)">
 							抢购
 							<view class="progress">
 								<progress :percent="item.sale_num/item.num.toFixed(1)*100" show-info stroke-width="3" border-radius="10" font-size="8" activeColor="#FEFFF7" backgroundColor="#F9B6A3" active />
@@ -39,7 +42,9 @@
 </template>
 
 <script>
+	import CountDown from '../../wxcomponents/CountDown/CountDown.vue'
 	export default {
+		components:{CountDown},
 		data() {
 			return {
 				page:1,
@@ -98,16 +103,22 @@
 					    }
 					});
 				}
-				if(item.sale_num==item.num){
+				let onwTime=new Date().getTime()/1000;
+				if(item.start_time>onwTime){
+					return uni.showToast({title: '活动未开始',image:'../../static/image/error.png'});
+				}
+				if(item.sale_num>=item.num){
 					return uni.showToast({title: "当前已被抢完!",image:'../../static/image/error.png'});
 				}
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/goods/addCart",{
 					id:item.id,
-					num:1
+					num:1,
+					is_rush:1
 				},{method:'POST'}).then(res=>{
 					uni.hideLoading();
 					getApp().globalData.goodsAllNum++;
+					item.sale_num++;
 					this.goodsAllNum=getApp().globalData.goodsAllNum;
 					uni.showToast({title: res});
 				}).catch(err=>{

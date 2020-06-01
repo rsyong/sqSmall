@@ -34,76 +34,6 @@ export default {
 	},
 	onHide: function() {
 		//关闭
-	},
-	methods:{
-		//获取设备信息
-		login(){
-			uni.login({
-			    provider: this.provider,
-			    success: (loginRes) => {
-					this.loginRes=loginRes;
-					this.getUserInfo();
-			    }
-			});
-		},
-		getUserInfo(){
-			uni.getSetting({
-				success:(res)=>{
-					if (res.authSetting['scope.userInfo']) {
-					  // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-						uni.getUserInfo({
-							success: (res) => {
-								this.globalData.myuserInfo=res.userInfo;
-								this.getOpenId(res);
-							}
-						})
-					}
-				}
-			})
-		},
-		getOpenId(data){
-			this.request(this.baseURL+'/api/login/login',{
-				code:this.loginRes.code,
-				iv:data.iv,
-				encryptedData:data.encryptedData
-			},{method:'POST'}).then(res=>{
-				this.globalData.token=res.token;
-				uni.hideLoading();
-				this.getShoppingList();
-				this.getInfo();
-			}).catch(err=>{
-				uni.hideLoading();
-				uni.showToast({title: err});
-			})
-		},
-		//获取商品列表
-		getShoppingList(){
-			this.request(this.baseURL+"/api/cart/getList",{
-				page:1,
-				size:10
-			},{method:'GET'}).then(res=>{
-				this.globalData.goodsAllNum=getAllNum(res.cart_list);
-				if(this.globalData.goodsAllNum==0) return;
-				uni.setTabBarBadge({
-					index:3,
-					text:this.globalData.goodsAllNum+''
-				})
-			}).catch(err=>{
-				
-			})
-		},
-		//获取详细信息
-		getInfo(){
-			this.request(this.baseURL+"/api/personal/getUserInfo",{
-				
-			},{method:'GET'}).then(res=>{
-				uni.hideLoading();
-				this.globalData.userInfo=res;
-			}).catch(err=>{
-				uni.hideLoading();
-				uni.showToast({title: err});
-			})
-		},
 	}
 };
 </script>
@@ -227,11 +157,47 @@ export default {
 		font-size: 18px;
 		font-weight: bold;
 	}
+	.nav-tuijan-title{
+		margin: 0 8px;
+	}
 	.starating{
 		color: #E1B12D;
 	}
 	.business{
 		color: #35BD13;
 		margin-right: 5px;
+	}
+	.shadow-1{
+		box-shadow:0px 0px 5px #eee;
+	}
+	.shadow{
+		box-shadow:0px 0px 5px #bbb;
+	}
+	view.van-tab--active{
+		font-weight: 900;
+	}
+	.dots-1{
+		width: 3px;
+		height: 3px;
+		border-radius: 50%;
+		background-color: #FCB71E;
+		box-shadow:0px 0px 2px #FCB71E;
+		margin: 0 3px;
+	}
+	.dots-2{
+		width: 5px;
+		height: 5px;
+		border-radius: 50%;
+		background-color: #FCB71E;
+		box-shadow:0px 0px 2px #FCB71E;
+		margin: 0 3px;
+	}
+	.dots-3{
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background-color: #FCB71E;
+		box-shadow:0px 0px 2px #FCB71E;
+		margin: 0 3px;
 	}
 </style>

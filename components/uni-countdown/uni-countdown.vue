@@ -179,9 +179,8 @@
 		display: flex;
 		/* #endif */
 		justify-content: center;
-		line-height: 48rpx;
-		padding: 5rpx;
-		font-size: 24rpx;
+		font-size: 8px;
+		padding: 3px 2px;
 	}
 
 	.uni-countdown__number {
@@ -190,11 +189,8 @@
 		/* #endif */
 		justify-content: center;
 		align-items: center;
-		width: 52rpx;
-		height: 48rpx;
-		line-height: 48rpx;
-		margin: 5rpx;
-		text-align: center;
-		font-size: 24rpx;
+		font-size: 8px;
+		padding: 3px 4px;
+		border-radius: 4px;
 	}
 </style>

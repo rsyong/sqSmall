@@ -11,6 +11,7 @@
 					<view class="list-title only-line-2">{{item.name}}</view>
 					<view class="list-subtitle only-line-2">{{item.note}}</view>
 					<view class="list-subtitle" v-if="item.type_note">{{item.type_note}}</view>
+					<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
 					<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 				</view>
 			</view>
@@ -26,6 +27,7 @@
 					<view class="list-title only-line-2">{{item.name}}</view>
 					<view class="list-subtitle only-line-2">{{item.note}}</view>
 					<view class="list-subtitle" v-if="item.type_note">{{item.type_note}}</view>
+					<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
 					<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 				</view>
 			</view>

@@ -46,6 +46,7 @@
 			            		<image :src="item.image" mode="aspectFill"></image>
 			            	</view>
 			            	<view class="sp-list-name only-line-2">{{item.name}}</view>
+							<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
 			            	<view class="flex just-between align-center">
 			            		<text class="sp-list-weight max-lenth only-line-1">{{item.type_note}}</text>
 								<van-count-down :time="item.end_time" />
@@ -67,6 +68,7 @@
 
 <script>
 	import shoppingList from '../../wxcomponents/shoppingList.vue'
+	import {getAllNum} from '../../common/js/untils.js'
 	export default {
 		components:{shoppingList},
 		data() {
@@ -82,17 +84,33 @@
 				page:1,
 				size:10,
 				tabIndex:0,
-				isBottom:false
+				isBottom:false,
+				provider:'', //设备信息
+				loginRes:'',
+				is_auth:0
 			}
 		},
 		onLoad(){
-			this.getHome();
-			this.getRecommendList(0);
+			uni.showLoading({title:"加载中..."});
+			this.getProvider();
 		},
 		onShow() {
 			this.setTabBarBadge();
+			if(this.is_auth!=1){
+				if(getApp().globalData.userInfo.is_auth==1){
+					this.is_auth=1;
+					this.init();
+				}
+			}
 		},
 		methods: {
+			init(){
+				this.page=1;
+				this.isBottom=false;
+				this.shoppingList=[];
+				this.getHome();
+				this.getRecommendList();
+			},
 			setTabBarBadge(){
 				if(getApp().globalData.goodsAllNum==0) {
 					uni.removeTabBarBadge({
@@ -105,15 +123,100 @@
 					text:getApp().globalData.goodsAllNum+''
 				})
 			},
+			//获取设备信息
+			getProvider(){
+				uni.getProvider({
+				    service: 'oauth',
+				    success:(res) => {
+						this.provider=res.provider[0];
+						this.login();
+				    }
+				});
+			},
+			//登录获取code
+			login(){
+				uni.login({
+				    provider: this.provider,
+				    success: (loginRes) => {
+						this.loginRes=loginRes;
+						this.getUserInfo();
+				    }
+				});
+			},
+			//获取授权
+			getUserInfo(){
+				uni.getSetting({
+					success:(res)=>{
+						if (res.authSetting['scope.userInfo']) {
+							// 已经授权，可以直接调用 getUserInfo 获取头像昵称
+							uni.getUserInfo({
+								success: (res) => {
+									this.getToken(res);
+								}
+							})
+						}else{
+							this.init();
+						}
+					},
+					fail: () => {
+						this.init();
+					}
+				})
+			},
+			//获取token
+			getToken(data){
+				this.request(this.baseURL+'/api/login/login',{
+					code:this.loginRes.code,
+					iv:data.iv,
+					encryptedData:data.encryptedData
+				},{method:'POST'}).then(res=>{
+					getApp().globalData.token=res.token; //存全局token
+					uni.hideLoading();
+					this.init();
+					this.getInfo();
+					this.getShoppingList();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			//获取详细信息
+			getInfo(){
+				this.request(this.baseURL+"/api/personal/getUserInfo",{
+					
+				},{method:'GET'}).then(res=>{
+					uni.hideLoading();
+					getApp().globalData.userInfo=res; //存全局用户信息 包括是否认证
+					this.is_auth=res.is_auth;
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
+			},
+			//获取商品列表
+			getShoppingList(){
+				this.request(this.baseURL+"/api/cart/getList",{
+					page:1,
+					size:10
+				},{method:'GET'}).then(res=>{
+					getApp().globalData.goodsAllNum=getAllNum(res.cart_list);
+					if(getApp().globalData.goodsAllNum==0) return;
+					this.setTabBarBadge();
+				}).catch(err=>{
+					
+				})
+			},
 			//跳转搜索
 			toSerach(){
 				uni.navigateTo({
 				    url: '../serach/serach'
 				});
 			},
+			//banner改变索引
 			change(e) {
 				this.current = e.detail.current;
 			},
+			//tab change
 			onChange(event){
 				this.page=1;
 				this.shoppingList=[];
@@ -168,17 +271,17 @@
 					size:this.size,
 					type:type
 				},{method:'GET'}).then(res=>{
+					uni.hideLoading();
 					if(res.length==0){
 						this.isBottom=true;
 					}
 					this.shoppingList=this.shoppingList.concat(res);
-					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
-			//下拉加载更多
+			//上拉加载更多
 			onReachBottom(){
 				if(this.isBottom) return;
 				this.page++;
@@ -187,8 +290,8 @@
 			},
 			//下拉刷新
 			onPullDownRefresh(){
-				this.getHome();
-			}
+				this.init();
+			},
 		}
 	}
 </script>

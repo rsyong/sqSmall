@@ -222,17 +222,26 @@
 			},
 			//删除
 			todetele(item){
-				uni.showLoading({title:"加载中..."});
-				this.request(this.baseURL+"/api/cart/updateCart",{
-					id:item.id,
-					num:0
-				},{method:'POST'}).then(res=>{
-					uni.hideLoading();
-					this.getShoppingList(true);
-				}).catch(err=>{
-					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
-				})
+				uni.showModal({
+				    title: '提示',
+				    content: '确定要删除吗？',
+					confirmColor:'red',
+				    success: (res) => {
+				        if (res.confirm) {
+							uni.showLoading({title:"加载中..."});
+							this.request(this.baseURL+"/api/cart/updateCart",{
+								id:item.id,
+								num:0
+							},{method:'POST'}).then(res=>{
+								uni.hideLoading();
+								this.getShoppingList(true);
+							}).catch(err=>{
+								uni.hideLoading();
+								uni.showToast({title: err,image:'../../static/image/error.png'});
+							})
+				        } 
+				    }
+				});
 			}
 		}
 	}

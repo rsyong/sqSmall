@@ -124,9 +124,22 @@
 					getApp().userInfo={
 						is_auth:1
 					}
-					uni.switchTab({
-						url:'../../home/home'
-					})
+					uni.showModal({
+					    title: '提示',
+					    content: '认证成功',
+						showCancel:false,
+					    success: function (res) {
+					        uni.switchTab({
+					            url: '../../my/my',
+					            success: function(e) {
+					                var page = getCurrentPages().pop();
+					                if (page == undefined || page == null) return;
+					                page.onLoad();
+					            }
+					        });
+					    }
+					});
+					
 				}).catch(err=>{
 					uni.hideLoading();
 					uni.showToast({title: err,image:'../../../static/image/error.png'});

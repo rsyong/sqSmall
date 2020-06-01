@@ -151,6 +151,10 @@
 						uni.navigateTo({
 							url:"certification/certification"
 						})
+					}else{
+						uni.showToast({
+							title:res
+						})
 					}
 				}).catch(err=>{
 					uni.hideLoading();

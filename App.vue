@@ -4,10 +4,9 @@ export default {
 	globalData:{
 		appid:'wx99e7a5d35d7d086d',
 		appSecret:'8514346960e863e5748524da781cb984',
-		myuserInfo:{},
-		token:'',
-		goodsAllNum:0,
-		userInfo:{}
+		token:'', //全局token
+		goodsAllNum:0, //全局购物车数量
+		userInfo:{}, //全局用户信息 后台返回
 	},
 	data() {
 		return {
@@ -17,13 +16,13 @@ export default {
 	},
 	onLaunch: function() {
 		//第一次启动
-		uni.getProvider({
-		    service: 'oauth',
-		    success:(res) => {
-				this.provider=res.provider[0];
-				this.login();
-		    }
-		});
+		// uni.getProvider({
+		//     service: 'oauth',
+		//     success:(res) => {
+		// 		this.provider=res.provider[0];
+		// 		this.login();
+		//     }
+		// });
 	},
 	onShow: function() {
 		//打开
@@ -160,10 +159,15 @@ export default {
 		margin-right: 10px;
 	}
 	.only-line-1{
-		max-width: 100%;
-		white-space: nowrap;
-		text-overflow: ellipsis;
 		overflow: hidden;
+		word-break: break-all;  /* break-all(允许在单词内换行。) */
+		text-overflow: ellipsis;  /* 超出部分省略号 */
+		display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+		-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+		-webkit-line-clamp: 1; /** 显示的行数 **/
+		/* white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden; */
 	}
 	.only-line-2{
 		overflow: hidden;
@@ -172,6 +176,13 @@ export default {
 		display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
 		-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
 		-webkit-line-clamp: 2; /** 显示的行数 **/
+	}
+	.price{
+		font-size: 10px;
+		color: #E4A711;
+	}
+	.price-monye{
+		font-size: 14px;
 	}
 	.my-color{
 		color: #E4A711;

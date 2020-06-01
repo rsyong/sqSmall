@@ -13,9 +13,10 @@
 						<image :src="item.goods[0].goods_data.image" mode="aspectFill"></image>
 					</view>
 					<view class="flex flex-column just-between">
-						<view class="flex1 only-line-2">{{item.goods[0].goods_data.name}}</view>
-						<view class="flex sp-list-weight align-center">{{item.goods[0].goods_data.type_note}}</view>
-						<view class="flex just-between align-center">
+						<view class="only-line-2">{{item.goods[0].goods_data.name}}</view>
+						<view class="sp-list-weight align-center mb">{{item.goods[0].goods_data.type_note}}</view>
+						<view class="sp-list-weight align-center mb">x {{item.goods.length || 0}} 件</view>
+						<view class="just-between align-center">
 							<stars :starNumber="item.goods[0].goods_data.star" />
 						</view>
 						<view class="flex align-center" style="justify-content: flex-end;">
@@ -59,7 +60,9 @@
 		onLoad(option) {
 			this.active=Number(option.pageNum);
 			this.type=this.active;
-			this.getShoppingList();
+			if(this.type==0){
+				this.getShoppingList();
+			}
 			//获取设备商
 			this.getProvider();
 		},
@@ -80,7 +83,7 @@
 			},
 			gotoDetails(item){
 				uni.navigateTo({
-					url:"../shoppingDetails/shoppingDetails?id="+item.id
+					url:"../shoppingDetails/shoppingDetails?id="+item.goods[0].goods_data.id
 				})
 			},
 			//获取商品列表
@@ -120,17 +123,26 @@
 			},
 			//取消订单
 			cancel(item){
-				uni.showLoading({title:"取消中..."});
-				this.request(this.baseURL+"/api/order/cancel",{
-					id:item.id,
-				},{method:'POST'}).then(res=>{
-					item.status=-1;
-					uni.hideLoading();
-					uni.showToast({title: "取消成功"});
-				}).catch(err=>{
-					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
-				})
+				uni.showModal({
+				    title: '提示',
+				    content: '确定要取消吗？',
+					confirmColor:'red',
+				    success: (res) => {
+				        if (res.confirm) {
+							uni.showLoading({title:"取消中..."});
+							this.request(this.baseURL+"/api/order/cancel",{
+								id:item.id,
+							},{method:'POST'}).then(res=>{
+								item.status=-1;
+								uni.hideLoading();
+								uni.showToast({title: "取消成功"});
+							}).catch(err=>{
+								uni.hideLoading();
+								uni.showToast({title: err,image:'../../static/image/error.png'});
+							})
+				        } 
+				    }
+				});
 			},
 			//支付
 			play(item){
@@ -138,6 +150,7 @@
 				this.request(this.baseURL+"/api/order/orderPay",{
 					id:item.id,
 				},{method:'POST'}).then(res=>{
+					uni.hideLoading();
 					uni.requestPayment({
 						provider:this.provider,
 						orderInfo:item.goods[0].goods_data.name,
@@ -198,5 +211,8 @@
 	}
 	.my-status-active{
 		color: #F9BC2D;
+	}
+	.mb{
+		margin-bottom: 2px;
 	}
 </style>

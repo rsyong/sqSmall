@@ -4,8 +4,8 @@
 		    <swiper class="swiper-box2" @change="change" circular autoplay>
 		        <swiper-item v-for="(item ,index) in myAlldata" :key="index">
 		            <view class="swiper-item2">
-		    			<view class="flex swiper-item-list just-between">
-		    				<view class="list" v-for="(item2,key) in myAlldata[index]" :key="key">
+		    			<view class="flex swiper-item-list">
+		    				<view :style="{margin:key%3==1 ? '0 20rpx' : 0}" class="list" v-for="(item2,key) in myAlldata[index]" :key="key"  @click="onPress(item2)">
 		    					<view class="atric" v-if="item2.is_business==1">商家直供</view>
 		    					<view class="list-img">
 		    						<image :src="item2.image" mode="aspectFill"></image>
@@ -14,6 +14,7 @@
 		    					<view class="list-text">
 		    						<view class="list-title only-line-1">{{item2.name}}</view>
 		    						<view class="list-subtitle only-line-2">{{item2.note}}</view>
+									<view v-if="item2.price" class="price">￥<text class="price-monye">{{item2.price}}</text></view>
 		    						<view class="list-slogo" v-if="item2.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 		    					</view>
 		    				</view>
@@ -66,6 +67,9 @@
 					uni.showToast({title: err});
 				})
 			},
+			onPress(item){
+				this.$emit("onPress",item);
+			}
 		}
 	}
 </script>
@@ -117,7 +121,6 @@
 	.list-subtitle{
 		font-size: 12px;
 		color: #888;
-		-webkit-line-clamp: 3; /** 显示的行数 **/
 		margin-bottom: 5px;
 	}
 	.list-slogo{

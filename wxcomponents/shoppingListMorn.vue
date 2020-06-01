@@ -7,12 +7,13 @@
 				<image :src="item.image" mode="aspectFill"></image>
 			</view>
 			<view class="flex1">
-				<view>{{item.name}}</view>
+				<view class="only-line-1">{{item.name}}</view>
 				<view class="sp-list-weight only-line-2">{{item.note}}</view>
 				<view class="sp-list-weight">{{item.type_note}}</view>
 				<view class="flex just-between">
 					<stars :starNumber="item.star" />
 				</view>
+				<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
 				<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家只供</text> 万家果品</view>
 			</view>
 		</view>
@@ -48,12 +49,11 @@
 		border-radius: 6px;
 		margin-top: 10px;
 		position: relative;
+		margin-bottom: 10px;
 	}
 	.list-slogo{
 		font-size: 10px;
 		color: #424242;
-		position: absolute;
-		bottom: 0px;
 	}
 	.sp-list-weight{
 		margin: 3px 0;

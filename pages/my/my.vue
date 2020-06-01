@@ -13,8 +13,8 @@
 					<view class="v-text" v-if="myuserInfo.is_auth==1">
 						<view class="iconfont icon-v"></view>
 					</view>
-					<view v-if="myuserInfo.is_auth==1">已绑定</view>
-					<view v-else style="text-align: center;" class="flex just-center">未绑定</view>
+					<view v-if="myuserInfo.is_auth==1">已认证</view>
+					<view v-else style="text-align: center;" class="flex just-center">未认证</view>
 				</view>
 			</view>
 			<view class="morn flex just-center align-center" @click="toPersonal">
@@ -58,16 +58,21 @@
 		},
 		onLoad(){
 			if(getApp().globalData.token){
-				return this.getInfo();
+				if(getApp().globalData.userInfo){
+					return this.myuserInfo=getApp().globalData.userInfo
+				}else{
+					return this.getInfo();
+				}
+			}else{
+				//获取设备信息
+				uni.getProvider({
+				    service: 'oauth',
+				    success:(res) => {
+						this.provider=res.provider[0];
+						this.login();
+				    }
+				});
 			}
-			//获取设备信息
-			uni.getProvider({
-			    service: 'oauth',
-			    success:(res) => {
-					this.provider=res.provider[0];
-					this.login();
-			    }
-			});
 		},
 		methods: {
 			//登录
@@ -90,7 +95,6 @@
 						  uni.getUserInfo({
 							success: (res) => {
 								this.myuserInfo=res.userInfo;
-								getApp().globalData.myuserInfo=this.myuserInfo;
 								this.getOpenId(res);
 							},
 							fail:()=>{
@@ -108,8 +112,16 @@
 			},
 			//用户回调
 			userInfo(e){
-				this.myuserInfo=e.detail.userInfo;
-				getApp().globalData.myuserInfo=this.myuserInfo;
+				if(getApp().globalData.token){
+					if(getApp().globalData.userInfo.is_auth!=1){
+						uni.navigateTo({
+							url:'../personal/personal'
+						})
+					}
+					return;
+				}
+				if(e.detail.errMsg=="getUserInfo:fail auth deny") return;
+				// this.myuserInfo=e.detail.userInfo;
 				this.getOpenId(e.detail);
 			},
 			//获取token
@@ -124,11 +136,10 @@
 					encryptedData:data.encryptedData
 				},{method:'POST'}).then(res=>{
 					getApp().globalData.token=res.token;
-					uni.hideLoading();
 					this.getInfo();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: '登录失败了',image:'../../static/image/error.png'});
+					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
 			//拨打电话

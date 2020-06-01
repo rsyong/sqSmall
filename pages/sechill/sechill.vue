@@ -15,6 +15,7 @@
 					<view>{{item.name}}</view>
 					<view class="sp-list-weight">{{item.type_note}}</view>
 					<view class="sp-list-weight">距离结束 <van-count-down :time="item.end_time - item.start_time" /></view>
+					<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
 					<view class="flex just-between sp-bottom">
 						<view class="flex1 stars"><stars :starNumber="item.star" /></view>
 						<button class="sp-my-bottom" type="default" @click.stop="goBuy(item)">
@@ -71,12 +72,31 @@
 				})
 			},
 			goBuy(item){
+				if(!getApp().globalData.token){
+					return uni.showModal({
+					    title: '提示',
+					    content: '请先登录',
+					    success: function (res) {
+					        if (res.confirm) {
+					            uni.switchTab({
+					            	url:'../my/my'
+					            })
+					        } 
+					    }
+					});
+				}
 				if(getApp().globalData.userInfo.is_auth!=1){
-					uni.showToast({title: "请先认证!",image:'../../static/image/error.png'});
-					uni.switchTab({
-						url:'../my/my'
-					})
-					return;
+					return uni.showModal({
+					    title: '提示',
+					    content: '请先认证',
+					    success: function (res) {
+					        if (res.confirm) {
+								uni.navigateTo({
+									url:'../personal/personal'
+								})
+					        } 
+					    }
+					});
 				}
 				if(item.sale_num==item.num){
 					return uni.showToast({title: "当前已被抢完!",image:'../../static/image/error.png'});

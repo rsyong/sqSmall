@@ -20,14 +20,15 @@
 							<image :src="item.image" mode="aspectFill"></image>
 						</view>
 						<view>
-							<view class="list-title">{{item.name}}</view>
-							<view class="sp-list-weight only-line-2">{{item.note}}</view>
+							<view class="only-line-1">{{item.name}}</view>
+							<view class="sp-list-weight only-line-1" :class="{'only-line-2':!item.price}">{{item.note}}</view>
 							<view class="sp-list-weight">{{item.type_note}}</view>
 							<view class="flex just-between">
 								<view class="starating">
 									<stars :starNumber="item.star" />
 								</view>
 							</view>
+							<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
 							<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 						</view>
 					</view>
@@ -156,14 +157,6 @@
 		color: #fff;
 		text-align: center;
 		padding-bottom: 6px;
-	}
-	.list-title{
-		overflow: hidden;
-		word-break: break-all;  /* break-all(允许在单词内换行。) */
-		text-overflow: ellipsis;  /* 超出部分省略号 */
-		display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-		-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-		-webkit-line-clamp: 2; /** 显示的行数 **/
 	}
 	.list-slogo{
 		font-size: 10px;

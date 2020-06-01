@@ -3,7 +3,7 @@
 		<uni-nav-bar title="常购清单" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view>
 			<view class="content">
-				<view class="sp-list flex just-between align-center" v-for="(item,index) in goodsList" :key="index" @click="gotoDetails(item)">
+				<view class="sp-list flex just-between align-center" v-for="(item,index) in goodsList" :key="index" @click="gotoDetails(item.goods_data)">
 					<view class="sp-list-detiles flex just-between">
 						<view class="sp-list-img">
 							<image :src="item.goods_data.image" mode="aspectFill"></image>

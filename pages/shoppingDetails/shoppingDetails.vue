@@ -26,6 +26,7 @@
 				<view class="mao-weight">{{Alldata.type_note}}</view>
 				<view class="mao-weight">{{Alldata.type}}</view>
 			</view>
+			<view v-if="Alldata.price" class="price mt-10">￥<text class="price-monye">{{Alldata.price}}</text></view>
 			<view class="list-slogo" v-if="Alldata.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 		</view>
 		<view class="content">
@@ -73,7 +74,7 @@
 			<view class="nav-tuijan flex just-center mb-10">
 				<view>为您推荐</view>
 			</view>
-			<recomSP />
+			<recomSP @onPress="gotoDetails" />
 		</view>
 		<view class="content">
 			<view class="my-title">
@@ -221,7 +222,12 @@
 				uni.switchTab({
 					url:'../shoppingCart/shoppingCart'
 				})
-			}
+			},
+			gotoDetails(item){
+				uni.navigateTo({
+					url:"../shoppingDetails/shoppingDetails?id="+item.id
+				})
+			},
 		}
 	}
 </script>

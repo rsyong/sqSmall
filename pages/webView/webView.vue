@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<web-view src="https://www.baidu.com" :webview-styles="webviewStyles"></web-view>
+		<web-view v-if="url" :src="url"></web-view>
 	</view>
 </template>
 
@@ -12,8 +12,12 @@
 					progress: {
 						color: '#E1B12D'
 					}
-				}
+				},
+				url:''
 			}
+		},
+		onLoad(option) {
+			this.url=option.url;
 		},
 		methods: {
 			

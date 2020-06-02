@@ -117,6 +117,7 @@
 	.content{
 		padding: 10px;
 		box-sizing: border-box;
+		padding-top: 15px;
 	}
 	.sp-list{
 		margin-bottom: 10px;

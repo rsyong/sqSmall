@@ -56,6 +56,7 @@
 				type:0, //类型（0全部，1待确认，2待收货，3已完成，4已取消）
 				shoppingList:[],
 				provider:'',
+				isBottom:false,
 			}
 		},
 		onLoad(option) {
@@ -110,7 +111,8 @@
 					size:this.size,
 					type:this.type
 				},{method:'GET'}).then(res=>{
-					this.shoppingList=this.shoppingList.concat(res)
+					this.shoppingList=this.shoppingList.concat(res);
+					this.isBottom=res.length==0;
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
@@ -119,6 +121,7 @@
 			},
 			//下拉加载更多
 			onReachBottom(){
+				if(this.isBottom) return;
 				this.page++;
 				this.getShoppingList();
 			},

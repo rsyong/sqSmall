@@ -14,7 +14,7 @@
 				<view class="flex1">
 					<view class="only-line-1">{{item.name}}</view>
 					<view class="sp-list-weight only-line-1">{{item.type_note}}</view>
-					<view class="sp-list-weight flex align-center">距离结束:
+					<view class="sp-list-weight flex align-center"><text class="mr-10">距离结束:</text>
 						<CountDown :endTime="item.end_time" :startTime="item.start_time" />
 						<!-- <van-count-down :time="item.end_time" /> -->
 					</view>

@@ -230,10 +230,13 @@
 				this.timeData=e.detail
 			},
 			gotoDetails(item){
-				if(item.type){
+				if(item.type>=0){
 					if(item.type==1){
 						item.id=item.goods_id
 					}else{
+						uni.navigateTo({
+							url:"../webView/webView?url="+item.url
+						})
 						//跳转webview
 						return;
 					}

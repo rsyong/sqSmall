@@ -168,13 +168,10 @@ export default {
 		margin-right: 5px;
 	}
 	.shadow-1{
-		box-shadow:0px 0px 5px #eee;
+		box-shadow:0px 0px 5px #ddd;
 	}
 	.shadow{
 		box-shadow:0px 0px 5px #bbb;
-	}
-	view.van-tab--active{
-		font-weight: 900;
 	}
 	.dots-1{
 		width: 3px;

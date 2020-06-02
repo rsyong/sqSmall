@@ -183,7 +183,7 @@
 	.full-des{
 		position: absolute;
 		left: 0;
-		bottom: 0;
+		bottom: 3px;
 		background-color: rgba(236,177,41,.7);
 		font-size: 10px;
 		color: #fff;

@@ -21,7 +21,11 @@
 			<stars :starNumber="Alldata.star" />
 			<view class="sp-title mb-5">{{Alldata.name}}</view>
 			<view class="sp-list-weight sp-sun-title">{{Alldata.note}}</view>
-			<view class="sp-list-weight mb-5">约{{Alldata.hair}}斤 <text class="my-color small-monye">￥{{Alldata | manyJin}}</text>/斤</view>
+			<view class="sp-list-weight mb-5">约{{Alldata.hair}}斤 
+				<text class="my-color small-monye" v-if="Alldata.price">￥{{Alldata | manyJin}}</text>
+				<text v-if="Alldata.price">/斤</text>
+			</view>
+			<view class="full-des mb-5 my-color" v-if="Alldata.events">满{{Alldata.events.condition_amount}}减{{Alldata.events.amount}}</view>
 			<view class="flex just-between">
 				<view class="mao-weight">毛重约{{Alldata.hair}}斤 净重约{{Alldata.weight}}斤</view>
 				<view class="mao-weight">{{Alldata.type}}</view>
@@ -431,5 +435,8 @@
 	}
 	.small-monye{
 		margin-left: 10px;
+	}
+	.full-des{
+		font-size: 12px;
 	}
 </style>

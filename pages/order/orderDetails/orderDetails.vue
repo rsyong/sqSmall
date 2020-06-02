@@ -36,50 +36,62 @@
 			<view class="mt-10">
 				<view class="flex just-between list">
 					<view>带货费</view>
-					<view class="monye my-color" v-if="Alldata.freight">{{Alldata.freight}}</view>
+					<view class="monye my-color" v-if="Alldata.freight">￥{{Alldata.freight}}</view>
 					<view v-else style="color: #888;font-size: 12px;">待发货可见</view>
 				</view>
-				<!-- <view class="flex just-between list">
-					<view>筐押金</view>
-					<view class="monye my-color">￥193.64</view>
-				</view>
-				<view class="flex just-between list">
-					<view>退筐抵扣</view>
-					<view class="monye my-color">-￥0.00</view>
-				</view> -->
 				<view class="flex just-between list">
 					<view>订单状态</view>
-					<text v-if="[0,1].includes(Alldata.status)" class="my-status">待确认</text>
+					<text v-if="[0].includes(Alldata.status)" class="my-status">待确认</text>
 					<text v-if="[1].includes(Alldata.status)" class="my-status">已称重</text>
 					<text v-if="[2].includes(Alldata.status)" class="my-status">已发货</text>
 					<text v-if="[3].includes(Alldata.status)" class="my-status my-status-active">已完成</text>
 					<text v-if="[-1].includes(Alldata.status)" class="my-status">已取消</text>
 				</view>
 				<view class="flex just-between list">
-					<view>合计</view>
+					<view>订单编号</view>
+					<view class="my-status"><text selectable>{{Alldata.number}}</text></view>
+				</view>
+				<view class="flex just-between list" v-if="Alldata.status==4">
+					<view>实付款</view>
 					<view class="monye my-color">￥{{Alldata.price}}</view>
 				</view>
-				
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	function timestampToTime(timestamp) {
+		var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+		var Y = date.getFullYear() + '-';
+		var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+		var D = date.getDate() + ' ';
+		var h = date.getHours() + ':';
+		var m = date.getMinutes() + ':';
+		var s = date.getSeconds();
+		return Y+M+D+h+m+s;
+	}
 	export default {
 		data() {
 			return {
-				Alldata:{}
+				Alldata:{},
+				id:''
 			}
 		},
-		onLoad() {
+		onLoad(option) {
+			this.id=option.id;
 			this.getInfo()
+		},
+		filters:{
+			create_time(value){
+				return timestampToTime(value)
+			}
 		},
 		methods: {
 			getInfo(){
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/order/detail",{
-					id:'14'
+					id:this.id
 				},{method:'GET'}).then(res=>{
 					uni.hideLoading();
 					this.Alldata=res;

@@ -44,9 +44,10 @@
 			return {
 				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
 				page:1,
-				size:10,
+				size:5,
 				goodsList:[],
-				shoppingList:[]
+				shoppingList:[],
+				is_auth:0
 			}
 		},
 		onLoad() {
@@ -63,8 +64,15 @@
 				    }
 				});
 			}
-			this.getRecommendList();
-			this.getShoppingList();
+		},
+		onShow() {
+			if(this.is_auth!=1){
+				if(getApp().globalData.userInfo.is_auth==1){
+					this.is_auth=1;
+					this.getRecommendList();
+					this.getShoppingList();
+				}
+			}
 		},
 		methods: {
 			gotoDetails(item){

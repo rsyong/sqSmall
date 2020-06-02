@@ -48,7 +48,7 @@
 		<view class="my-buttom">
 			<view class="my-buttom-view flex just-between">
 				<button class="my-buttom-s" @click="goHome">进入商场</button>
-				<button class="my-buttom-s rz" @click="toCertification">{{myuserInfo.is_auth==1 ? '更新资料' :'马上认证'}}</button>
+				<button class="my-buttom-s rz my-background" @click="toCertification">{{myuserInfo.is_auth==1 ? '更新资料' :'马上认证'}}</button>
 			</view>
 		</view>
 	</view>
@@ -63,7 +63,7 @@
 					shop_city:''
 				},
 				oldMyuserInfo:{},
-				data: ''
+				data: '',
 			}
 		},
 		onLoad(){
@@ -115,38 +115,46 @@
 			toCertification(){
 				let isphone=/^1(3|4|5|6|7|8|9)\d{9}$/;
 				if(!this.myuserInfo.wechat_name){
-					return uni.showToast({title: '请输入用户名',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输用户名',image:'../../static/image/error.png'});
 				}
 				if(!this.myuserInfo.mobile){
-					return uni.showToast({title: '请输入绑定手机号',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输手机号',image:'../../static/image/error.png'});
 				}
 				if(!isphone.test(this.myuserInfo.mobile)){
-					return uni.showToast({title: '绑定手机号格式有误',image:'../../static/image/error.png'});
+					return uni.showToast({title: '手机号有误',image:'../../static/image/error.png'});
 				}
 				if(!this.myuserInfo.mobile){
-					return uni.showToast({title: '请输入绑定手机号',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输手机号',image:'../../static/image/error.png'});
 				}
 				if(!this.myuserInfo.shop_name){
-					return uni.showToast({title: '请输入店铺名称',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输入店铺',image:'../../static/image/error.png'});
 				}
 				if(!this.myuserInfo.shop_nickname){
-					return uni.showToast({title: '请输入联系人',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输联系人',image:'../../static/image/error.png'});
 				}
 				if(!this.myuserInfo.shop_mobile){
-					return uni.showToast({title: '请输入联系人手机号',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输手机号',image:'../../static/image/error.png'});
 				}
 				if(!isphone.test(this.myuserInfo.shop_mobile)){
-					return uni.showToast({title: '绑定手机号格式有误',image:'../../static/image/error.png'});
+					return uni.showToast({title: '手机号有误',image:'../../static/image/error.png'});
 				}
 				if(!this.myuserInfo.shop_city){
 					return uni.showToast({title: '请选择城市',image:'../../static/image/error.png'});
 				}
 				if(!this.myuserInfo.shop_address){
-					return uni.showToast({title: '请输入详细地址',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输详细地址',image:'../../static/image/error.png'});
 				}
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/personal/updateMessage",this.myuserInfo,{method:'POST'}).then(res=>{
 					uni.hideLoading();
+					if(this.myuserInfo.avatar!=this.oldMyuserInfo.avatar){
+						const pages = getCurrentPages()
+						const perpage = pages[pages.length - 2]
+						if (perpage == undefined || perpage == null) return;
+						getApp().globalData.userInfo.is_auth=0;
+						perpage.onLoad();
+						getApp().globalData.userInfo.is_auth=1;
+					}
 					if(this.myuserInfo.is_auth!=1){
 						uni.navigateTo({
 							url:"certification/certification"
@@ -220,7 +228,6 @@
 		border-radius: 0;
 	}
 	.rz{
-		background-color: #ECB129;
 		color: #fff;
 	}
 	button::after{

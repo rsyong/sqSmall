@@ -8,7 +8,7 @@
 		</van-tabs>
 		<view class="content">
 			<view class="sp-list shadow-1" v-for="(item,index) in shoppingList" :key="index">
-				<view class="sp-list-detiles flex just-between mb-10" v-for="(item2,index2) in item.goods" @click.stop="gotoDetails(item2.goods_data)" :key="index2">
+				<view v-if="item.goods.length==1" class="sp-list-detiles flex just-between mb-10" v-for="(item2,index2) in item.goods" @click.stop="gotoDetails(item2.goods_data)" :key="index2">
 					<view class="sp-list-img">
 						<image :src="item2.goods_data.image" mode="aspectFill"></image>
 					</view>
@@ -22,12 +22,23 @@
 						<view class="price mb">价格: ￥{{item2.goods_data.price || 0}}</view>
 					</view>
 				</view>
+				<scroll-view v-if="item.goods.length>1" scroll-x enable-flex class="flex mt-10 scroll-view">
+					<view v-for="(item2,index2) in item.goods" @click="gotoDetails(item2.goods_data)" :key="index2">
+						<view class="sp-list-img mb">
+							<image :src="item2.goods_data.image" mode="aspectFill" class="shadow"></image>
+						</view>
+						<view class="only-line-1 morn-title">{{item2.goods_data.name}}</view>
+						<view class="sp-list-weight mb">{{item2.goods_data.type_note}}</view>
+						<view class="sp-list-weight mb" v-if="item2.num">数量: x{{item2.goods_data.num || 0}}</view>
+						<view class="price">价格: ￥{{item2.goods_data.price || 0}}</view>
+					</view>
+				</scroll-view>
 				<view class="flex align-center" style="justify-content: flex-end;">
-					<button size="mini" class="my-bottom play" plain @click.stop="toDetails(item)">订单详情</button>
-					<button v-if="[0,1].includes(item.status)" size="mini" class="my-bottom" plain @click.stop="cancel(item)">取消订单</button>
-					<button v-if="[2].includes(item.status)" size="mini" class="my-bottom play" plain @click.stop="play(item)">支付</button>
+					<button v-if="[0,1].includes(item.status)" size="mini" class="my-button my-button2 shadow" @click.stop="cancel(item)">取消订单</button>
+					<button v-if="[2].includes(item.status)" size="mini" class="my-background my-button shadow" @click.stop="play(item)">支付</button>
 					<text v-if="[3].includes(item.status)" class="my-status my-status-active">已完成</text>
 					<text v-if="[-1].includes(item.status)" class="my-status">已取消</text>
+					<button size="mini" class="my-background my-button shadow mr" @click.stop="toDetails(item)">订单详情</button>
 				</view>
 			</view>
 			<myNull v-if="shoppingList.length==0" />
@@ -201,18 +212,14 @@
 		padding: 10px;
 		box-sizing: border-box;
 	}
-	button.my-bottom{
-		margin: 0;
-		margin-right: 10px;
-		border-radius: 25px;
-		border: 1px solid #e0e0e0;
-		line-height: 2;
-		font-size: 12px;
-	}
-	button.play{
-		background-color: #F9BC2D;
+	.my-button{
 		color: #fff;
-		border: 1px solid #F9BC2D;
+		border-radius: 25px;
+		font-size: 14px;
+		margin: 0 10px;
+	}
+	.my-button2{
+		color: #666;
 	}
 	.my-status{
 		font-size: 12px;
@@ -227,5 +234,13 @@
 	}
 	.mb{
 		margin-bottom: 2px;
+	}
+	.scroll-view{
+		max-height: 380rpx;
+		margin-bottom: 10px;
+	}
+	.morn-title{
+		font-size: 12px;
+		width: 227rpx;
 	}
 </style>

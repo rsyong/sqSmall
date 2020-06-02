@@ -107,6 +107,9 @@
 				if(item.start_time>onwTime){
 					return uni.showToast({title: '活动未开始',image:'../../static/image/error.png'});
 				}
+				if(item.end_time<onwTime){
+					return uni.showToast({title: '活动已结束',image:'../../static/image/error.png'});
+				}
 				if(item.sale_num>=item.num){
 					return uni.showToast({title: "当前已被抢完!",image:'../../static/image/error.png'});
 				}

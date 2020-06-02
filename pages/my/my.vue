@@ -6,7 +6,7 @@
 			<image class="cras-back" src="/static/image/back2.jpg" mode="aspectFill"></image>
 			<view class="user-img">
 				<button @getuserinfo="userInfo" open-type="getUserInfo" plain class="user-button">
-					<image :src="myuserInfo.avatarUrl" v-if="myuserInfo.avatarUrl"></image>
+					<image :src="myuserInfo.avatarUrl" v-if="myuserInfo.avatarUrl" mode="aspectFill"></image>
 					<view v-else class="authorization">点击登录</view>
 				</button>
 				<view class="v flex">

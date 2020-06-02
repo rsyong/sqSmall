@@ -25,13 +25,13 @@
 						<image :src="item.image" mode="aspectFill" class="shadow"></image>
 					</view>
 					<view class="mt-10 small-font">价格:<text class="my-color font-lg">￥{{item.price}}</text></view>
-					<view class="small-font">数量: <text class="my-color font-lg"> x{{item.num}}</text></view>
+					<view class="small-font">数量: <text class="my-color font-lg" style="margin-left: 2px;"> x{{item.num}}</text></view>
 				</view>
 			</scroll-view>
 			<view class="mt-10">
 				<view class="flex just-between list">
 					<view>带货费</view>
-					<view class="monye my-color" v-if="Alldata.freight">{{Alldata.freight}}</view>
+					<view class="monye my-color" v-if="Alldata.freight">￥{{Alldata.freight}}</view>
 					<view v-else style="color: #888;font-size: 12px;">待发货可见</view>
 				</view>
 				<!-- <view class="flex just-between list">
@@ -169,5 +169,6 @@
 	.scroll-view{
 		max-height: 380rpx;
 		border-bottom: 1px solid #ECECEC;
+		padding-bottom: 10px;
 	}
 </style>

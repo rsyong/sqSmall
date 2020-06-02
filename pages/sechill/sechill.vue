@@ -24,7 +24,7 @@
 						<button class="sp-my-bottom shadow" type="default" @click.stop="goBuy(item)">
 							抢购
 							<view class="progress">
-								<progress :percent="item.sale_num/item.num.toFixed(1)*100" show-info stroke-width="3" border-radius="10" font-size="8" activeColor="#FEFFF7" backgroundColor="#F9B6A3" active />
+								<progress :percent="item | myprogress" show-info stroke-width="3" border-radius="10" font-size="8" activeColor="#FEFFF7" backgroundColor="#F9B6A3" active />
 							</view>
 						</button>
 					</view>
@@ -55,6 +55,12 @@
 		},
 		onLoad(){
 			this.getShoppingList();
+		},
+		filters:{
+			myprogress(item){
+				let num=((item.sale_num/item.num)*100).toFixed(1);
+				return num;
+			}
 		},
 		methods: {
 			//获取商品列表

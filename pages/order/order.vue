@@ -23,6 +23,7 @@
 					</view>
 				</view>
 				<view class="flex align-center" style="justify-content: flex-end;">
+					<button size="mini" class="my-bottom play" plain @click.stop="toDetails(item)">订单详情</button>
 					<button v-if="[0,1].includes(item.status)" size="mini" class="my-bottom" plain @click.stop="cancel(item)">取消订单</button>
 					<button v-if="[2].includes(item.status)" size="mini" class="my-bottom play" plain @click.stop="play(item)">支付</button>
 					<text v-if="[3].includes(item.status)" class="my-status my-status-active">已完成</text>
@@ -86,6 +87,11 @@
 			gotoDetails(item){
 				uni.navigateTo({
 					url:"../shoppingDetails/shoppingDetails?id="+item.id
+				})
+			},
+			toDetails(item){
+				uni.navigateTo({
+					url:"orderDetails/orderDetails?id="+item.id
 				})
 			},
 			//获取商品列表

@@ -173,7 +173,6 @@
 					encryptedData:data.encryptedData
 				},{method:'POST'}).then(res=>{
 					getApp().globalData.token=res.token; //存全局token
-					uni.hideLoading();
 					this.init();
 					this.getInfo();
 					this.getShoppingList();

@@ -54,8 +54,8 @@
 					<text v-if="[-1].includes(Alldata.status)" class="my-status">已取消</text>
 				</view>
 				<view class="flex just-between list">
-					<view>订单编号</view>
-					<view class="my-status"><text selectable>{{Alldata.number}}</text></view>
+					<view>订单编号 <text style="margin-left: 5px;" class="my-status my-status-active" selectable>{{Alldata.number}}</text></view>
+					<view class="my-status my-status-active" style="font-weight: 600;" @click="copy(Alldata.number)">复制</view>
 				</view>
 				<view class="flex just-between list">
 					<view>{{Alldata.status==3 ? '实付款' : '待付款' }}</view>
@@ -111,6 +111,14 @@
 					url:"../../shoppingDetails/shoppingDetails?id="+item.id
 				})
 			},
+			copy(data){
+				uni.setClipboardData({
+					data:data,
+					success: () => {
+						uni.showToast({title: "复制成功"});
+					}
+				})
+			}
 		}
 	}
 </script>

@@ -9,6 +9,7 @@
 				<view class="sp-list-detiles flex just-between" @click.stop="gotoDetails(item)">
 					<view class="sp-list-img">
 						<image :src="item.image" mode="aspectFill" class="shadow"></image>
+						<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 					</view>
 					<view class="flex flex-column just-between">
 						<view class="flex">
@@ -17,6 +18,7 @@
 						</view>
 						
 						<view class="flex sp-list-weight align-center">{{item.type_note}}</view>
+						<view class="flex price-monye my-color">￥{{item.price}}</view>
 						<view class="flex just-between align-center">
 							<view>
 								<stars :starNumber="item.star" />
@@ -334,5 +336,21 @@
 	.my-icon{
 		margin-left: 10px;
 		color: #A4A4A4;
+	}
+	.price-monye{
+		font-size: 12px;
+	}
+	.sp-list-img{
+		position: relative;
+	}
+	.full-des{
+		position: absolute;
+		left: 0;
+		bottom: 3px;
+		background-color: rgba(236,177,41,.9);
+		font-size: 10px;
+		color: #fff;
+		text-align: center;
+		padding: 3px 10px;
 	}
 </style>

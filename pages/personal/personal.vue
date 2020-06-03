@@ -14,7 +14,9 @@
 			</uni-list-item>
 			<uni-list-item title="绑定手机号" :show-arrow="false">
 				<template v-slot:right="">
-					<input type="number" v-model="myuserInfo.mobile" class="my-input" />
+					<!-- <input type="number" v-model="myuserInfo.mobile" class="my-input" /> -->
+					<text v-if="myuserInfo.mobile" style="line-height: 22px;">{{myuserInfo.mobile}}</text>
+					<button v-else class="get-phone" open-type="getPhoneNumber" @getphonenumber="getphonenumber">点击获取手机号</button>
 				</template>
 			</uni-list-item>
 		</uni-list>
@@ -60,19 +62,32 @@
 		data() {
 			return {
 				myuserInfo:{
-					shop_city:''
+					shop_city:'',
+					mobile:''
 				},
 				oldMyuserInfo:{},
 				data: '',
+				provider:'',
+				loginRes:''
 			}
 		},
 		onLoad(){
 			this.getInfo();
+			this.getProvider()
 		},
 		methods: {
 			box: function(e) {
 				this.data = e.target.value.join('')
 				this.myuserInfo.shop_city=this.data;
+			},
+			//获取设备信息
+			getProvider(){
+				uni.getProvider({
+				    service: 'oauth',
+				    success:(res) => {
+						this.provider=res.provider[0];
+				    }
+				});
 			},
 			//选择头像
 			getUserImg(){
@@ -98,18 +113,34 @@
 					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
 			},
-			//改变地址
-			changeAdess(){
-				uni.chooseLocation({
-				    success: (res)=> {
-						let myuserInfo={
-							...this.myuserInfo,
-							name:res.name,
-							shop_address:res.address+res.name,
-						}
-						this.myuserInfo=myuserInfo;
+			//获取手机号
+			getphonenumber(e){
+				if(e.detail.errMsg=="getPhoneNumber:fail user deny") return;
+				this.login(e.detail);
+			},
+			login(data){
+				uni.login({
+				    provider: this.provider,
+				    success: (loginRes) => {
+						this.loginRes=loginRes;
+						this.getToken(data);
 				    }
 				});
+			},
+			//获取token
+			getToken(data){
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+'/api/personal/storePhone',{
+					code:this.loginRes.code,
+					iv:data.iv,
+					encryptedData:data.encryptedData
+				},{method:'POST'}).then(res=>{
+					this.myuserInfo.mobile=res.phone
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err});
+				})
 			},
 			//认证
 			toCertification(){
@@ -232,5 +263,10 @@
 	}
 	button::after{
 		border: none;
+	}
+	.get-phone{
+		font-size: 14px;
+		background-color: #fff;
+		padding-right: 0;
 	}
 </style>

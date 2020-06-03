@@ -20,12 +20,13 @@
 		<view class="content mt-10">
 			<view>配送日期：{{Alldata.delivery_date}}</view>
 			<scroll-view scroll-x enable-flex class="flex mt-10 scroll-view">
-				<view v-for="(item,index) in Alldata.goods_list" @click="gotoDetails(item)">
+				<view v-for="(item,index) in Alldata.goods_list" @click="gotoDetails(item)" :key="index">
 					<view class="sp-list-img">
 						<image :src="item.image" mode="aspectFill" class="shadow"></image>
 					</view>
 					<view class="mt-10 small-font">价格:<text class="my-color font-lg">￥{{item.price}}</text></view>
 					<view class="small-font">数量: <text class="my-color font-lg" style="margin-left: 2px;"> x{{item.num}}</text></view>
+					<view class="small-font discount" v-if="item.is_full_dec==1"><text class="my-color font-lg-14">满{{item.events.condition_amount}}减{{item.events.amount}}</text></view>
 				</view>
 			</scroll-view>
 			<view class="mt-10">
@@ -167,8 +168,14 @@
 		font-size: 15px;
 	}
 	.scroll-view{
-		max-height: 380rpx;
+		max-height: 430rpx;
 		border-bottom: 1px solid #ECECEC;
 		padding-bottom: 10px;
+	}
+	.discount{
+		width: 227rpx;
+	}
+	.font-lg-14{
+		font-size: 14px;
 	}
 </style>

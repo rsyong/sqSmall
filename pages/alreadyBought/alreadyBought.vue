@@ -14,8 +14,8 @@
 							<view class="just-between align-center mb-5">
 								<stars :starNumber="item.goods_data.star" />
 							</view>
-							<view class="sp-list-weight" style="color: #ED5758;">
-								￥:<text style="font-weight: 600;">{{item.goods_data.price}}</text>
+							<view class="price">
+								￥:<text class="price-monye">{{item.goods_data.price}}</text>
 							</view>
 						</view>
 					</view>

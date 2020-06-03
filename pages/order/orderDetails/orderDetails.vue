@@ -30,13 +30,19 @@
 						<stars :starNumber="item2.goods_data.star" />
 					</view>
 					<view class="sp-list-weight mb" v-if="item2.num">数量: x{{item2.goods_data.num || 0}}</view>
-					<view class="price mb">支付价格: ￥{{item2.goods_data.price || 0}}</view>
+					<view class="price mb">价格: ￥{{item2.goods_data.price || 0}}</view>
+					<view class="price mb" v-if="item2.amount>0">优惠: <text class="font-lg">满￥{{item2.condition_amount}} - ￥{{item2.amount}}</text></view>
 				</view>
 			</view>
 			<view class="mt-10">
 				<view class="flex just-between list">
 					<view>带货费</view>
 					<view class="monye my-color" v-if="Alldata.freight">￥{{Alldata.freight}}</view>
+					<view v-else style="color: #888;font-size: 12px;">待发货可见</view>
+				</view>
+				<view class="flex just-between list">
+					<view>压框费</view>
+					<view class="monye my-color" v-if="Alldata.press_frame">￥{{Alldata.press_frame}}</view>
 					<view v-else style="color: #888;font-size: 12px;">待发货可见</view>
 				</view>
 				<view class="flex just-between list">
@@ -51,7 +57,7 @@
 					<view>订单编号</view>
 					<view class="my-status"><text selectable>{{Alldata.number}}</text></view>
 				</view>
-				<view class="flex just-between list" v-if="Alldata.status==4">
+				<view class="flex just-between list" v-if="Alldata.status==3">
 					<view>实付款</view>
 					<view class="monye my-color">￥{{Alldata.price}}</view>
 				</view>

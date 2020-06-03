@@ -19,7 +19,7 @@
 							<stars :starNumber="item2.goods_data.star" />
 						</view>
 						<view class="sp-list-weight mb" v-if="item2.num">数量: x{{item2.goods_data.num || 0}}</view>
-						<view class="price mb">价格: ￥{{item2.goods_data.price || 0}}</view>
+						<view class="price mb">￥{{item2.goods_data.price || 0}}</view>
 					</view>
 				</view>
 				<scroll-view v-if="item.goods.length>1" scroll-x enable-flex class="flex mt-10 scroll-view">
@@ -30,7 +30,7 @@
 						<view class="only-line-1 morn-title">{{item2.goods_data.name}}</view>
 						<view class="sp-list-weight mb">{{item2.goods_data.type_note}}</view>
 						<view class="sp-list-weight mb" v-if="item2.num">数量: x{{item2.goods_data.num || 0}}</view>
-						<view class="price">价格: ￥{{item2.goods_data.price || 0}}</view>
+						<view class="price">￥{{item2.goods_data.price || 0}}</view>
 					</view>
 				</scroll-view>
 				<view class="flex align-center" style="justify-content: flex-end;">
@@ -233,7 +233,7 @@
 		color: #F9BC2D;
 	}
 	.mb{
-		margin-bottom: 2px;
+		margin-bottom: 3px;
 	}
 	.scroll-view{
 		max-height: 380rpx;

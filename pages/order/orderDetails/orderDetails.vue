@@ -41,14 +41,14 @@
 					<view v-else style="color: #888;font-size: 12px;">待发货可见</view>
 				</view>
 				<view class="flex just-between list">
-					<view>压框费</view>
+					<view>押筐费</view>
 					<view class="monye my-color" v-if="Alldata.press_frame">￥{{Alldata.press_frame}}</view>
 					<view v-else style="color: #888;font-size: 12px;">待发货可见</view>
 				</view>
 				<view class="flex just-between list">
 					<view>订单状态</view>
 					<text v-if="[0].includes(Alldata.status)" class="my-status">待确认</text>
-					<text v-if="[1].includes(Alldata.status)" class="my-status">已称重</text>
+					<text v-if="[1].includes(Alldata.status)" class="my-status">已称重(待发货)</text>
 					<text v-if="[2].includes(Alldata.status)" class="my-status">已发货</text>
 					<text v-if="[3].includes(Alldata.status)" class="my-status my-status-active">已完成</text>
 					<text v-if="[-1].includes(Alldata.status)" class="my-status">已取消</text>
@@ -57,9 +57,9 @@
 					<view>订单编号</view>
 					<view class="my-status"><text selectable>{{Alldata.number}}</text></view>
 				</view>
-				<view class="flex just-between list" v-if="Alldata.status==3">
-					<view>实付款</view>
-					<view class="monye my-color">￥{{Alldata.price}}</view>
+				<view class="flex just-between list">
+					<view>{{Alldata.status==3 ? '实付款' : '待付款' }}</view>
+					<view class="monye my-color">￥{{Alldata.price}} <text v-if="Alldata.status<1" class="sp-list-weight no-weight"> (待称重结算价格)</text></view>
 				</view>
 			</view>
 		</view>
@@ -167,5 +167,11 @@
 	}
 	.my-status-active{
 		color: #F9BC2D;
+	}
+	.mb{
+		margin-bottom: 3px;
+	}
+	.no-weight{
+		margin-left: 5px;
 	}
 </style>

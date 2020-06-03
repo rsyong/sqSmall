@@ -2,20 +2,26 @@
 	<view>
 		<uni-nav-bar title="个人中心" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
 		<view class="back-view"><view class="back-qiu"></view></view>
-		<view class="cras flex just-center">
+		<view class="cras">
 			<image class="cras-back" src="/static/image/back2.jpg" mode="aspectFill"></image>
-			<view class="user-img">
-				<button @getuserinfo="userInfo" open-type="getUserInfo" plain class="user-button">
-					<image :src="myuserInfo.avatarUrl" v-if="myuserInfo.avatarUrl" mode="aspectFill"></image>
-					<view v-else class="authorization">点击登录</view>
-				</button>
-				<view class="v flex">
-					<view class="v-text" v-if="myuserInfo.is_auth==1">
-						<view class="iconfont icon-v"></view>
+			<view class="flex just-center">
+				<view class="user-img">
+					<button @getuserinfo="userInfo" open-type="getUserInfo" plain class="user-button">
+						<image :src="myuserInfo.avatarUrl" v-if="myuserInfo.avatarUrl" mode="aspectFill"></image>
+						<view v-else class="authorization">点击登录</view>
+					</button>
+					<view class="v flex">
+						<view class="v-text" v-if="myuserInfo.is_auth==1">
+							<view class="iconfont icon-v"></view>
+						</view>
+						<view v-if="myuserInfo.is_auth==1">已认证</view>
+						<view v-else style="text-align: center;" class="flex just-center">未认证</view>
 					</view>
-					<view v-if="myuserInfo.is_auth==1">已认证</view>
-					<view v-else style="text-align: center;" class="flex just-center">未认证</view>
 				</view>
+			</view>
+			<view class="userinfo" v-if="myuserInfo.shop_name">
+				<view class="mb-5">{{myuserInfo.shop_name}}</view>
+				<view v-if="myuserInfo.mobile">{{myuserInfo.mobile}}</view>
 			</view>
 			<view class="morn flex just-center align-center" @click="toPersonal">
 				<uni-icons type="arrowright" size="14" color="#D2B85B"></uni-icons>
@@ -254,5 +260,12 @@
 	}
 	.icon-v{
 		font-size: 10px;
+	}
+	.userinfo{
+		position: relative;
+		z-index: 1;
+		text-align: center;
+		color: rgba(255,255,255,.7);
+		margin-top: 10px;
 	}
 </style>

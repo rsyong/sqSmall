@@ -6,7 +6,7 @@
 				<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 				<view class="list-img">
 					<image :src="item.image" mode="aspectFill"></image>
-					<view class="many-jin" v-if="item.hair">￥{{item | manyJin}}/斤</view>
+					<view class="many-jin" v-if="item.unit_price">￥{{item.unit_price}}/斤</view>
 				</view>
 				<view class="list-text">
 					<view class="list-title only-line-2">{{item.name}}</view>
@@ -23,7 +23,7 @@
 				<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 				<view class="list-img">
 					<image :src="item.image" mode="aspectFill"></image>
-					<view class="many-jin" v-if="item.hair">￥{{item | manyJin}}/斤</view>
+					<view class="many-jin" v-if="item.unit_price">￥{{item.unit_price}}/斤</view>
 				</view>
 				<view class="list-text">
 					<view class="list-title only-line-2">{{item.name}}</view>

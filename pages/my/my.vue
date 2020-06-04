@@ -265,7 +265,7 @@
 		position: relative;
 		z-index: 1;
 		text-align: center;
-		color: rgba(255,255,255,.7);
+		color: #D2B85B;
 		margin-top: 10px;
 	}
 </style>

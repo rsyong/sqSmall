@@ -31,6 +31,7 @@
 						<view class="sp-list-weight mb">{{item2.goods_data.type_note}}</view>
 						<view class="sp-list-weight mb" v-if="item2.num">数量: x{{item2.goods_data.num || 0}}</view>
 						<view class="price">￥{{item2.goods_data.price || 0}}</view>
+						<view style="height: 20rpx;"></view>
 					</view>
 				</scroll-view>
 				<view class="flex align-center" style="justify-content: flex-end;">

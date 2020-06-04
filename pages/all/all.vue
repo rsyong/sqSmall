@@ -184,10 +184,11 @@
 		position: absolute;
 		left: 0;
 		bottom: 3px;
-		background-color: rgba(236,177,41,.7);
+		background-color: rgba(236,177,41,.9);
 		font-size: 10px;
 		color: #fff;
 		text-align: center;
 		padding: 3px 10px;
+		border-bottom-left-radius: 6px;
 	}
 </style>

@@ -35,6 +35,11 @@
 					<view class="monye my-color" v-if="Alldata.freight">￥{{Alldata.freight}}</view>
 					<view v-else style="color: #888;font-size: 12px;">待发货可见</view>
 				</view>
+				<view class="flex just-between list">
+					<view>押筐费</view>
+					<view class="monye my-color" v-if="Alldata.press_frame">￥{{Alldata.press_frame}}</view>
+					<view v-else style="color: #888;font-size: 12px;">待发货可见</view>
+				</view>
 				<!-- <view class="flex just-between list">
 					<view>筐押金</view>
 					<view class="monye my-color">￥193.64</view>

@@ -352,5 +352,6 @@
 		color: #fff;
 		text-align: center;
 		padding: 3px 10px;
+		border-bottom-left-radius: 6px;
 	}
 </style>

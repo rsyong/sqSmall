@@ -89,6 +89,9 @@ export default {
 	.mr-10{
 		margin-right: 10px;
 	}
+	.mr-5{
+		margin-right: 5px;
+	}
 	.only-line-1{
 		overflow: hidden;
 		word-break: break-all;  /* break-all(允许在单词内换行。) */

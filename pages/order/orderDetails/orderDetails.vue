@@ -21,61 +21,87 @@
 			<view>配送日期：{{Alldata.delivery_date}}</view>
 			<view class="sp-list-detiles flex just-between mt-10" v-for="(item2,index2) in Alldata.goods_list" @click.stop="gotoDetails(item2.goods_data)" :key="index2">
 				<view class="sp-list-img">
-					<image :src="item2.goods_data.image" mode="aspectFill"></image>
+					<image :src="item2.goods_data.image" mode="aspectFill" class="shadow-1"></image>
 				</view>
-				<view class="flex flex-column">
-					<view class="only-line-2">{{item2.goods_data.name}}</view>
-					<view class="sp-list-weight mb">{{item2.goods_data.type_note}}</view>
-					<view class="mb">
-						<stars :starNumber="item2.goods_data.star" />
+				<view class="flex1">
+					<view class="flex just-between mb">
+						<view class="only-line-2 flex1">{{item2.goods_data.name}}</view>
+						<view style="width: 70px;text-align: right;">
+							<view>￥{{item2.goods_data.price || 0}}/箱</view>
+							<view class="sp-list-weight" v-if="item2.num">x{{item2.num || 0}}</view>
+						</view>
 					</view>
-					<view class="sp-list-weight mb" v-if="item2.num">数量: x{{item2.goods_data.num || 0}}</view>
-					<view class="price mb">价格: ￥{{item2.goods_data.price || 0}}</view>
-					<view class="price mb" v-if="item2.amount>0">优惠: <text class="font-lg">满￥{{item2.condition_amount}} - ￥{{item2.amount}}</text></view>
+					<view class="sp-list-weight mb">
+						<text class="mr-10">{{item2.goods_data.type_note}}</text>
+						<text class="mr-10" :style="{'text-decoration':Alldata.status>0?'line-through;':'none' }">￥{{item2.goods_data.unit_price}}/斤</text>
+						<text class="my-color" v-if="Alldata.status>0">￥{{item2.price}}/斤</text>
+					</view>
+					<view class="flex mr-10">
+						<view class="sp-list-weight mb">
+							<text class="mr-10">预计{{item2.goods_data.hair}}斤</text>
+						</view>
+						<view class="sp-list-time mb">
+							<text>实际</text>
+							<text v-if="Alldata.status>0">{{item2.weight}}斤</text>
+							<text v-else style="margin-left: 5px;">(待商品称重)</text>
+						</view>
+					</view>
+					<view class="price mb" v-if="item2.amount>0">优惠: <text>满￥{{item2.condition_amount}} - ￥{{item2.amount}}</text></view>
+					<view class="flex" style="justify-content: flex-end;">
+						<view class="sp-list-time">
+							<text class="mr-5">应付:</text>
+							<text class="my-color" v-if="Alldata.status>0">￥<text class="font-lg">{{item2 | nowPrice}}</text></text>
+							<text v-else class="sp-list-weight">待称重</text>
+						</view>
+					</view>
 				</view>
 			</view>
-			<view class="mt-10">
-				<view class="flex just-between list">
-					<view>带货费</view>
-					<view class="monye my-color" v-if="Alldata.freight">￥{{Alldata.freight}}</view>
-					<view v-else style="color: #888;font-size: 12px;">待发货可见</view>
-				</view>
-				<view class="flex just-between list">
-					<view>押筐费</view>
-					<view class="monye my-color" v-if="Alldata.press_frame">￥{{Alldata.press_frame}}</view>
-					<view v-else style="color: #888;font-size: 12px;">待发货可见</view>
-				</view>
-				<view class="flex just-between list">
-					<view>订单状态</view>
-					<text v-if="[0].includes(Alldata.status)" class="my-status">待确认</text>
-					<text v-if="[1].includes(Alldata.status)" class="my-status">已称重(待发货)</text>
-					<text v-if="[2].includes(Alldata.status)" class="my-status">已发货</text>
-					<text v-if="[3].includes(Alldata.status)" class="my-status my-status-active">已完成</text>
-					<text v-if="[-1].includes(Alldata.status)" class="my-status">已取消</text>
-				</view>
-				<view class="flex just-between list">
-					<view>订单编号 <text style="margin-left: 5px;" class="my-status my-status-active" selectable>{{Alldata.number}}</text></view>
-					<view class="my-status my-status-active" style="font-weight: 600;" @click="copy(Alldata.number)">复制</view>
-				</view>
-				<view class="flex just-between list">
-					<view>{{Alldata.status==3 ? '实付款' : '待付款' }}</view>
-					<view class="monye my-color">￥{{Alldata.price}} <text v-if="Alldata.status<1" class="sp-list-weight no-weight"> (待称重结算价格)</text></view>
-				</view>
+		</view>
+		<view class="content mt-10">
+			<view class="flex just-between list my-color-hui">
+				<view>商品价格</view>
+				<view class="monye">￥{{Alldata.price}} <text v-if="Alldata.status<1" class="sp-list-weight no-weight"> (待称重结算价格)</text></view>
+			</view>
+			<view class="flex just-between list my-color-hui">
+				<view>带货费</view>
+				<view class="monye" v-if="Alldata.freight">+￥{{Alldata.freight}}</view>
+				<view v-else style="color: #888;font-size: 12px;">待称重可见</view>
+			</view>
+			<view class="flex just-between list my-color-hui">
+				<view>押筐费</view>
+				<view class="monye" v-if="Alldata.press_frame">+￥{{Alldata.press_frame}}</view>
+				<view v-else style="color: #888;font-size: 12px;">待称重可见</view>
+			</view>
+			<view class="flex just-between list">
+				<view class="my-color-hui">实付(货到付款)</view>
+				<view class="monye my-color" v-if="Alldata.status>0">￥{{Alldata | allPrice}}</view>
+				<view v-else style="color: #888;font-size: 12px;">待称重可见</view>
+			</view>
+		</view>
+		<view class="content mt-10">
+			<view class="flex just-between list">
+				<view>订单状态</view>
+				<text v-if="[0].includes(Alldata.status)" class="my-status">待商家确认</text>
+				<text v-if="[1].includes(Alldata.status)" class="my-status">待发货</text>
+				<text v-if="[2].includes(Alldata.status)" class="my-status">已发货</text>
+				<text v-if="[3].includes(Alldata.status)" class="my-status my-status-active">已完成</text>
+				<text v-if="[-1].includes(Alldata.status)" class="my-status">已取消</text>
+			</view>
+			<view class="flex just-between list">
+				<view>订单编号 <text style="margin-left: 5px;" class="my-status my-status-active" selectable>{{Alldata.number}}</text></view>
+				<view class="my-status my-status-active" style="font-weight: 600;" @click="copy(Alldata.number)">复制</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	function timestampToTime(timestamp) {
-		var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-		var Y = date.getFullYear() + '-';
-		var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-		var D = date.getDate() + ' ';
-		var h = date.getHours() + ':';
-		var m = date.getMinutes() + ':';
-		var s = date.getSeconds();
-		return Y+M+D+h+m+s;
+	function isNumber(num){
+		if(num && !isNaN(num)){
+			return num;
+		}else{
+			return 0;
+		}
 	}
 	export default {
 		data() {
@@ -89,8 +115,26 @@
 			this.getInfo()
 		},
 		filters:{
-			create_time(value){
-				return timestampToTime(value)
+			//当前价格
+			nowPrice(item){
+				let num=isNumber(item.num);
+				let weight=isNumber(item.weight);
+				let price=isNumber(item.price);
+				let condition_amount=isNumber(item.condition_amount); //满多少
+				let amount=isNumber(item.amount); //减多少
+				let noepice=Number(weight)*Number(price)*Number(num);
+				if(noepice>=condition_amount){
+					noepice-=amount;
+				}
+				return noepice.toFixed(2);
+			},
+			//总共价格
+			allPrice(item){
+				let price=isNumber(item.price);
+				let freight=isNumber(item.freight);
+				let press_frame=isNumber(item.press_frame);
+				let noepice=Number(price)+Number(freight)+Number(press_frame);
+				return noepice.toFixed(2);
 			}
 		},
 		methods: {
@@ -181,5 +225,8 @@
 	}
 	.no-weight{
 		margin-left: 5px;
+	}
+	.my-color-hui{
+		color: #606060;
 	}
 </style>

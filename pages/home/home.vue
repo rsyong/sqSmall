@@ -44,6 +44,7 @@
 			            <view class="sp-list">
 			            	<view class="sp-list-img">
 			            		<image :src="item.image" mode="aspectFill" class="shadow-1"></image>
+								<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 			            	</view>
 			            	<view class="sp-list-name only-line-2">{{item.name}}</view>
 							<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
@@ -359,6 +360,9 @@
 	.sp-list{
 		width: 233rpx;
 	}
+	.sp-list-img{
+		position: relative;
+	}
 	.sp-list-img image{
 		width: 233rpx;
 		height: 233rpx;
@@ -388,5 +392,15 @@
 		line-height: 15px;
 		border-radius: 50%;
 		margin-left: 6px;
+	}
+	.full-des{
+		position: absolute;
+		left: 0;
+		bottom: 3px;
+		background-color: rgba(236,177,41,.9);
+		font-size: 10px;
+		color: #fff;
+		text-align: center;
+		padding: 3px 10px;
 	}
 </style>

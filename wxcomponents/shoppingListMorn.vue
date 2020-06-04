@@ -74,8 +74,8 @@
 	.full-des{
 		position: absolute;
 		left: 0;
-		bottom: 0;
-		background-color: rgba(236,177,41,.7);
+		bottom: 3px;
+		background-color: rgba(236,177,41,.9);
 		font-size: 10px;
 		color: #fff;
 		text-align: center;

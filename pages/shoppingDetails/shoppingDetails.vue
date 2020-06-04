@@ -5,7 +5,7 @@
 			<swiper class="swiper-box" @change="change" autoplay>
 			    <swiper-item v-for="(item ,index) in Alldata.images" :key="index">
 			        <view class="swiper-item">
-			            <image :src="item" mode="aspectFill"></image>
+			            <image :src="item" mode="aspectFill" @click="previewImage(index)"></image>
 			        </view>
 			    </swiper-item>
 			</swiper>
@@ -22,8 +22,9 @@
 			<view class="sp-title mb-5">{{Alldata.name}}</view>
 			<view class="sp-list-weight sp-sun-title">{{Alldata.note}}</view>
 			<view class="sp-list-weight mb-5">约{{Alldata.hair}}斤 
-				<text class="my-color small-monye" v-if="Alldata.price">￥{{Alldata | manyJin}}</text>
-				<text v-if="Alldata.price">/斤</text>
+				<text v-if="Alldata.unit_price">
+					<text class="my-color small-monye">￥{{Alldata.unit_price}}</text>/斤
+				</text>
 			</view>
 			<view class="full-des mb-5 my-color" v-if="Alldata.events">满{{Alldata.events.condition_amount}}减{{Alldata.events.amount}}</view>
 			<view class="flex just-between">
@@ -116,7 +117,7 @@
 							<button class="settlement-right" @click="addNum" :disabled="goodNum>=Alldata.stock">+</button>
 						</view>
 					</view>
-					<button class="go-buys" @click="addCars">加入购物车</button>
+					<button class="go-buys my-background" @click="addCars">加入购物车</button>
 				</view>
 			</view>
 		</view>
@@ -238,6 +239,14 @@
 					url:"../shoppingDetails/shoppingDetails?id="+item.id
 				})
 			},
+			//预览图片
+			previewImage(index){
+				uni.previewImage({
+					current:index,
+					urls: this.Alldata.images,
+					indicator:'number'
+				});
+			}
 		}
 	}
 </script>
@@ -332,7 +341,6 @@
 		text-align: center;
 		border-radius: 0;
 		margin-left: 15px;
-		background-color: #ECAC1E;
 		color: #fff;
 	}
 	button::after{

@@ -12,7 +12,12 @@
 					<view class="list-title only-line-2">{{item.name}}</view>
 					<view class="list-subtitle only-line-2">{{item.note}}</view>
 					<view class="list-subtitle" v-if="item.type_note">{{item.type_note}}</view>
-					<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
+					<view v-if="item.price" class="flex just-between align-center">
+						<view class="price">￥<text class="price-monye">{{item.price}}</text></view>
+						<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50" @click.stop="addNum(item)">
+							<uni-icons type="plus-filled" size="23" color="#F0B426"></uni-icons>
+						</view>
+					</view>
 					<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 				</view>
 			</view>
@@ -29,7 +34,12 @@
 					<view class="list-title only-line-2">{{item.name}}</view>
 					<view class="list-subtitle only-line-2">{{item.note}}</view>
 					<view class="list-subtitle" v-if="item.type_note">{{item.type_note}}</view>
-					<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
+					<view v-if="item.price" class="flex just-between align-center">
+						<view class="price">￥<text class="price-monye">{{item.price}}</text></view>
+						<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50" @click.stop="addNum(item)">
+							<uni-icons type="plus-filled" size="23" color="#F0B426"></uni-icons>
+						</view>
+					</view>
 					<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 				</view>
 			</view>
@@ -64,7 +74,43 @@
 		methods: {
 			onPress(item){
 				this.$emit("onPress",item);
-			}
+			},
+			addNum(item){
+				if(!getApp().globalData.token){
+					uni.showToast({title: "请登录!",image:'../../static/image/error.png'});
+					uni.switchTab({
+						url:'../my/my'
+					})
+					return;
+				}
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+"/api/cart/updateCart",{
+					id:item.id,
+					num:1
+				},{method:'POST'}).then(res=>{
+					uni.hideLoading();
+					getApp().globalData.goodsAllNum++;
+					uni.showToast({
+						title:'加入成功'
+					})
+					this.setTabBarBadge()
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err,image:'../../static/image/error.png'});
+				})
+			},
+			setTabBarBadge(){
+				if(getApp().globalData.goodsAllNum==0) {
+					uni.removeTabBarBadge({
+						index:3
+					})
+					return
+				};
+				uni.setTabBarBadge({
+					index:3,
+					text:getApp().globalData.goodsAllNum+''
+				})
+			},
 		}
 	}
 </script>
@@ -148,5 +194,8 @@
 		border-top-right-radius: 10px;
 		z-index: 10;
 		font-size: 10px;
+	}
+	.my-sp-buttom{
+		border-radius: 50%;
 	}
 </style>

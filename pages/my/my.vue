@@ -45,9 +45,10 @@
 				<view>售后</view>
 			</view>
 		</view>
-		<view class="mt-10">
+		<view class="mt-10 shadow-1">
 			<uni-list>
-			    <uni-list-item title="联系客服" @click="makePhoneCall" class="shadow-1"></uni-list-item>
+				<uni-list-item title="积分兑换" @click="cash"></uni-list-item>
+			    <uni-list-item title="联系客服" @click="makePhoneCall"></uni-list-item>
 			</uni-list>
 		</view>
 	</view>
@@ -153,6 +154,12 @@
 					url:'../order/order?pageNum='+pageNum
 				})
 			},
+			//代金券
+			cash(){
+				uni.navigateTo({
+					url:'cash/cash'
+				})
+			}
 		}
 	}
 </script>

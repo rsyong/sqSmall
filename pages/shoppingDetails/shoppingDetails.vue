@@ -31,6 +31,10 @@
 				<view class="mao-weight">毛重约{{Alldata.hair}}斤 净重约{{Alldata.weight}}斤</view>
 				<view class="mao-weight">{{Alldata.type}}</view>
 			</view>
+			<view class="mt-10" style="font-size: 12px;">
+				<text style="font-weight: 600;">销量</text>
+				<text class="sales">已售<text class="has-sales">{{Alldata.sale_num}}</text>件，仅剩<text class="has-sales">{{Alldata.stock}}</text>件</text>
+			</view>
 			<view v-if="Alldata.price" class="price mt-10">￥<text class="price-monye">{{Alldata.price}}</text></view>
 			<view class="list-slogo" v-if="Alldata.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 		</view>
@@ -446,5 +450,13 @@
 	}
 	.full-des{
 		font-size: 12px;
+	}
+	.sales{
+		color: #A2A2A2;
+		margin-left: 10px;
+	}
+	.has-sales{
+		color: #DC3136;
+		margin: 0 2px;
 	}
 </style>

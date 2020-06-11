@@ -9,7 +9,7 @@
 		</view>
 		<view class="sp-content flex">
 			<scroll-view scroll-y class="sp-left-scroll sp-left">
-				<view class="sp-left-list" @click="navClick(item,index)" :class="{active:activeNum==index}" v-for="(item,index) in leftData" :key="index">{{item.name}}</view>
+				<view class="sp-left-list flex align-center just-center" @click="navClick(item,index)" :class="{active:activeNum==index}" v-for="(item,index) in leftData" :key="index">{{item.name}}</view>
 			</scroll-view>
 			<view class="sp-right flex1">
 				<scroll-view scroll-y class="sp-left-scroll" @scrolltolower="toBottom">
@@ -19,7 +19,7 @@
 						<view class="sp-list-img">
 							<image :src="item.image" mode="aspectFill" class="shadow-1"></image>
 						</view>
-						<view>
+						<view class="flex1">
 							<view class="only-line-1">{{item.name}}</view>
 							<view class="sp-list-weight only-line-1" :class="{'only-line-2':!item.price}">{{item.note}}</view>
 							<view class="sp-list-weight">{{item.type_note}}</view>
@@ -28,7 +28,12 @@
 									<stars :starNumber="item.star" />
 								</view>
 							</view>
-							<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
+							<view v-if="item.price" class="flex just-between align-center">
+								<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
+								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50" @click.stop="addNum(item)">
+									<uni-icons type="plus-filled" size="23" color="#F0B426"></uni-icons>
+								</view>
+							</view>
 							<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 						</view>
 					</view>
@@ -44,17 +49,39 @@
 		data() {
 			return {
 				activeNum:0,
-				leftData:['商家直供','标果精选','近期上新','畅销产品','进口水果','网红小货','标果小件','本地专供'],
+				leftData:[],
 				rightData:[],
 				page:1,
 				size:10,
-				type:''
+				type:'',
+				is_auth:getApp().globalData.userInfo.is_auth
 			}
 		},
 		onLoad(){
 			this.getShoppingList();
 		},
+		onShow() {
+			this.setTabBarBadge();
+			if(this.is_auth!=1){
+				if(getApp().globalData.userInfo.is_auth==1){
+					this.is_auth=1;
+					this.getShoppingList();
+				}
+			}
+		},
 		methods: {
+			setTabBarBadge(){
+				if(getApp().globalData.goodsAllNum==0) {
+					uni.removeTabBarBadge({
+						index:3
+					})
+					return;
+				};
+				uni.setTabBarBadge({
+					index:3,
+					text:getApp().globalData.goodsAllNum+''
+				})
+			},
 			navClick(item,index){
 				this.activeNum=index;
 				this.page=0;
@@ -105,7 +132,31 @@
 					uni.hideLoading();
 					uni.showToast({title: err,image:'../../static/image/error.png'});
 				})
-			}
+			},
+			addNum(item){
+				if(!getApp().globalData.token){
+					uni.showToast({title: "请登录!",image:'../../static/image/error.png'});
+					uni.switchTab({
+						url:'../my/my'
+					})
+					return;
+				}
+				uni.showLoading({title:"加载中..."});
+				this.request(this.baseURL+"/api/cart/updateCart",{
+					id:item.id,
+					num:1
+				},{method:'POST'}).then(res=>{
+					uni.hideLoading();
+					getApp().globalData.goodsAllNum++;
+					uni.showToast({
+						title:'加入成功'
+					})
+					this.setTabBarBadge()
+				}).catch(err=>{
+					uni.hideLoading();
+					uni.showToast({title: err,image:'../../static/image/error.png'});
+				})
+			},
 		}
 	}
 </script>
@@ -122,11 +173,11 @@
 	}
 	.sp-left-list{
 		height: 100rpx;
-		line-height: 100rpx;
 		text-align: center;
 		font-size: 12px;
 		width: 160rpx;
 		text-align: center;
+		overflow: hidden;
 	}
 	.sp-right{
 		background-color: #fff;
@@ -190,5 +241,9 @@
 		text-align: center;
 		padding: 3px 10px;
 		border-bottom-left-radius: 6px;
+	}
+	.my-sp-buttom{
+		border-radius: 50%;
+		margin-right: 10px;
 	}
 </style>

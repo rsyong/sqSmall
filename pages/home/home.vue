@@ -44,7 +44,7 @@
 			            <view class="sp-list">
 			            	<view class="sp-list-img">
 			            		<image :src="item.image" mode="aspectFill" class="shadow-1"></image>
-								<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
+								<view class="full-dess" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 			            	</view>
 			            	<view class="sp-list-name only-line-2">{{item.name}}</view>
 							<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
@@ -393,7 +393,7 @@
 		border-radius: 50%;
 		margin-left: 6px;
 	}
-	.full-des{
+	.full-dess{
 		position: absolute;
 		left: 0;
 		bottom: 3px;

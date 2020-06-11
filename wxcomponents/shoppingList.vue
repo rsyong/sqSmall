@@ -178,8 +178,11 @@
 		background-color: rgba(236,177,41,.7);
 		font-size: 10px;
 		color: #fff;
-		text-align: center;
+		text-align: right;
 		padding: 3px 10px;
+		height: 20px;
+		line-height: 20px;
+		z-index: 2;
 	}
 	.many-jin{
 		position: absolute;

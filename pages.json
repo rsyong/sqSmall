@@ -71,6 +71,10 @@
             "path" : "pages/order/orderDetails/orderDetails",
             "style" : {}
         }
+        ,{
+            "path" : "pages/my/cash/cash",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationStyle":"custom",

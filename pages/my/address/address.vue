@@ -31,6 +31,10 @@
 			</scroll-view>
 			<view class="mt-10">
 				<view class="flex just-between list">
+					<view>优惠券</view>
+					<view class="monye my-color" @click="openCash">选择优惠券</view>
+				</view>
+				<view class="flex just-between list">
 					<view>带货费</view>
 					<view class="monye my-color" v-if="Alldata.freight">￥{{Alldata.freight}}</view>
 					<view v-else style="color: #888;font-size: 12px;">待发货可见</view>
@@ -64,11 +68,31 @@
 				</view>
 			</view>
 		</view>
+		<uni-popup ref="popup" type="bottom">
+			<view class="cash-content">
+				<view class="cash-list shadow-1" @click="checkCash">
+					<view class="flex just-between cash-list-top align-center">
+						<view class="flex align-center">
+							<view style="margin-right: 10px;">
+								<myRadio color="#F0B426" :checked="false"/>
+							</view>
+							<view>
+								<view>水果商城</view>
+								<view class="mt-10 cash-replace">5元代金券</view>
+							</view>
+						</view>
+						<view style="color: red;"><text style="font-size: 50px;">5</text>元</view>
+					</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
+	import myRadio from '../../../wxcomponents/my-radio/my-radio.vue'
 	export default {
+		components:{myRadio},
 		data() {
 			return {
 				dataInfo:[],
@@ -122,6 +146,14 @@
 					url:"../../shoppingDetails/shoppingDetails?id="+item.id
 				})
 			},
+			//打开优惠券
+			openCash(){
+				this.$refs.popup.open();
+			},
+			//选择优惠券
+			checkCash(){
+				this.$refs.popup.close();
+			}
 		}
 	}
 </script>
@@ -182,5 +214,27 @@
 	}
 	.font-lg-14{
 		font-size: 14px;
+	}
+	.cash-content{
+		background-color: #fff;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		padding: 10px 0;
+	}
+	.cash-list{
+		border-bottom: 1px dashed  #e0e0e0;
+		border-radius: 10px;
+		margin: 10px;
+		margin-bottom: 0;
+	}
+	.cash-list-top{
+		padding: 10px;
+		
+	}
+	.cash-replace{
+		color: #888;
+	}
+	.integral{
+		font-weight: 600;
 	}
 </style>

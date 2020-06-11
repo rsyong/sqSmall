@@ -9,7 +9,7 @@
 				<view class="sp-list-detiles flex just-between" @click.stop="gotoDetails(item)">
 					<view class="sp-list-img">
 						<image :src="item.image" mode="aspectFill" class="shadow"></image>
-						<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
+						<view class="full-dess" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 					</view>
 					<view class="flex flex-column just-between">
 						<view class="flex">
@@ -343,7 +343,7 @@
 	.sp-list-img{
 		position: relative;
 	}
-	.full-des{
+	.full-dess{
 		position: absolute;
 		left: 0;
 		bottom: 3px;

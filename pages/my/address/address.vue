@@ -32,7 +32,11 @@
 			<view class="mt-10">
 				<view class="flex just-between list">
 					<view>优惠券</view>
-					<view class="monye my-color" @click="openCash">选择优惠券</view>
+					<view v-if="Alldata.coupon_list.length>0" class="monye" style="color: red;min-width: 100px;text-align: right;" @click="openCash">
+						<text v-if="activeItem.coupon_data.amount>0">￥{{activeItem.coupon_data.amount}}</text>
+						<text v-else>{{activeItem.coupon_data.amount}}</text>
+					</view>
+					<view v-else  class="monye">无可用优惠券</view>
 				</view>
 				<view class="flex just-between list">
 					<view>带货费</view>
@@ -70,18 +74,21 @@
 		</view>
 		<uni-popup ref="popup" type="bottom">
 			<view class="cash-content">
-				<view class="cash-list shadow-1" @click="checkCash">
+				<view class="cash-list shadow-1" v-for="(item,index) in Alldata.coupon_list" :key="index"  @click="checkCash(item)">
 					<view class="flex just-between cash-list-top align-center">
 						<view class="flex align-center">
 							<view style="margin-right: 10px;">
-								<myRadio color="#F0B426" :checked="false"/>
+								<myRadio color="#F0B426" :checked="item.checked"/>
 							</view>
 							<view>
-								<view>水果商城</view>
-								<view class="mt-10 cash-replace">5元代金券</view>
+								<view>{{item.coupon_data.name}}</view>
+								<view class="mt-10 cash-replace">{{item.coupon_data.amount}}元代金券</view>
 							</view>
 						</view>
-						<view style="color: red;"><text style="font-size: 50px;">5</text>元</view>
+						<view>
+							<view style="color: red;text-align: right;"><text style="font-size: 50px;">{{item.coupon_data.amount}}</text>元</view>
+							<view class="sp-list-weight" style="text-align: right;">{{item.use_start_time | newTime}} - {{item.use_end_time | newTime}}</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -91,13 +98,20 @@
 
 <script>
 	import myRadio from '../../../wxcomponents/my-radio/my-radio.vue'
+	import {timestampToTime} from '../../../common/js/untils.js';
 	export default {
 		components:{myRadio},
 		data() {
 			return {
 				dataInfo:[],
 				Alldata:{
-					goods_list:[]
+					goods_list:[],
+					coupon_list:[]
+				},
+				activeItem:{
+					coupon_data:{
+						amount:'选择优惠券'
+					}
 				}
 			}
 		},
@@ -109,13 +123,21 @@
 				this.getInfo()
 			}
 		},
+		filters:{
+			newTime(value){
+				return timestampToTime(value);
+			}
+		},
 		methods: {
 			getInfo(){
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/order/placeOrderMessage",{
-					cart:this.dataInfo
+					cart:this.dataInfo,
 				},{method:'POST'}).then(res=>{
 					uni.hideLoading();
+					res.coupon_list.forEach(item=>{
+						item.checked=false;
+					})
 					this.Alldata=res;
 				}).catch(err=>{
 					uni.hideLoading();
@@ -129,7 +151,8 @@
 				}
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/order/placeOrder",{
-					cart:this.dataInfo
+					cart:this.dataInfo,
+					coupon_id:this.activeItem.id || ''
 				},{method:'POST'}).then(res=>{
 					uni.hideLoading();
 					uni.showToast({title: '下单成功'});
@@ -138,7 +161,7 @@
 					},1000)
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			gotoDetails(item){
@@ -151,7 +174,19 @@
 				this.$refs.popup.open();
 			},
 			//选择优惠券
-			checkCash(){
+			checkCash(item){
+				let onwTime=new Date().getTime()/1000;
+				if(item.use_end_time<onwTime){
+					return uni.showToast({title: '当前优惠券已过期',icon:'none'});
+				}
+				if(item.use_start_time>onwTime){
+					return uni.showToast({title: '优惠券时间还未到',icon:'none'});
+				}
+				this.Alldata.coupon_list.forEach(item2=>{
+					item2.checked=item2==item;
+				})
+				this.activeItem=item;
+				this.Alldata.total_price=this.Alldata.total_price-item.coupon_data.amount;
 				this.$refs.popup.close();
 			}
 		}

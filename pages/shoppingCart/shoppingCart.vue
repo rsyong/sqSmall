@@ -166,9 +166,7 @@
 						this.goodsList=this.goodsList.concat(res.cart_list);
 					}
 					this.isBottom=res.cart_list.length==0;
-					if(this.dataList.length==0){
-						this.dataList=res.recommend_list;
-					}
+					this.dataList=res.recommend_list;
 					getApp().globalData.goodsAllNum=getAllNum(res.cart_list);
 					if(getApp().globalData.goodsAllNum==0) {
 						uni.removeTabBarBadge({

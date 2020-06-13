@@ -73,7 +73,12 @@
         }
         ,{
             "path" : "pages/my/cash/cash",
-            "style" : {}
+            "style" : {
+            	"usingComponents":{
+            		"van-tabs": "/wxcomponents/vant/dist/tabs/index",
+            		"van-tab": "/wxcomponents/vant/dist/tab/index"
+            	}
+            }
         }
     ],
 	"globalStyle": {

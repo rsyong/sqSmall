@@ -110,7 +110,7 @@
 					this.myuserInfo.avatar=res.path;
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//获取手机号
@@ -146,34 +146,34 @@
 			toCertification(){
 				let isphone=/^1(3|4|5|6|7|8|9)\d{9}$/;
 				if(!this.myuserInfo.wechat_name){
-					return uni.showToast({title: '请输用户名',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输用户名',icon:'none'});
 				}
 				if(!this.myuserInfo.mobile){
-					return uni.showToast({title: '请输手机号',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输手机号',icon:'none'});
 				}
 				if(!isphone.test(this.myuserInfo.mobile)){
-					return uni.showToast({title: '手机号有误',image:'../../static/image/error.png'});
+					return uni.showToast({title: '手机号有误',icon:'none'});
 				}
 				if(!this.myuserInfo.mobile){
-					return uni.showToast({title: '请输手机号',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输手机号',icon:'none'});
 				}
 				if(!this.myuserInfo.shop_name){
-					return uni.showToast({title: '请输入店铺',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输入店铺',icon:'none'});
 				}
 				if(!this.myuserInfo.shop_nickname){
-					return uni.showToast({title: '请输联系人',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输联系人',icon:'none'});
 				}
 				if(!this.myuserInfo.shop_mobile){
-					return uni.showToast({title: '请输手机号',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输手机号',icon:'none'});
 				}
 				if(!isphone.test(this.myuserInfo.shop_mobile)){
-					return uni.showToast({title: '手机号有误',image:'../../static/image/error.png'});
+					return uni.showToast({title: '手机号有误',icon:'none'});
 				}
 				if(!this.myuserInfo.shop_city){
-					return uni.showToast({title: '请选择城市',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请选择城市',icon:'none'});
 				}
 				if(!this.myuserInfo.shop_address){
-					return uni.showToast({title: '请输详细地址',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请输详细地址',icon:'none'});
 				}
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/personal/updateMessage",this.myuserInfo,{method:'POST'}).then(res=>{
@@ -197,7 +197,7 @@
 					}
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//获取详细信息
@@ -211,7 +211,7 @@
 					this.oldMyuserInfo={...res};
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//进入商场

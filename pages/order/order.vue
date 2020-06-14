@@ -10,7 +10,7 @@
 			<view class="sp-list shadow-1" v-for="(item,index) in shoppingList" :key="index">
 				<view v-if="item.goods.length==1" class="sp-list-detiles flex just-between mb-10" v-for="(item2,index2) in item.goods" @click.stop="gotoDetails(item2.goods_data)" :key="index2">
 					<view class="sp-list-img">
-						<image :src="item2.goods_data.image" mode="aspectFill"></image>
+						<image :src="item2.goods_data.image" mode="aspectFill" class="shadow"></image>
 					</view>
 					<view class="flex flex-column">
 						<view class="only-line-2">{{item2.goods_data.name}}</view>
@@ -134,7 +134,7 @@
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//下拉加载更多
@@ -160,7 +160,7 @@
 								uni.showToast({title: "取消成功"});
 							}).catch(err=>{
 								uni.hideLoading();
-								uni.showToast({title: err,image:'../../static/image/error.png'});
+								uni.showToast({title: err,icon:'none'});
 							})
 				        } 
 				    }
@@ -186,7 +186,7 @@
 							uni.showToast({title: "支付成功"});
 						},
 						fail: (err) => {
-							uni.showToast({title: err,image:'../../static/image/error.png'});
+							uni.showToast({title: err,icon:'none'});
 						},
 						complete: () => {
 							uni.hideLoading();
@@ -194,7 +194,7 @@
 					})
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 		}

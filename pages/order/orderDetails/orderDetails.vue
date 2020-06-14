@@ -58,6 +58,10 @@
 			</view>
 		</view>
 		<view class="content mt-10">
+			<view class="flex just-between list my-color-hui" v-if="Alldata.status>0">
+				<view>优惠券</view>
+				<view class="monye" style="color: red;">-￥{{Alldata.coupon_amount}}</view>
+			</view>
 			<view class="flex just-between list my-color-hui">
 				<view>商品价格</view>
 				<view class="monye">￥{{Alldata.price}} <text v-if="Alldata.status<1" class="sp-list-weight no-weight"> (待称重结算价格)</text></view>
@@ -71,10 +75,6 @@
 				<view>押筐费</view>
 				<view class="monye" v-if="Alldata.press_frame">+￥{{Alldata.press_frame}}</view>
 				<view v-else style="color: #888;font-size: 12px;">待称重可见</view>
-			</view>
-			<view class="flex just-between list my-color-hui">
-				<view>优惠券</view>
-				<view class="monye" style="color: red;">-￥{{Alldata.coupon_amount}}</view>
 			</view>
 			<view class="flex just-between list">
 				<view class="my-color-hui">实付(货到付款)</view>
@@ -151,7 +151,7 @@
 					this.Alldata=res;
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			gotoDetails(item){

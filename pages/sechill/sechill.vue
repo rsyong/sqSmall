@@ -73,7 +73,7 @@
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//跳转
@@ -111,13 +111,13 @@
 				}
 				let onwTime=new Date().getTime()/1000;
 				if(item.start_time>onwTime){
-					return uni.showToast({title: '活动未开始',image:'../../static/image/error.png'});
+					return uni.showToast({title: '活动未开始',icon:'none'});
 				}
 				if(item.end_time<onwTime){
-					return uni.showToast({title: '活动已结束',image:'../../static/image/error.png'});
+					return uni.showToast({title: '活动已结束',icon:'none'});
 				}
 				if(item.sale_num>=item.num){
-					return uni.showToast({title: "当前已被抢完!",image:'../../static/image/error.png'});
+					return uni.showToast({title: "当前已被抢完!",icon:'none'});
 				}
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/goods/addCart",{
@@ -132,7 +132,7 @@
 					uni.showToast({title: res});
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			onReachBottom(){

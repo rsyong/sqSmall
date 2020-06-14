@@ -36,7 +36,7 @@
 						<text v-if="activeItem.coupon_data.amount>0">￥{{activeItem.coupon_data.amount}}</text>
 						<text v-else>{{activeItem.coupon_data.amount}}</text>
 					</view>
-					<view v-else  class="monye">无可用优惠券</view>
+					<view v-else  class="monye" style="color: #888;font-size: 12px;">无可用优惠券</view>
 				</view>
 				<view class="flex just-between list">
 					<view>带货费</view>
@@ -118,7 +118,7 @@
 		onLoad() {
 			this.dataInfo=getApp().globalData.orderInfo;
 			if(!this.dataInfo instanceof Array || this.dataInfo.length==0){
-				return uni.showToast({title: '商品列表为空',image:'../../../static/image/error.png'});
+				return uni.showToast({title: '商品列表为空',icon:'none'});
 			}else{
 				this.getInfo()
 			}
@@ -141,13 +141,13 @@
 					this.Alldata=res;
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//现在结算
 			bugsGoods(){
 				if(this.dataInfo.length==0){
-					return uni.showToast({title: '请选择商品',image:'../../../static/image/error.png'});
+					return uni.showToast({title: '请选择商品',icon:'none'});
 				}
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/order/placeOrder",{

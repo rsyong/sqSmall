@@ -93,8 +93,21 @@
 					this.getMyCashList();
 				}
 			},
+			//提示登录
+			goLogin(){
+				uni.showModal({
+				    title: '提示',
+				    content: '请先登录',
+				    success: function (res) {
+				        uni.navigateBack({})
+				    }
+				});
+			},
 			//优惠券列表
 			getCashList(morn){
+				if(!getApp().globalData.token){
+					return this.goLogin();
+				}
 				uni.showLoading({title:"加载中..."});
 				this.request(this.baseURL+"/api/coupon/getList",{
 					page:this.page,
@@ -110,11 +123,14 @@
 					this.isBottom=res.list.length==0;
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//我的优惠券列表
 			getMyCashList(morn){
+				if(!getApp().globalData.token){
+					return this.goLogin();
+				}
 				if(this.cashList2.length==0){
 					uni.showLoading({title:"加载中..."});
 				}
@@ -131,7 +147,7 @@
 					this.isBottom=res.length==0;
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			onReachBottom(){
@@ -156,7 +172,7 @@
 					this.getCashList();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			}
 		}

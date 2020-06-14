@@ -180,7 +180,7 @@
 					})
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//现在结算
@@ -195,7 +195,7 @@
 					}
 				})
 				if(obj.length==0){
-					return uni.showToast({title: '请选择商品',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请选择商品',icon:'none'});
 				}
 				getApp().globalData.orderInfo=obj;
 				uni.navigateTo({
@@ -211,13 +211,13 @@
 					this.getShoppingList(true);
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//更新商品数量
 			updateCars(item,status){
 				if(!getApp().globalData.token){
-					uni.showToast({title: "请登录!",image:'../../static/image/error.png'});
+					uni.showToast({title: "请登录!",icon:'none'});
 					uni.switchTab({
 						url:'../my/my'
 					})
@@ -242,7 +242,7 @@
 					})
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//删除
@@ -262,7 +262,7 @@
 								this.getShoppingList(true);
 							}).catch(err=>{
 								uni.hideLoading();
-								uni.showToast({title: err,image:'../../static/image/error.png'});
+								uni.showToast({title: err,icon:'none'});
 							})
 				        } 
 				    }

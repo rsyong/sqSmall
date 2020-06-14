@@ -6,7 +6,7 @@
 				<view class="sp-list flex just-between align-center shadow-1" v-for="(item,index) in goodsList" :key="index" @click="gotoDetails(item.goods_data)">
 					<view class="sp-list-detiles flex just-between">
 						<view class="sp-list-img">
-							<image :src="item.goods_data.image" mode="aspectFill"></image>
+							<image :src="item.goods_data.image" mode="aspectFill" class="shadow"></image>
 						</view>
 						<view class="flex flex-column">
 							<view class="only-line-2 mb-5">{{item.goods_data.name}}</view>
@@ -92,7 +92,7 @@
 					uni.stopPullDownRefresh()
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//获取商品列表
@@ -106,13 +106,13 @@
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//下拉刷新
 			onPullDownRefresh(){
 				if(!getApp().globalData.token){
-					return uni.showToast({title: '请先登录',image:'../../static/image/error.png'});
+					return uni.showToast({title: '请先登录',icon:'none'});
 				}
 				this.goodsList=[];
 				this.getShoppingList();

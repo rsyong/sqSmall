@@ -177,13 +177,13 @@
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//加
 			addNum(){
 				if(this.goodNum>=this.Alldata.stock){
-					uni.showToast({title: "已超出最大库存",image:'../../static/image/error.png'});
+					uni.showToast({title: "已超出最大库存",icon:'none'});
 					return;
 				}
 				this.goodNum++;
@@ -230,7 +230,7 @@
 					uni.showToast({title: res});
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			toSP(){

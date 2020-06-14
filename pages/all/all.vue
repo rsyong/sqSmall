@@ -114,7 +114,7 @@
 					}
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//下拉加载更多
@@ -130,12 +130,12 @@
 					uni.hideLoading();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			addNum(item){
 				if(!getApp().globalData.token){
-					uni.showToast({title: "请登录!",image:'../../static/image/error.png'});
+					uni.showToast({title: "请登录!",icon:'none'});
 					uni.switchTab({
 						url:'../my/my'
 					})
@@ -154,7 +154,7 @@
 					this.setTabBarBadge()
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 		}

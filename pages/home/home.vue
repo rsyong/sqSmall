@@ -260,7 +260,7 @@
 					uni.stopPullDownRefresh()
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//获取商品列表
@@ -281,7 +281,7 @@
 					this.shoppingList=this.shoppingList.concat(res);
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//上拉加载更多

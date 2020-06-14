@@ -105,7 +105,7 @@
 					this.getInfo();
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//获取详细信息
@@ -119,7 +119,7 @@
 					getApp().globalData.userInfo=res;
 				}).catch(err=>{
 					uni.hideLoading();
-					uni.showToast({title: err,image:'../../static/image/error.png'});
+					uni.showToast({title: err,icon:'none'});
 				})
 			},
 			//拨打电话
@@ -145,7 +145,7 @@
 						url:'../personal/personal'
 					})
 				}else{
-					uni.showToast({title: "请先登录！",image:'../../static/image/error.png'});
+					uni.showToast({title: "请先登录！",icon:'none'});
 				}
 			},
 			//跳转订单

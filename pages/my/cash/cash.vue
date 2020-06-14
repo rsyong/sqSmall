@@ -4,7 +4,7 @@
 		<view class="flex just-center cash-money align-center shadow-1">
 			<view class="cash-content">
 				<view style="font-size: 30px;text-align: center;">{{integral || 0}}</view>
-				<view>当前积分</view>
+				<view style="text-align: center;">当前积分</view>
 			</view>
 		</view>
 		<van-tabs :active="active" @change="onChange" color="#F9BC2D" swipe-threshold="5" animated sticky swipeable>

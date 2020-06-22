@@ -54,9 +54,9 @@
 			<view class="sp-details-list flex">
 				<view class="sp-details-left">等级</view><view>{{Alldata.grades.name || ''}}</view>
 			</view>
-			<view class="sp-details-list flex">
-				<view class="sp-details-left">单果重量</view><view>{{Alldata.weight || 0}}斤</view>
-			</view>
+			<!-- <view class="sp-details-list flex">
+				<view class="sp-details-left">单个重量</view><view>{{Alldata.weight || 0}}斤</view>
+			</view> -->
 			<view class="sp-details-list flex">
 				<view class="sp-details-left">口感星级</view><view>{{Alldata.texture_star}}</view>
 			</view>

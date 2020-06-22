@@ -117,5 +117,8 @@
 			"iconPath":"/static/image/pages/wode.png",
 			"selectedIconPath":"/static/image/pages/wode-active.png"
 		}]
+	},
+	"networkTimeout": {
+		"request": 8000
 	}
 }

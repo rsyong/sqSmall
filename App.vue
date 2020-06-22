@@ -2,8 +2,8 @@
 import {getAllNum} from './common/js/untils.js'
 export default {
 	globalData:{
-		appid:'wx99e7a5d35d7d086d',
-		appSecret:'8514346960e863e5748524da781cb984',
+		appid:'',
+		appSecret:'',
 		token:'', //全局token
 		goodsAllNum:0, //全局购物车数量
 		userInfo:{}, //全局用户信息 后台返回

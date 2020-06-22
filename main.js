@@ -8,8 +8,8 @@ Vue.config.productionTip = false
 
 Vue.prototype.request=request;
 Vue.prototype.goBack=goBack;
-Vue.prototype.baseURL='http://106.55.3.190';
-Vue.prototype.baseURLImg='http://106.55.3.190';
+Vue.prototype.baseURL='https://wanjiaguopin.com';
+Vue.prototype.baseURLImg='https://wanjiaguopin.com';
 Vue.component("stars",stars);
 Vue.component("myNull",myNull);
 

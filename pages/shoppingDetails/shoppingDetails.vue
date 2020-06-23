@@ -1,6 +1,12 @@
 <template>
 	<view>
-		<uni-nav-bar @clickLeft="goBack" title="商品详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
+		<uni-nav-bar @clickLeft="goBack" title="商品详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000">
+			<view slot="left" v-if="![1001,1101].includes(scene)">
+				<view>
+					<image class="homeimg" src="/static/image/home.png" mode="aspectFill" @click="goHome"></image>
+				</view>
+			</view>
+		</uni-nav-bar>
 		<view class="banner">
 			<swiper class="swiper-box" @change="change" autoplay>
 			    <swiper-item v-for="(item ,index) in Alldata.images" :key="index">
@@ -157,11 +163,16 @@
 				Alldata:'',
 				goodNum:1,
 				goodsAllNum:getApp().globalData.goodsAllNum,//购物车数量
+				scene:1101
 			}
 		},
 		onLoad(option){
 			this.id=option.id;
 			this.getGoodsDetail();
+		},
+		onShow() {
+			var launch=wx.getLaunchOptionsSync();
+			this.scene=launch.scene;
 		},
 		methods: {
 			change(e) {
@@ -250,6 +261,11 @@
 					urls: this.Alldata.images,
 					indicator:'number'
 				});
+			},
+			goHome(){
+				uni.switchTab({
+					url:'../home/home'
+				})
 			}
 		}
 	}
@@ -458,5 +474,12 @@
 	.has-sales{
 		color: #DC3136;
 		margin: 0 2px;
+	}
+	.homeimg{
+		height: 20px;
+		width: 20px;
+		position: relative;
+		margin-top: 15px;
+		margin-left: 5px;
 	}
 </style>

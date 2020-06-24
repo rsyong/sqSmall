@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<uni-nav-bar @clickLeft="goBack" title="商品详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000">
-			<view slot="left" v-if="![1001,1101].includes(scene)">
+			<view slot="left" v-if="[1007,1008].includes(scene)">
 				<view>
 					<image class="homeimg" src="/static/image/home.png" mode="aspectFill" @click="goHome"></image>
 				</view>
@@ -163,16 +163,21 @@
 				Alldata:'',
 				goodNum:1,
 				goodsAllNum:getApp().globalData.goodsAllNum,//购物车数量
-				scene:1101
+				scene:getApp().globalData.scene
 			}
 		},
 		onLoad(option){
 			this.id=option.id;
 			this.getGoodsDetail();
 		},
-		onShow() {
-			var launch=wx.getLaunchOptionsSync();
-			this.scene=launch.scene;
+		onUnload() {
+			getApp().globalData.scene=null;
+		},
+		onShareAppMessage() {
+			return {
+				title: this.Alldata.name || '万家果品',
+				imageUrl:this.Alldata.images[0] || ''
+			}
 		},
 		methods: {
 			change(e) {

@@ -3,8 +3,9 @@
 		<!-- <uni-nav-bar title="导航栏组件" left-text="返回" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar> -->
 		<uni-nav-bar status-bar background-color="rgba(0,0,0,1)" fixed>
 			<view slot="left">
-				<view>
-					<image class="logo" src="/static/image/logo.jpg"></image>
+				<view style="position: relative;">
+					<!-- <image class="logo" src="/static/image/logo.jpg"></image> -->
+					<text class="logo-text">万家果品</text>
 				</view>
 			</view>
 		    <view class="my-nav just-center flex align-center">
@@ -403,5 +404,14 @@
 		text-align: center;
 		padding: 3px 10px;
 		border-bottom-left-radius: 6px;
+	}
+	.logo-text{
+		color: #FD8002;
+		font-size: 20px;
+		top: -22px;
+		left: 10px;
+		position: absolute;
+		width: 90px;
+		font-weight: 700;
 	}
 </style>

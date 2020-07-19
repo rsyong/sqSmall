@@ -26,22 +26,22 @@
 		<view class="content">
 			<stars :starNumber="Alldata.star" />
 			<view class="sp-title mb-5">{{Alldata.name}}</view>
-			<view class="sp-list-weight sp-sun-title">{{Alldata.note}}</view>
-			<view class="sp-list-weight mb-5">约{{Alldata.hair}}斤 
+			<view class="sp-list-weight sp-sun-title" style="font-size: 12px;">{{Alldata.note}}</view>
+			<view class="sp-list-weight font-lg-14 mb-5">约{{Alldata.hair}}斤 
 				<text v-if="Alldata.unit_price">
 					<text class="my-color small-monye">￥{{Alldata.unit_price}}</text>/斤
 				</text>
 			</view>
 			<view class="full-des mb-5 my-color" v-if="Alldata.events">满{{Alldata.events.condition_amount}}减{{Alldata.events.amount}}</view>
 			<view class="flex just-between">
-				<view class="mao-weight">毛重约{{Alldata.hair}}斤 净重约{{Alldata.weight}}斤</view>
-				<view class="mao-weight">{{Alldata.type}}</view>
+				<view class="mao-weight font-lg-14">毛重约{{Alldata.hair}}斤 净重约{{Alldata.weight}}斤</view>
+				<view class="mao-weight font-lg-14">{{Alldata.type}}</view>
 			</view>
 			<view class="mt-10" style="font-size: 12px;">
 				<text style="font-weight: 600;">销量</text>
 				<text class="sales">已售<text class="has-sales">{{Alldata.sale_num}}</text>件，仅剩<text class="has-sales">{{Alldata.stock}}</text>件</text>
 			</view>
-			<view v-if="Alldata.price" class="price mt-10">￥<text class="price-monye">{{Alldata.price}}</text></view>
+			<view v-if="Alldata.price" class="price mt-10">￥<text class="price-monye" style="font-size: 20px;">{{Alldata.price}}</text></view>
 			<view class="list-slogo" v-if="Alldata.is_business==1"><text class="business">商家直供</text> 万家果品</view>
 		</view>
 		<view class="content">
@@ -468,6 +468,7 @@
 	}
 	.small-monye{
 		margin-left: 10px;
+		font-size: 16px;
 	}
 	.full-des{
 		font-size: 12px;
@@ -486,5 +487,8 @@
 		position: relative;
 		margin-top: 15px;
 		margin-left: 5px;
+	}
+	.font-lg-14{
+		font-size: 14px;
 	}
 </style>

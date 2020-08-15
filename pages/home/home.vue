@@ -326,7 +326,7 @@
 	}
 	.swiper-box-miao{
 		overflow: hidden;
-		height: 200px;
+		height: 210px;
 		margin: 0 10px;
 	}
 	.swiper-item{

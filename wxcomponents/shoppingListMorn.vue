@@ -1,7 +1,7 @@
 <template>
 	<view style="padding-top: 10px;">
 		<view class="sp-list flex just-between" v-for="(item,index) in mydata" :key="index" @click="onPress(item)">
-			<view class="atric" v-if="item.is_business==1">商家直供</view>
+			<!-- <view class="atric" v-if="item.is_business==1">商家直供</view> -->
 			<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 			<view class="sp-list-img">
 				<image :src="item.image" mode="aspectFill" class="shadow-1"></image>
@@ -60,16 +60,15 @@
 	}
 	.atric{
 		position: absolute;
-		left: 10px;
+		left: 0;
 		top: 0;
-		width: 25px;
 		background-color: #ff7a01;
-		border-bottom-left-radius: 14px;
-		border-bottom-right-radius: 14px;
+		border-top-right-radius: 5px;
+		border-bottom-right-radius: 5px;
 		font-size: 10px;
 		color: #fff;
 		text-align: center;
-		padding-bottom: 6px;
+		padding: 2px 5px;
 	}
 	.full-des{
 		position: absolute;

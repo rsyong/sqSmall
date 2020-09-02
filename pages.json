@@ -102,11 +102,6 @@
 			"iconPath":"/static/image/pages/quanbu.png",
 			"selectedIconPath":"/static/image/pages/quanbu-active.png"
 		},{
-			"text":"我买过",
-			"pagePath":"pages/alreadyBought/alreadyBought",
-			"iconPath":"/static/image/pages/goumaijilu.png",
-			"selectedIconPath":"/static/image/pages/goumaijilu-active.png"
-		},{
 			"text":"购物车",
 			"pagePath":"pages/shoppingCart/shoppingCart",
 			"iconPath":"/static/image/pages/cart.png",

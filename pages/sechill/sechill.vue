@@ -3,10 +3,10 @@
 		<!-- <uni-nav-bar @clickLeft="goBack" status-bar background-color="#000" fixed>
 		    <view class="my-nav">精品秒杀</view>
 		</uni-nav-bar> -->
-		<uni-nav-bar @clickLeft="goBack" title="精品秒杀" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
+		<uni-nav-bar @clickLeft="goBack" title="精品秒杀" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D"></uni-nav-bar>
 		<view class="content">
 			<view class="sp-list flex just-between shadow-1" v-for="(item,index) in shoppingList" :key="index" @click.stop="gotoDetails(item)">
-				<view class="atric" v-if="item.is_business==1">商家直供</view>
+				<!-- <view class="atric" v-if="item.is_business==1">商家直供</view> -->
 				<view class="sp-list-img">
 					<image :src="item.image" mode="aspectFill" class="shadow-1"></image>
 					<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
@@ -205,17 +205,16 @@
 	}
 	.atric{
 		position: absolute;
-		left: 10px;
+		left: 0;
 		top: 0;
-		width: 25px;
 		background-color: #ff7a01;
-		border-bottom-left-radius: 14px;
-		border-bottom-right-radius: 14px;
+		border-top-right-radius: 5px;
+		border-bottom-right-radius: 5px;
 		font-size: 10px;
 		color: #fff;
 		text-align: center;
-		padding-bottom: 6px;
 		z-index: 10;
+		padding: 2px 5px;
 	}
 	.full-des{
 		position: absolute;

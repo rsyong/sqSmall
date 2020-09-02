@@ -1,55 +1,59 @@
 <template>
 	<view>
-		<uni-nav-bar @clickLeft="goBack" title="店铺认证" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
-		<uni-list>
-		    <uni-list-item title="邀请码" :show-arrow="false">
-				<template v-slot:right="">
-					<input type="text" placeholder="请输入邀请码" v-model="Alldata.code" class="my-input" maxlength="6" />
-				</template>
-			</uni-list-item>
-		    <uni-list-item title="上传门头照片" :show-arrow="false" @click="getUserImg(1)">
-				<template v-slot:right="">
-					<view class="my-camera flex just-center align-center">
-						<image :class="{defalut:Alldata.topImg.indexOf('http')==-1}" :src="Alldata.topImg" mode="aspectFill"></image>
-					</view>
-				</template>
-			</uni-list-item>
-			<uni-list-item title="上传店内照片" :show-arrow="false" @click="getUserImg(2)">
-				<template v-slot:right="">
-					<view class="my-camera flex just-center align-center">
-						<image :class="{defalut:Alldata.bottomImg.indexOf('http')==-1}" :src="Alldata.bottomImg" mode="aspectFill"></image>
-					</view>
-				</template>
-			</uni-list-item>
-		</uni-list>
-		<view style="height: 10px;"></view>
-		<uni-list>
-		    <uni-list-item title="公司名称" :show-arrow="false">
-				<template v-slot:right="">
-					<input type="text" placeholder="选填" v-model="Alldata.name" class="my-input" maxlength="20" />
-				</template>
-			</uni-list-item>
-		    <uni-list-item title="法人" :show-arrow="false">
-				<template v-slot:right="">
-					<input type="text" placeholder="选填" v-model="Alldata.nickname" class="my-input" maxlength="20" />
-				</template>
-			</uni-list-item>
-			<uni-list-item title="营业执照号" :show-arrow="false">
-				<template v-slot:right="">
-					<input type="text" placeholder="选填" v-model="Alldata.number" class="my-input" maxlength="20" />
-				</template>
-			</uni-list-item>
-			<uni-list-item title="选择地址" :show-arrow="false" @click="changeAdess">
-				<template v-slot:right="">
-					<view class="flex1" style="max-width: 500rpx;">{{Alldata.address || '请选择地址'}}</view>
-				</template>
-			</uni-list-item>
-		</uni-list>
-		<view class="my-buttom">
+		<uni-nav-bar @clickLeft="goBack" title="店铺认证" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D"></uni-nav-bar>
+		<view class="my-list shadow-1">
+			<uni-list>
+			    <uni-list-item title="邀请码" :show-arrow="false">
+					<template v-slot:right="">
+						<input type="text" placeholder="请输入邀请码" v-model="Alldata.code" class="my-input" maxlength="6" />
+					</template>
+				</uni-list-item>
+			    <uni-list-item title="上传门头照片" :show-arrow="false" @click="getUserImg(1)">
+					<template v-slot:right="">
+						<view class="my-camera flex just-center align-center">
+							<image :class="{defalut:Alldata.topImg.indexOf('http')==-1}" :src="Alldata.topImg" mode="aspectFill"></image>
+						</view>
+					</template>
+				</uni-list-item>
+				<uni-list-item title="上传店内照片" :show-arrow="false" @click="getUserImg(2)">
+					<template v-slot:right="">
+						<view class="my-camera flex just-center align-center">
+							<image :class="{defalut:Alldata.bottomImg.indexOf('http')==-1}" :src="Alldata.bottomImg" mode="aspectFill"></image>
+						</view>
+					</template>
+				</uni-list-item>
+			</uni-list>
+		</view>
+		<view  class="my-list shadow-1">
+			<uni-list>
+			    <uni-list-item title="公司名称" :show-arrow="false">
+					<template v-slot:right="">
+						<input type="text" placeholder="选填" v-model="Alldata.name" class="my-input" maxlength="20" />
+					</template>
+				</uni-list-item>
+			    <uni-list-item title="法人" :show-arrow="false">
+					<template v-slot:right="">
+						<input type="text" placeholder="选填" v-model="Alldata.nickname" class="my-input" maxlength="20" />
+					</template>
+				</uni-list-item>
+				<uni-list-item title="营业执照号" :show-arrow="false">
+					<template v-slot:right="">
+						<input type="text" placeholder="选填" v-model="Alldata.number" class="my-input" maxlength="20" />
+					</template>
+				</uni-list-item>
+				<uni-list-item title="选择地址" :show-arrow="false" @click="changeAdess">
+					<template v-slot:right="">
+						<view class="flex1" style="max-width: 500rpx;">{{Alldata.address || '请选择地址'}}</view>
+					</template>
+				</uni-list-item>
+			</uni-list>
+		</view>
+		<button class="my-buttom-s" @click="toCertification">提交认证</button>
+		<!-- <view class="my-buttom">
 			<view class="my-buttom-view flex just-between">
 				<button class="my-buttom-s rz" @click="toCertification">提交认证</button>
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -163,11 +167,14 @@
 		border-top: 1px solid #F4F4F4;
 	}
 	.my-buttom-s{
-		flex: 1;
 		height: 50px;
 		line-height: 50px;
 		text-align: center;
-		border-radius: 0;
+		margin: 12px;
+		border-radius: 6px;
+		background-color: #E7A40D;
+		color: #fff;
+		margin-top: 26px;
 	}
 	.rz{
 		background-color: #ECB129;
@@ -186,5 +193,10 @@
 	.my-camera .defalut{
 		width: 30px;
 		height: 30px;
+	}
+	.my-list{
+		margin: 12px;
+		border-radius: 8px;
+		overflow: hidden;
 	}
 </style>

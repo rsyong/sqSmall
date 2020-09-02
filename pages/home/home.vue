@@ -1,23 +1,29 @@
 <template>
 	<view class="container">
 		<!-- <uni-nav-bar title="导航栏组件" left-text="返回" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar> -->
-		<uni-nav-bar status-bar background-color="rgba(0,0,0,1)" fixed>
+		<uni-nav-bar status-bar background-color="#E7A40D" fixed>
 			<view slot="left">
 				<view style="position: relative;">
 					<!-- <image class="logo" src="/static/image/logo.jpg"></image> -->
 					<text class="logo-text">万家果品</text>
 				</view>
 			</view>
-		    <view class="my-nav just-center flex align-center">
+			<view class="my-nav just-center flex align-center">
 				<view @click="toSerach" class="serach">
-					<uni-icons type="search" size="16" color="#84785D"></uni-icons>
+					<uni-icons type="search" size="16" color="#fff"></uni-icons>
 					<text style="margin-left: 8px;">搜索</text>
 				</view>
 			</view>
 			<view solt="right"><view style="width: 20px;"></view></view>
 		</uni-nav-bar>
-		<view class="back-view"><view class="back-qiu"></view></view>
-		<view style="margin-top: -120px;"></view>
+		<!-- <view class="my-nav just-center flex align-center">
+			<view @click="toSerach" class="serach">
+				<uni-icons type="search" size="16" color="#E4A711"></uni-icons>
+				<text style="margin-left: 8px;">搜索</text>
+			</view>
+		</view> -->
+		<!-- <view class="back-view"><view class="back-qiu"></view></view> -->
+		<view style="margin-top: 12px;"></view>
 		<uni-swiper-dot :info="bannerList" mode="round" :current="current" field="content" border="rgba(255, 255, 255, .3)" selectedBackgroundColor="#fff">
 		    <swiper class="swiper-box" @change="change" circular autoplay easing-function="easeOutCubic">
 		        <swiper-item v-for="(item ,index) in bannerList" :key="index" @click="gotoDetails(item)">
@@ -27,19 +33,20 @@
 		        </swiper-item>
 		    </swiper>
 		</uni-swiper-dot>
-		<!-- 标题 -->
-		<view class="nav-bar flex just-between pad-center-10 align-center">
-			<view style="font-weight: bold;font-size: 18px;">限时秒杀</view>
-			<navigator url="../sechill/sechill"  hover-class="navigator-hover">
-				<view style="font-size: 14px;color: #888;" class="flex align-center">
-					更多好货疯抢
-					<view class="arrow"><uni-icons type="arrowright" size="12" color="#fff"></uni-icons></view>
-				</view>
-			</navigator>
-		</view>
+		
 		<!-- 限时秒杀 -->
-		<view class="seckill mag-center-10 shadow-1">
-			<swiper  v-if="miaoshaList.length>0" class="swiper-box-miao" circular autoplay interval="4000" :display-multiple-items="miaoshaList.length>1 ? 2 : 1" next-margin="170rpx">
+		<view class="seckill mag-center-10 shadow-1 mt-10" v-if="miaoshaList.length>0">
+			<!-- 标题 -->
+			<view class="nav-bar flex just-between pad-center-10 align-center">
+				<view style="font-weight: bold;font-size: 18px;">限时抢购</view>
+				<navigator url="../sechill/sechill"  hover-class="navigator-hover">
+					<view style="font-size: 14px;color: #888;" class="flex align-center">
+						更多
+						<view class="arrow"><uni-icons type="arrowright" size="12" color="#fff"></uni-icons></view>
+					</view>
+				</navigator>
+			</view>
+			<!-- <swiper v-if="miaoshaList.length>0" class="swiper-box-miao" circular interval="4000" :display-multiple-items="miaoshaList.length>1 ? 2 : 1" next-margin="170rpx">
 			    <swiper-item v-for="(item ,index) in miaoshaList" :key="index">
 			        <view class="swiper-item-miao" @click="gotoDetails(item)">
 			            <view class="sp-list">
@@ -52,14 +59,28 @@
 			            	<view class="flex just-between align-center">
 			            		<text class="sp-list-weight max-lenth only-line-1">{{item.type_note}}</text>
 								<CountDown :endTime="item.end_time" :startTime="item.start_time" />
-								<!-- <van-count-down :time="item.end_time" /> -->
 			            	</view>
 			            </view>
 			        </view>
 			    </swiper-item>
-			</swiper>
+			</swiper> -->
+			<view class="flex just-around mt-10">
+				<view class="sp-list" v-for="(item ,index) in miaoshaList" :key="index" v-if="index<3"  @click="gotoDetails(item)">
+					<view class="sp-list-img">
+						<image :src="item.image" mode="aspectFill" class="shadow-1"></image>
+						<view class="full-dess" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
+					</view>
+					<view class="sp-list-name only-line-2">{{item.name}}</view>
+					<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
+					<!-- <view class="flex just-between align-center">
+						<text class="sp-list-weight max-lenth only-line-1">{{item.type_note}}</text>
+					</view> -->
+					<!-- <CountDown :endTime="item.end_time" :startTime="item.start_time" /> -->
+				</view>
+			</view>
 			<myNull v-if="miaoshaList.length==0" />
 		</view>
+		<view style="margin-top: 12px;"></view>
 		<!-- 分类 -->
 		<van-tabs :active="active" @change="onChange" color="#F9BC2D">
 			<van-tab :title="item.name" v-for="(item,index) in typeList" :key="index"></van-tab>
@@ -118,12 +139,12 @@
 			setTabBarBadge(){
 				if(getApp().globalData.goodsAllNum==0) {
 					uni.removeTabBarBadge({
-						index:3
+						index:2
 					})
 					return
 				};
 				uni.setTabBarBadge({
-					index:3,
+					index:2,
 					text:getApp().globalData.goodsAllNum+''
 				})
 			},
@@ -346,41 +367,41 @@
 	}
 	.my-nav{
 		height: 100%;
-		color: #fff;
 	}
 	.nav-bar{
-		height: 50px;
+		height: 20px;
 	}
 	.seckill{
 		background-color: #fff;
 		border-radius: 8px;
 		padding-top: 10px;
 		padding-bottom: 25px;
-		margin-bottom: 10px;
 	}
 	.sp-list{
-		width: 233rpx;
+		width: 210rpx;
 	}
 	.sp-list-img{
 		position: relative;
 	}
 	.sp-list-img image{
-		width: 233rpx;
-		height: 233rpx;
+		width: 210rpx;
+		height: 210rpx;
 		border-radius: 5px;
 	}
 	.sp-list-name{
 		margin-bottom: 5px;
 	}
 	.serach{
-		width: 275rpx;
-		height: 52rpx;
-		line-height: 52rpx;
-		border-radius: 25px;
-		border: 1px solid #84785D;
-		color: #84785D;
+		width: 66%;
+		height: 26px;
+		line-height: 26px;
+		border-radius: 26px;
+		border: 1px solid #fff;
+		color: #fff;
 		font-size: 14px;
 		padding-left: 10px;
+		margin: 12px;
+		text-align: center;
 	}
 	.max-lenth{
 		max-width: 86rpx;
@@ -406,7 +427,7 @@
 		border-bottom-left-radius: 6px;
 	}
 	.logo-text{
-		color: #FD8002;
+		color: #fff;
 		font-size: 20px;
 		top: -22px;
 		left: 10px;

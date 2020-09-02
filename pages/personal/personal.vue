@@ -1,58 +1,64 @@
 <template>
 	<view>
-		<uni-nav-bar @clickLeft="goBack" title="个人信息" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
-		<uni-list>
-		    <uni-list-item title="头像" @click="getUserImg">
-				<template v-slot:right="">
-					<image class="user-img" :src="myuserInfo.avatar" mode="aspectFill"></image>
-				</template>
-			</uni-list-item>
-		    <uni-list-item title="用户名" :show-arrow="false">
-				<template v-slot:right="">
-					<input type="text" v-model="myuserInfo.wechat_name" class="my-input" />
-				</template>
-			</uni-list-item>
-			<uni-list-item title="绑定手机号" :show-arrow="false">
-				<template v-slot:right="">
-					<!-- <input type="number" v-model="myuserInfo.mobile" class="my-input" /> -->
-					<text v-if="myuserInfo.mobile" style="line-height: 22px;">{{myuserInfo.mobile}}</text>
-					<button v-else class="get-phone" open-type="getPhoneNumber" @getphonenumber="getphonenumber">点击获取手机号</button>
-				</template>
-			</uni-list-item>
-		</uni-list>
-		<view style="height: 10px;"></view>
-		<uni-list>
-		    <uni-list-item title="店铺名称" :show-arrow="false">
-				<template v-slot:right="">
-					<input type="text" placeholder="请录入" v-model="myuserInfo.shop_name" class="my-input" maxlength="20" />
-				</template>
-			</uni-list-item>
-		    <uni-list-item title="联系人" :show-arrow="false">
-				<template v-slot:right="">
-					<input type="text" placeholder="请录入" v-model="myuserInfo.shop_nickname" class="my-input" maxlength="10" />
-				</template>
-			</uni-list-item>
-			<uni-list-item title="联系人手机号" :show-arrow="false">
-				<template v-slot:right="">
-					<input type="number" placeholder="请录入" v-model="myuserInfo.shop_mobile" class="my-input" maxlength="11" />
-				</template>
-			</uni-list-item>
-			<uni-list-item title="选择城市" :show-arrow="false">
-				<template v-slot:right="">
-					<picker @change="box" mode="region">
-						<view>{{myuserInfo.shop_city || '选择城市'}}</view>
-					</picker>
-					<!-- <view class="my-input">{{myuserInfo.name || '选择地址'}}</view> -->
-				</template>
-			</uni-list-item>
-			<textarea  v-model="myuserInfo.shop_address" class="textarea" placeholder="店铺详细地址如街道、门牌号、小区等" maxlength="80"></textarea>
-		</uni-list>
-		<view class="my-buttom">
-			<view class="my-buttom-view flex just-between">
-				<button class="my-buttom-s" @click="goHome">进入商场</button>
-				<button class="my-buttom-s rz my-background" @click="toCertification">{{myuserInfo.is_auth==1 ? '更新资料' :'马上认证'}}</button>
-			</view>
+		<uni-nav-bar @clickLeft="goBack" title="个人资料" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D"></uni-nav-bar>
+		<view class="my-list shadow-1">
+			<uni-list>
+			    <uni-list-item title="用户头像" @click="getUserImg">
+					<template v-slot:right="">
+						<image class="user-img" :src="myuserInfo.avatar" mode="aspectFill"></image>
+					</template>
+				</uni-list-item>
+			    <uni-list-item title="用户名" :show-arrow="false">
+					<template v-slot:right="">
+						<input type="text" v-model="myuserInfo.wechat_name" class="my-input" />
+					</template>
+				</uni-list-item>
+				<uni-list-item title="绑定手机号" :show-arrow="false">
+					<template v-slot:right="">
+						<!-- <input type="number" v-model="myuserInfo.mobile" class="my-input" /> -->
+						<text v-if="myuserInfo.mobile" style="line-height: 22px;">{{myuserInfo.mobile}}</text>
+						<button v-else class="get-phone" open-type="getPhoneNumber" @getphonenumber="getphonenumber">点击获取手机号</button>
+					</template>
+				</uni-list-item>
+			</uni-list>
 		</view>
+		
+		<!-- <view style="height: 10px;"></view> -->
+		<view class="my-list shadow-1">
+			<uni-list>
+			    <uni-list-item title="店铺名" :show-arrow="false">
+					<template v-slot:right="">
+						<input type="text" placeholder="请录入" v-model="myuserInfo.shop_name" class="my-input" maxlength="20" />
+					</template>
+				</uni-list-item>
+			    <uni-list-item title="店铺联系人" :show-arrow="false">
+					<template v-slot:right="">
+						<input type="text" placeholder="请录入" v-model="myuserInfo.shop_nickname" class="my-input" maxlength="10" />
+					</template>
+				</uni-list-item>
+				<uni-list-item title="联系人手机号" :show-arrow="false">
+					<template v-slot:right="">
+						<input type="number" placeholder="请录入" v-model="myuserInfo.shop_mobile" class="my-input" maxlength="11" />
+					</template>
+				</uni-list-item>
+				<uni-list-item title="店铺地址" :show-arrow="false">
+					<template v-slot:right="">
+						<picker @change="box" mode="region">
+							<view>{{myuserInfo.shop_city || '选择城市'}}</view>
+						</picker>
+						<!-- <view class="my-input">{{myuserInfo.name || '选择地址'}}</view> -->
+					</template>
+				</uni-list-item>
+				<textarea  v-model="myuserInfo.shop_address" class="textarea" placeholder="请输入店铺详细地址" maxlength="80"></textarea>
+			</uni-list>
+		</view>
+		<button class="my-buttom-s" @click="toCertification">{{myuserInfo.is_auth==1 ? '更新资料' :'提交认证'}}</button>
+		<!-- <view class="my-buttom">
+			<view class="my-buttom-view flex just-center">
+				<button class="my-buttom-s" @click="goHome">进入商场</button>
+				<button class="my-buttom-s" @click="toCertification">{{myuserInfo.is_auth==1 ? '更新资料' :'马上认证'}}</button>
+			</view>
+		</view> -->
 	</view>
 </template>
 
@@ -252,11 +258,14 @@
 		border-top: 1px solid #F4F4F4;
 	}
 	.my-buttom-s{
-		flex: 1;
 		height: 50px;
 		line-height: 50px;
 		text-align: center;
-		border-radius: 0;
+		margin: 12px;
+		border-radius: 6px;
+		background-color: #E7A40D;
+		color: #fff;
+		margin-top: 26px;
 	}
 	.rz{
 		color: #fff;
@@ -268,5 +277,10 @@
 		font-size: 14px;
 		background-color: #fff;
 		padding-right: 0;
+	}
+	.my-list{
+		margin: 12px;
+		border-radius: 8px;
+		overflow: hidden;
 	}
 </style>

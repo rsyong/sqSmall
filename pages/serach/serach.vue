@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<uni-nav-bar @clickLeft="goBack" title="商品搜索" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
+		<uni-nav-bar @clickLeft="goBack" title="搜索" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D"></uni-nav-bar>
 		<view class="content">
 			<uni-search-bar :radius="100" @confirm="search" @input="searchinput" @cancel="cancel" :value="name"></uni-search-bar>
 			<view class="hot-serach" v-if="showHot">
-				<view class="flex align-center"><view class="iconfont icon-ai-hot my-icon"></view> <text class="hot-text">热门搜索</text></view>
+				<view class="flex align-center"><text class="hot-text">热门搜索</text></view>
 				<view class="serach-tars flex">
 					<view class="serach-tars-list" @click="toSerach(item)" v-for="(item,index) in serachList" :key="index">{{item}}</view>
 				</view>

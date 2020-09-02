@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar title="常购清单" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
+		<uni-nav-bar title="常购清单" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D"></uni-nav-bar>
 		<view>
 			<view class="content">
 				<view class="sp-list flex just-between align-center shadow-1" v-for="(item,index) in goodsList" :key="index" @click="gotoDetails(item.goods_data)">
@@ -23,13 +23,13 @@
 				<myNull v-if="goodsList.length==0" />
 			</view>
 			<view class="nav-tuijan flex just-center align-center" v-if="shoppingList.length>0">
-				<view class="dots-1"></view>
 				<view class="dots-2"></view>
-				<view class="dots-3"></view>
+				<view class="dots-2"></view>
+				<view class="dots-2"></view>
 				<view class="nav-tuijan-title">为您推荐</view>
-				<view class="dots-3"></view>
 				<view class="dots-2"></view>
-				<view class="dots-1"></view>
+				<view class="dots-2"></view>
+				<view class="dots-2"></view>
 			</view>
 			<shoppingList :dataList="shoppingList" @onPress="gotoDetails" />
 		</view>

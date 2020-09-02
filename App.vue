@@ -178,7 +178,7 @@
 	}
 
 	.uni-navbar--border {
-		border-bottom-color: #000 !important;
+		border-bottom-color: #E7A40D !important;
 	}
 
 	view.van-count-down {

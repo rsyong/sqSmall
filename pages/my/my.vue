@@ -1,21 +1,26 @@
 <template>
 	<view>
-		<uni-nav-bar title="个人中心" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
-		<view class="back-view"><view class="back-qiu"></view></view>
+		<uni-nav-bar title="我的" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D"></uni-nav-bar>
+		<!-- <view class="back-view"><view class="back-qiu"></view></view> -->
 		<view class="cras">
-			<image class="cras-back" src="/static/image/back2.jpg" mode="aspectFill"></image>
+			<!-- <image class="cras-back" src="/static/image/back2.jpg" mode="aspectFill"></image> -->
 			<view class="flex just-center">
 				<view class="user-img">
 					<button @getuserinfo="userInfo" open-type="getUserInfo" plain class="user-button">
 						<image :src="myuserInfo.avatarUrl" v-if="myuserInfo.avatarUrl" mode="aspectFill"></image>
 						<view v-else class="authorization">点击登录</view>
 					</button>
-					<view class="v flex">
+					
+				</view>
+			</view>
+			<view class="flex just-center" style="margin-top: 8px;">
+				<view class="v">
+					<view class="flex">
 						<view class="v-text" v-if="myuserInfo.is_auth==1">
 							<view class="iconfont icon-v"></view>
 						</view>
-						<view v-if="myuserInfo.is_auth==1">已认证</view>
-						<view v-else style="text-align: center;" class="flex just-center">未认证</view>
+						<text v-if="myuserInfo.is_auth==1">已认证</text>
+						<text v-else style="text-align: center;" class="flex just-center">未认证</text>
 					</view>
 				</view>
 			</view>
@@ -27,7 +32,7 @@
 				<uni-icons type="arrowright" size="14" color="#D2B85B"></uni-icons>
 			</view>
 		</view>
-		<view class="order flex just-around align-center shadow-1">
+		<view class="order flex just-around align-center shadow-1" style="height: 95px;">
 			<view class="flex just-center align-center flex-column" @click="toOrder(0)">
 				<view class="iconfont icon-dingdan my-icon"></view>
 				<view>全部订单</view>
@@ -42,13 +47,13 @@
 			</view>
 			<view class="flex just-center align-center flex-column" @click="makePhoneCall">
 				<view class="iconfont icon-shouhou my-icon"></view>
-				<view>售后</view>
+				<view>客服</view>
 			</view>
 		</view>
-		<view class="mt-10 shadow-1">
+		<view class="order mt-10 shadow-1">
 			<uni-list>
 				<uni-list-item title="积分兑换" @click="cash"></uni-list-item>
-			    <uni-list-item title="联系客服" @click="makePhoneCall"></uni-list-item>
+			    <!-- <uni-list-item title="设置" @click="makePhoneCall"></uni-list-item> -->
 			</uni-list>
 		</view>
 	</view>
@@ -165,9 +170,6 @@
 </script>
 
 <style>
-	.uni-navbar--border{
-		border-bottom-color: #000 !important;
-	}
 	.back-view{
 		width: 100%;
 		overflow: hidden;
@@ -183,11 +185,9 @@
 		z-index: -1;
 	}
 	.cras{
-		margin: 10px;
-		background-color: #6C5C3B;
-		border-radius: 8px;
+		/* margin: 10px; */
+		background: linear-gradient(to bottom,#E7A40D,#FBD449);
 		height: 170px;
-		margin-top: -120px;
 		position: relative;
 		overflow: hidden;
 	}
@@ -227,12 +227,10 @@
 		text-indent: 6px;
 	}
 	.v{
-		position: absolute;
-		bottom: 0;
+		position: relative;
 		width: 60px;
 		height: 15px;
 		line-height: 15px;
-		left: 47px;
 		background-color: rgba(86,71,38,.8);
 		font-size: 10px;
 		border-radius: 15px;
@@ -249,9 +247,10 @@
 		margin-right: 5px;
 	}
 	.order{
-		height: 95px;
 		background-color: #fff;
-		border-bottom: 1px solid #e0e0e0;
+		margin: 12px;
+		border-radius:6px;
+		overflow: hidden;
 	}
 	.cras-back{
 		position: absolute;
@@ -272,7 +271,7 @@
 		position: relative;
 		z-index: 1;
 		text-align: center;
-		color: #D2B85B;
-		margin-top: 10px;
+		color: #fff;
+		margin-top: 8px;
 	}
 </style>

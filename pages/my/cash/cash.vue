@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar @clickLeft="goBack" title="积分兑换" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#FBD449"></uni-nav-bar>
+		<uni-nav-bar @clickLeft="goBack" title="积分兑换" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D"></uni-nav-bar>
 		<view class="flex just-center cash-money align-center shadow-1">
 			<view class="cash-content">
 				<view style="font-size: 30px;text-align: center;">{{integral || 0}}</view>
@@ -185,7 +185,7 @@
 	}
 	.cash-money{
 		height: 100px;
-		background-color: #FBD449;
+		background: linear-gradient(to bottom,#E7A40D,#FBD449);
 		color: #fff;
 	}
 	.cash-content{

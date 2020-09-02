@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar title="购物车" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
+		<uni-nav-bar title="购物车" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D"></uni-nav-bar>
 		<view class="content">
 			<view class="sp-list flex just-between align-center" v-for="(item,index) in goodsList" :key="index">
 				<view class="c-radio" @click="radioChange(item)">
@@ -50,13 +50,13 @@
 		</view>
 		<view>
 			<view class="nav-tuijan flex just-center align-center" v-if="dataList.length>0">
-				<view class="dots-1"></view>
 				<view class="dots-2"></view>
-				<view class="dots-3"></view>
+				<view class="dots-2"></view>
+				<view class="dots-2"></view>
 				<view class="nav-tuijan-title">为您推荐</view>
-				<view class="dots-3"></view>
 				<view class="dots-2"></view>
-				<view class="dots-1"></view>
+				<view class="dots-2"></view>
+				<view class="dots-2"></view>
 			</view>
 			<shoppingList :dataList="dataList" @onPress="gotoDetails" />
 		</view>
@@ -69,7 +69,7 @@
 						</view>
 						<view class="all-monye flex">
 							<!-- <view><text class="all-monye-text">合计:</text><text class="all-monye-monye">￥0.00</text></view> -->
-							<view class="small-font">仅为商品费用</view>
+							<!-- <view class="small-font">仅为商品费用</view> -->
 						</view>
 					</view>
 				</view>
@@ -170,12 +170,12 @@
 					getApp().globalData.goodsAllNum=getAllNum(res.cart_list);
 					if(getApp().globalData.goodsAllNum==0) {
 						uni.removeTabBarBadge({
-							index:3
+							index:2
 						})
 						return;
 					};
 					uni.setTabBarBadge({
-						index:3,
+						index:2,
 						text:getApp().globalData.goodsAllNum+''
 					})
 				}).catch(err=>{
@@ -237,7 +237,7 @@
 						getApp().globalData.goodsAllNum++;
 					}
 					uni.setTabBarBadge({
-						index:3,
+						index:2,
 						text:getApp().globalData.goodsAllNum+''
 					})
 				}).catch(err=>{

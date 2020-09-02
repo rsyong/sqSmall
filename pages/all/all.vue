@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar title="商品分类" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
+		<uni-nav-bar title="商品分类" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D"></uni-nav-bar>
 		<view class="serach-bar">
 			<view @click="toSerach" class="serach">
 				<uni-icons type="search" size="16" color="#424242"></uni-icons>
@@ -14,10 +14,11 @@
 			<view class="sp-right flex1">
 				<scroll-view scroll-y class="sp-left-scroll" @scrolltolower="toBottom">
 					<view class="sp-list flex" @click="gotoDetails(item)" v-for="(item,index) in rightData" :key="index">
-						<view class="atric" v-if="item.is_business==1">商家直供</view>
+						<!-- <view class="atric" v-if="item.is_business==1">商家直供</view> -->
 						<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
 						<view class="sp-list-img">
 							<image :src="item.image" mode="aspectFill" class="shadow-1"></image>
+							<view class="many-jin" v-if="item.unit_price">￥{{item.unit_price}}/斤</view>
 						</view>
 						<view class="flex1">
 							<view class="only-line-1">{{item.name}}</view>
@@ -28,13 +29,13 @@
 									<stars :starNumber="item.star" />
 								</view>
 							</view>
-							<view v-if="item.price" class="flex just-between align-center">
-								<view v-if="item.price" class="price">￥<text class="price-monye">{{item.price}}</text></view>
+							<view v-if="item.price" class="flex just-between align-center mt-10">
+								<view v-if="item.price" class="price">￥<text style="font-size: 23px;">{{item.price}}</text></view>
 								<view class="my-sp-buttom" hover-class="hove-bg8" hover-stay-time="50" @click.stop="addNum(item)">
 									<uni-icons type="plus-filled" size="23" color="#F0B426"></uni-icons>
 								</view>
 							</view>
-							<view class="list-slogo" v-if="item.is_business==1"><text class="business">商家直供</text> 万家果品</view>
+							<!-- <view class="list-slogo" v-if="item.is_business==1"><text class="business">商家直供</text> 万家果品</view> -->
 						</view>
 					</view>
 					<myNull v-if="rightData.length==0" />
@@ -73,12 +74,12 @@
 			setTabBarBadge(){
 				if(getApp().globalData.goodsAllNum==0) {
 					uni.removeTabBarBadge({
-						index:3
+						index:2
 					})
 					return;
 				};
 				uni.setTabBarBadge({
-					index:3,
+					index:2,
 					text:getApp().globalData.goodsAllNum+''
 				})
 			},
@@ -198,16 +199,16 @@
 	}
 	.atric{
 		position: absolute;
-		left: 10px;
+		left: 0;
 		top: 0;
-		width: 25px;
 		background-color: #ff7a01;
-		border-bottom-left-radius: 14px;
-		border-bottom-right-radius: 14px;
+		border-top-right-radius: 5px;
+		border-bottom-right-radius: 5px;
+		border-top-left-radius: 6px;
 		font-size: 10px;
 		color: #fff;
 		text-align: center;
-		padding-bottom: 6px;
+		padding: 2px 5px;
 	}
 	.list-slogo{
 		font-size: 10px;
@@ -245,5 +246,23 @@
 	.my-sp-buttom{
 		border-radius: 50%;
 		margin-right: 10px;
+	}
+	.sp-list-img{
+		position: relative;
+		height: 227rpx;
+	}
+	.many-jin{
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		background-color: rgba(252,97,59,.9);
+		font-size: 10px;
+		color: #fff;
+		text-align: center;
+		padding: 3px;
+		padding-right: 8px;
+		border-top-right-radius: 10px;
+		z-index: 10;
+		font-size: 10px;
 	}
 </style>

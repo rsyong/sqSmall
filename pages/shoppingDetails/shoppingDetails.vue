@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar @clickLeft="goBack" title="商品详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000">
+		<uni-nav-bar @clickLeft="goBack" title="商品详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D">
 			<view slot="left" v-if="[1007,1008].includes(scene)">
 				<view>
 					<image class="homeimg" src="/static/image/home.png" mode="aspectFill" @click="goHome"></image>
@@ -8,29 +8,27 @@
 			</view>
 		</uni-nav-bar>
 		<view class="banner">
-			<swiper class="swiper-box" @change="change" autoplay>
+			<swiper class="swiper-box" @change="change" autoplay indicator-dots indicator-active-color="#fff" indicator-color="rgba(255,255,255,.6)">
 			    <swiper-item v-for="(item ,index) in Alldata.images" :key="index">
 			        <view class="swiper-item">
 			            <image :src="item" mode="aspectFill" @click="previewImage(index)"></image>
 			        </view>
 			    </swiper-item>
 			</swiper>
-			<view class="atric" v-if="Alldata.is_business==1">商家直供</view>
+			<!-- <view class="atric" v-if="Alldata.is_business==1">商家直供</view> -->
 			<view class="share flex just-center align-center">
 				<button open-type='share' plain style="border: none;padding-left: 0;padding-right: 0;">
 					<uni-icons type="redo" size="20" color="#fff"></uni-icons>
 				</button>
 			</view>
-			<view class="banner-lables"><text>{{current+1}}</text>/{{Alldata.images.length || 0}}</view>
+			<!-- <view class="banner-lables"><text>{{current+1}}</text>/{{Alldata.images.length || 0}}</view> -->
 		</view>
 		<view class="content">
 			<stars :starNumber="Alldata.star" />
 			<view class="sp-title mb-5">{{Alldata.name}}</view>
 			<view class="sp-list-weight sp-sun-title" style="font-size: 12px;">{{Alldata.note}}</view>
-			<view class="sp-list-weight mb-5"  style="font-size: 14px;">约{{Alldata.hair}}斤 
-				<text v-if="Alldata.unit_price" style="font-size: 14px;">
-					<text class="my-color small-monye"  style="font-size: 17px;" >￥{{Alldata.unit_price}}</text>/斤
-				</text>
+			<view class="sp-list-weight mb-5" v-if="Alldata.unit_price">
+				<text class="my-color small-monye"  style="font-size: 17px;margin-left: 0;" >￥{{Alldata.unit_price}}</text>/斤
 			</view>
 			<view class="full-des mb-5 my-color" v-if="Alldata.events">满{{Alldata.events.condition_amount}}减{{Alldata.events.amount}}</view>
 			<view class="flex just-between">
@@ -42,42 +40,44 @@
 				<text class="sales">已售<text class="has-sales">{{Alldata.sale_num}}</text>件，仅剩<text class="has-sales">{{Alldata.stock}}</text>件</text>
 			</view>
 			<view v-if="Alldata.price" class="price mt-10">￥<text class="price-monye" style="font-size: 20px;">{{Alldata.price}}</text></view>
-			<view class="list-slogo"  style="font-size: 14px;" v-if="Alldata.is_business==1"><text class="business">商家直供</text> 万家果品</view>
+			<!-- <view class="list-slogo"  style="font-size: 14px;" v-if="Alldata.is_business==1"><text class="business">商家直供</text> 万家果品</view> -->
 		</view>
 		<view class="content">
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">产品等级</view><view>{{Alldata.grades.name || ''}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">产地</view><view>{{Alldata.source}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">口感</view><view>{{Alldata.texture_star | mystatus}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">颜色</view><view>{{Alldata.color_star | mystatus}}</view>
+			</view>
+			<view class="sp-details-list flex">
+				<view class="sp-details-left">外观包装</view><view>{{Alldata.packing.name || ''}}</view>
+			</view>
 			<view class="sp-details-list flex">
 				<view class="sp-details-left">免赔情况</view><view>{{Alldata.compensate}}</view>
 			</view>
 			<view class="sp-details-list flex">
 				<view class="sp-details-left">可售后情况</view><view>{{Alldata.sale_situation}}</view>
 			</view>
-			<view class="sp-details-list flex">
+			<!-- <view class="sp-details-list flex">
 				<view class="sp-details-left">备注</view><view>{{Alldata.remarks}}</view>
-			</view>
-			<view class="sp-details-list flex">
-				<view class="sp-details-left">产地</view><view>{{Alldata.source}}</view>
-			</view>
-			<view class="sp-details-list flex">
-				<view class="sp-details-left">等级</view><view>{{Alldata.grades.name || ''}}</view>
-			</view>
+			</view> -->
 			<!-- <view class="sp-details-list flex">
 				<view class="sp-details-left">单个重量</view><view>{{Alldata.weight || 0}}斤</view>
 			</view> -->
-			<view class="sp-details-list flex">
-				<view class="sp-details-left">口感星级</view><view>{{Alldata.texture_star}}</view>
-			</view>
-			<view class="sp-details-list flex">
-				<view class="sp-details-left">颜色星级</view><view>{{Alldata.color_star}}</view>
-			</view>
-			<view class="sp-details-list flex">
+			
+			<!-- <view class="sp-details-list flex">
 				<view class="sp-details-left">外观星级</view><view>{{Alldata.exterior_star}}</view>
-			</view>
-			<view class="sp-details-list flex">
+			</view> -->
+			<!-- <view class="sp-details-list flex">
 				<view class="sp-details-left">果形星级</view><view>{{Alldata.shape_star}}</view>
-			</view>
-			<view class="sp-details-list flex">
-				<view class="sp-details-left">包装类型</view><view>{{Alldata.packing.name || ''}}</view>
-			</view>
+			</view> -->
+			
 			<view class="sp-details-list flex">
 				<view class="sp-details-left">售后时效</view><view>{{Alldata.sale_time}}</view>
 			</view>
@@ -87,24 +87,24 @@
 		</view>
 		<view class="content">
 			<view class="nav-tuijan flex just-center align-center mb-10">
-				<view class="dots-1"></view>
 				<view class="dots-2"></view>
-				<view class="dots-3"></view>
+				<view class="dots-2"></view>
+				<view class="dots-2"></view>
 				<view class="nav-tuijan-title">为您推荐</view>
-				<view class="dots-3"></view>
 				<view class="dots-2"></view>
-				<view class="dots-1"></view>
+				<view class="dots-2"></view>
+				<view class="dots-2"></view>
 			</view>
 			<recomSP @onPress="gotoDetails" />
 		</view>
 		<view class="content">
 			<view class="my-title">
-				购买须知
+				购买说明
 				<view class="my-title-line"></view>
 			</view>
 			<view class="notice-list flex" v-for="(item,index) in noticeList" :key="index">
 				<view class="incons">
-					<view class="iconfont my-icon" :class="[item.icon]"></view>
+					<view class="my-icon"></view>
 				</view>
 				<view class="flex1">
 					<view class="notice-list-title">{{item.title}}</view>
@@ -143,27 +143,47 @@
 				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
 				current:0,
 				noticeList:[{
-					title:'产品等级 | A级最好',
+					title:'产品等级',
 					icon:'icon-dengji',
-					subtitle:'标果根据产品口感、颜色、果形、外观等优劣综合评判，将产品分为A/B/C/D四个级别，等级越高，产品的综合品质越好、价格越高；等级与单果规格无关；'
+					subtitle:'万家果品提供的商品根据外观、颜色、口感。品相。分为A/B/C三个等级 、A级为最高规格。'
 				},{
-					title:'属性星级 | 五星最好',
+					title:'售后保障',
 					icon:'icon-techreport-',
-					subtitle:'产品口感、颜色、果形、外观四个属性的好坏程度用以星级表示、星级越高、表示属性越好，例如：“口感星级5”或者“标果5星”表示口感最好；'
+					subtitle:'生鲜产品的特殊性。每件商品均有不良率的产生。根据不良率提供售后。理赔退换、不良率多少根据商品详细页面展示。超出理赔时效不予售后。'
 				},{
-					title:'好货保障 | 可赔可换',
+					title:'客服在线',
 					icon:'icon-love',
-					subtitle:'每个产品详情均有不良率、售后范围、不可售后范围等说明，请仔细阅读；由于农产品特性，不良率以内的货损、不可售后范围中的情况、超出售后时效均不支持售后；'
-				},{
-					title:'客服支持 | 有问必答',
-					icon:'icon-kefu',
-					subtitle:'如有任何关于商品及平台的问题，请联系您的专属销售人员或客服，客服电话：18502319565'
+					subtitle:'如遇到任何问题可以先联系各区销售代表或客服客服电话18502319565 '
 				}],
 				id:"",
 				Alldata:'',
 				goodNum:1,
 				goodsAllNum:getApp().globalData.goodsAllNum,//购物车数量
 				scene:getApp().globalData.scene
+			}
+		},
+		filters:{
+			mystatus(num){
+				switch (num){
+					case 1:
+						return '一般'
+						break;
+					case 2:
+						return '较好'
+						break;
+					case 3:
+						return '良好'
+						break;
+					case 4:
+						return '优选'
+						break;
+					case 4:
+						return '精选'
+						break;
+					default:
+						return '良选'
+						break;
+				}
 			}
 		},
 		onLoad(option){
@@ -315,7 +335,11 @@
 	.sp-details-left{
 		width: 70px;
 		margin-right: 10px;
+		color: #333;
+	}
+	.sp-details-left+view{
 		color: #B3B3B3;
+		font-style: italic;
 	}
 	.sp-details-list{
 		margin-bottom: 10px;
@@ -325,7 +349,7 @@
 		font-weight: 600;
 	}
 	.my-title-line{
-		width: 80rpx;
+		width: 140rpx;
 		height: 8rpx;
 		background-color: #F8BB23;
 		border-radius: 4px;
@@ -441,21 +465,22 @@
 	}
 	.atric{
 		position: absolute;
-		left: 10px;
-		top: 0;
-		width: 90rpx;
+		left: 0;
+		top: 10px;
 		background-color: #ff7a01;
-		border-bottom-left-radius: 90rpx;
-		border-bottom-right-radius: 90rpx;
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
 		font-size: 16px;
 		color: #fff;
 		text-align: center;
-		padding-bottom: 12px;
+		padding: 5px 12px;
 	}
 	.my-icon{
-		font-size: 18px;
-		color: #F8BF2C;
-		margin-top: 2px;
+		width: 10px;
+		height: 10px;
+		border-radius: 10px;
+		background-color: #F8BF2C;
+		margin-top: 5px;
 	}
 	.share{
 		width: 30px;

@@ -6,7 +6,7 @@
 		            <view class="swiper-item2">
 		    			<view class="flex swiper-item-list">
 		    				<view :style="{margin:key%3==1 ? '0 20rpx' : 0}" class="list" v-for="(item2,key) in myAlldata[index]" :key="key"  @click="onPress(item2)">
-		    					<view class="atric" v-if="item2.is_business==1">商家直供</view>
+		    					<!-- <view class="atric" v-if="item2.is_business==1">商家直供</view> -->
 		    					<view class="list-img">
 		    						<image :src="item2.image" mode="aspectFill"></image>
 									<view class="full-des" v-if="item.events">满{{item.events.condition_amount}}减{{item.events.amount}}</view>
@@ -56,10 +56,10 @@
 				},{method:'GET'}).then(res=>{
 					let myarr=[];
 					res.forEach((item,index)=>{
-						if(myarr[Math.floor(index/6)]){
-							myarr[Math.floor(index/6)].push(item);
+						if(myarr[Math.floor(index/3)]){
+							myarr[Math.floor(index/3)].push(item);
 						}else{
-							myarr[Math.floor(index/6)]=[item];
+							myarr[Math.floor(index/3)]=[item];
 						}
 					})
 					this.myAlldata=myarr;
@@ -76,12 +76,12 @@
 
 <style>
 	.swiper-box2{
-		height: 900rpx;
-		min-height: 450px;
+		height: 500rpx;
+		min-height: 500rpx;
 	}
 	.swiper-item2{
 		flex: 1;
-		height: 900rpx;
+		height: 500rpx;
 	}
 	.swiper-item-list{
 		flex-wrap: wrap;
@@ -95,17 +95,16 @@
 	}
 	.atric{
 		position: absolute;
-		left: 10px;
+		left: 0;
 		top: 0;
-		width: 25px;
 		background-color: #ff7a01;
-		border-bottom-left-radius: 14px;
-		border-bottom-right-radius: 14px;
+		border-top-right-radius: 5px;
+		border-bottom-right-radius: 5px;
 		font-size: 10px;
 		color: #fff;
 		text-align: center;
-		padding-bottom: 6px;
 		z-index: 10;
+		padding: 2px 5px;
 	}
 	.list-text{
 		padding: 10px;

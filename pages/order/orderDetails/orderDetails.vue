@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar @clickLeft="goBack" title="订单详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
+		<uni-nav-bar @clickLeft="goBack" title="订单详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D"></uni-nav-bar>
 		<view class="my-adress flex align-center">
 			<view class="mr-10">
 				<view class="iconfont icon-daishouhuo my-adress-icon"></view>

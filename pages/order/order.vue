@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar @clickLeft="goBack" title="我的订单" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#000"></uni-nav-bar>
+		<uni-nav-bar @clickLeft="goBack" title="我的订单" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D"></uni-nav-bar>
 		<van-tabs :active="active" @change="onChange" color="#F9BC2D" swipe-threshold="5" animated sticky swipeable>
 			<van-tab :title="item.content" v-for="(item,index) in info" :key="index">
 				

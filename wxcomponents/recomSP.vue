@@ -15,7 +15,7 @@
 		    						<view class="list-title only-line-1">{{item2.name}}</view>
 		    						<view class="list-subtitle only-line-2">{{item2.note}}</view>
 									<view v-if="item2.price" class="price">￥<text class="price-monye">{{item2.price}}</text></view>
-		    						<view class="list-slogo" v-if="item2.is_business==1"><text class="business">商家直供</text> 万家果品</view>
+		    						<!-- <view class="list-slogo" v-if="item2.is_business==1"><text class="business">商家直供</text> 万家果品</view> -->
 		    					</view>
 		    				</view>
 		    			</view>
@@ -76,12 +76,12 @@
 
 <style>
 	.swiper-box2{
-		height: 500rpx;
-		min-height: 500rpx;
+		height: 450rpx;
+		min-height: 450rpx;
 	}
 	.swiper-item2{
 		flex: 1;
-		height: 500rpx;
+		height: 450rpx;
 	}
 	.swiper-item-list{
 		flex-wrap: wrap;

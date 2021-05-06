@@ -1,7 +1,8 @@
 <template>
 	<view>
-		<uni-nav-bar @clickLeft="goBack" title="商品详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle" background-color="#E7A40D">
-			<view slot="left" v-if="[1007,1008].includes(scene)">
+		<uni-nav-bar @clickLeft="goBack" title="商品详情" left-icon="back" status-bar color="#fff" fixed :shadow="fasle"
+		 background-color="#E7A40D">
+			<view slot="left" v-if="scene">
 				<view>
 					<image class="homeimg" src="/static/image/home.png" mode="aspectFill" @click="goHome"></image>
 				</view>
@@ -9,11 +10,11 @@
 		</uni-nav-bar>
 		<view class="banner">
 			<swiper class="swiper-box" @change="change" autoplay indicator-dots indicator-active-color="#fff" indicator-color="rgba(255,255,255,.6)">
-			    <swiper-item v-for="(item ,index) in Alldata.images" :key="index">
-			        <view class="swiper-item">
-			            <image :src="item" mode="aspectFill" @click="previewImage(index)"></image>
-			        </view>
-			    </swiper-item>
+				<swiper-item v-for="(item ,index) in Alldata.images" :key="index">
+					<view class="swiper-item">
+						<image :src="item" mode="aspectFill" @click="previewImage(index)"></image>
+					</view>
+				</swiper-item>
 			</swiper>
 			<!-- <view class="atric" v-if="Alldata.is_business==1">商家直供</view> -->
 			<view class="share flex just-center align-center">
@@ -28,7 +29,7 @@
 			<view class="sp-title mb-5">{{Alldata.name}}</view>
 			<view class="sp-list-weight sp-sun-title" style="font-size: 12px;">{{Alldata.note}}</view>
 			<view class="sp-list-weight mb-5" v-if="Alldata.unit_price">
-				<text class="my-color small-monye"  style="font-size: 17px;margin-left: 0;" >￥{{Alldata.unit_price}}</text>/斤
+				<text class="my-color small-monye" style="font-size: 17px;margin-left: 0;">￥{{Alldata.unit_price}}</text>/斤
 			</view>
 			<view class="full-des mb-5 my-color" v-if="Alldata.events">满{{Alldata.events.condition_amount}}减{{Alldata.events.amount}}</view>
 			<view class="flex just-between">
@@ -44,25 +45,32 @@
 		</view>
 		<view class="content">
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">产品等级</view><view>{{Alldata.grades.name || ''}}</view>
+				<view class="sp-details-left">产品等级</view>
+				<view>{{Alldata.grades.name || ''}}</view>
 			</view>
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">产地</view><view>{{Alldata.source}}</view>
+				<view class="sp-details-left">产地</view>
+				<view>{{Alldata.source}}</view>
 			</view>
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">口感</view><view>{{Alldata.texture_star | mystatus}}</view>
+				<view class="sp-details-left">口感</view>
+				<view>{{Alldata.texture_star | mystatus}}</view>
 			</view>
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">颜色</view><view>{{Alldata.color_star | mystatus}}</view>
+				<view class="sp-details-left">颜色</view>
+				<view>{{Alldata.color_star | mystatus}}</view>
 			</view>
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">外观包装</view><view>{{Alldata.packing.name || ''}}</view>
+				<view class="sp-details-left">外观包装</view>
+				<view>{{Alldata.packing.name || ''}}</view>
 			</view>
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">免赔情况</view><view>{{Alldata.compensate}}</view>
+				<view class="sp-details-left">免赔情况</view>
+				<view>{{Alldata.compensate}}</view>
 			</view>
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">可售后情况</view><view>{{Alldata.sale_situation}}</view>
+				<view class="sp-details-left">可售后情况</view>
+				<view>{{Alldata.sale_situation}}</view>
 			</view>
 			<!-- <view class="sp-details-list flex">
 				<view class="sp-details-left">备注</view><view>{{Alldata.remarks}}</view>
@@ -70,19 +78,21 @@
 			<!-- <view class="sp-details-list flex">
 				<view class="sp-details-left">单个重量</view><view>{{Alldata.weight || 0}}斤</view>
 			</view> -->
-			
+
 			<!-- <view class="sp-details-list flex">
 				<view class="sp-details-left">外观星级</view><view>{{Alldata.exterior_star}}</view>
 			</view> -->
 			<!-- <view class="sp-details-list flex">
 				<view class="sp-details-left">果形星级</view><view>{{Alldata.shape_star}}</view>
 			</view> -->
-			
+
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">售后时效</view><view>{{Alldata.sale_time}}</view>
+				<view class="sp-details-left">售后时效</view>
+				<view>{{Alldata.sale_time}}</view>
 			</view>
 			<view class="sp-details-list flex">
-				<view class="sp-details-left">不良率</view><view>{{Alldata.adverse_rate || 0}}%</view>
+				<view class="sp-details-left">不良率</view>
+				<view>{{Alldata.adverse_rate || 0}}%</view>
 			</view>
 		</view>
 		<view class="content">
@@ -137,34 +147,36 @@
 <script>
 	import recomSP from '../../wxcomponents/recomSP.vue';
 	export default {
-		components:{recomSP},
+		components: {
+			recomSP
+		},
 		data() {
 			return {
-				imgUrl:'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
-				current:0,
-				noticeList:[{
-					title:'产品等级',
-					icon:'icon-dengji',
-					subtitle:'万家果品提供的商品根据外观、颜色、口感。品相。分为A/B/C三个等级 、A级为最高规格。'
-				},{
-					title:'售后保障',
-					icon:'icon-techreport-',
-					subtitle:'生鲜产品的特殊性。每件商品均有不良率的产生。根据不良率提供售后。理赔退换、不良率多少根据商品详细页面展示。超出理赔时效不予售后。'
-				},{
-					title:'客服在线',
-					icon:'icon-love',
-					subtitle:'如遇到任何问题可以先联系各区销售代表或客服客服电话18502319565 '
+				imgUrl: 'http://img3.imgtn.bdimg.com/it/u=372372667,1126179944&fm=26&gp=0.jpg',
+				current: 0,
+				noticeList: [{
+					title: '产品等级',
+					icon: 'icon-dengji',
+					subtitle: '万家果品提供的商品根据外观、颜色、口感。品相。分为A/B/C三个等级 、A级为最高规格。'
+				}, {
+					title: '售后保障',
+					icon: 'icon-techreport-',
+					subtitle: '生鲜产品的特殊性。每件商品均有不良率的产生。根据不良率提供售后。理赔退换、不良率多少根据商品详细页面展示。超出理赔时效不予售后。'
+				}, {
+					title: '客服在线',
+					icon: 'icon-love',
+					subtitle: '如遇到任何问题可以先联系各区销售代表或客服客服电话18502319565 '
 				}],
-				id:"",
-				Alldata:'',
-				goodNum:1,
-				goodsAllNum:getApp().globalData.goodsAllNum,//购物车数量
-				scene:getApp().globalData.scene
+				id: "",
+				Alldata: '',
+				goodNum: 1,
+				goodsAllNum: getApp().globalData.goodsAllNum, //购物车数量
+				scene: getApp().globalData.scene
 			}
 		},
-		filters:{
-			mystatus(num){
-				switch (num){
+		filters: {
+			mystatus(num) {
+				switch (num) {
 					case 1:
 						return '一般'
 						break;
@@ -186,17 +198,19 @@
 				}
 			}
 		},
-		onLoad(option){
-			this.id=option.id;
+		onLoad(option) {
+			this.id = option.id;
 			this.getGoodsDetail();
+			let pages = getCurrentPages();
+			this.scene = pages.length === 1;
 		},
 		onUnload() {
-			getApp().globalData.scene=null;
+			getApp().globalData.scene = null;
 		},
 		onShareAppMessage() {
 			return {
 				title: this.Alldata.name || '万家果品',
-				imageUrl:this.Alldata.images[0] || ''
+				imageUrl: this.Alldata.images[0] || ''
 			}
 		},
 		methods: {
@@ -204,92 +218,111 @@
 				this.current = e.detail.current;
 			},
 			//获取商品详细
-			getGoodsDetail(){
-				uni.showLoading({title:"加载中..."});
-				this.request(this.baseURL+"/api/goods/detail",{
-					id:this.id
-				},{method:'GET'}).then(res=>{
-					this.Alldata=res;
+			getGoodsDetail() {
+				uni.showLoading({
+					title: "加载中..."
+				});
+				this.request(this.baseURL + "/api/goods/detail", {
+					id: this.id
+				}, {
+					method: 'GET'
+				}).then(res => {
+					this.Alldata = res;
 					uni.hideLoading();
-				}).catch(err=>{
+				}).catch(err => {
 					uni.hideLoading();
-					uni.showToast({title: err,icon:'none'});
+					uni.showToast({
+						title: err,
+						icon: 'none'
+					});
 				})
 			},
 			//加
-			addNum(){
-				if(this.goodNum>=this.Alldata.stock){
-					uni.showToast({title: "已超出最大库存",icon:'none'});
+			addNum() {
+				if (this.goodNum >= this.Alldata.stock) {
+					uni.showToast({
+						title: "已超出最大库存",
+						icon: 'none'
+					});
 					return;
 				}
 				this.goodNum++;
 			},
-			removeNum(){
-				if(this.goodNum==1) return;
+			removeNum() {
+				if (this.goodNum == 1) return;
 				this.goodNum--;
 			},
-			addCars(){
-				if(!getApp().globalData.token){
+			addCars() {
+				if (!getApp().globalData.token) {
 					return uni.showModal({
-					    title: '提示',
-					    content: '请先登录',
-					    success: function (res) {
-					        if (res.confirm) {
-					            uni.switchTab({
-					            	url:'../my/my'
-					            })
-					        } 
-					    }
-					});
-				}
-				if(getApp().globalData.userInfo.is_auth!=1){
-					return uni.showModal({
-					    title: '提示',
-					    content: '请先认证',
-					    success: function (res) {
-					        if (res.confirm) {
-								uni.navigateTo({
-									url:'../personal/personal'
+						title: '提示',
+						content: '请先登录',
+						success: function(res) {
+							if (res.confirm) {
+								uni.switchTab({
+									url: '../my/my'
 								})
-					        } 
-					    }
+							}
+						}
 					});
 				}
-				uni.showLoading({title:"加载中..."});
-				this.request(this.baseURL+"/api/goods/addCart",{
-					id:this.Alldata.id,
-					num:this.goodNum
-				},{method:'POST'}).then(res=>{
+				if (getApp().globalData.userInfo.is_auth != 1) {
+					return uni.showModal({
+						title: '提示',
+						content: '请先认证',
+						success: function(res) {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '../personal/personal'
+								})
+							}
+						}
+					});
+				}
+				uni.showLoading({
+					title: "加载中..."
+				});
+				this.request(this.baseURL + "/api/goods/addCart", {
+					id: this.Alldata.id,
+					num: this.goodNum
+				}, {
+					method: 'POST'
+				}).then(res => {
 					uni.hideLoading();
-					getApp().globalData.goodsAllNum+=this.goodNum;
-					this.goodsAllNum=getApp().globalData.goodsAllNum;
-					uni.showToast({title: res});
-				}).catch(err=>{
+					getApp().globalData.goodsAllNum += this.goodNum;
+					this.goodsAllNum = getApp().globalData.goodsAllNum;
+					uni.showToast({
+						title: res
+					});
+				}).catch(err => {
 					uni.hideLoading();
-					uni.showToast({title: err,icon:'none'});
+					uni.showToast({
+						title: err,
+						icon: 'none'
+					});
 				})
 			},
-			toSP(){
+			toSP() {
 				uni.switchTab({
-					url:'../shoppingCart/shoppingCart'
+					url: '../shoppingCart/shoppingCart'
 				})
 			},
-			gotoDetails(item){
+			gotoDetails(item) {
 				uni.navigateTo({
-					url:"../shoppingDetails/shoppingDetails?id="+item.id
+					url: "../shoppingDetails/shoppingDetails?id=" + item.id
 				})
 			},
 			//预览图片
-			previewImage(index){
+			previewImage(index) {
 				uni.previewImage({
-					current:index,
+					current: index,
 					urls: this.Alldata.images,
-					indicator:'number'
+					indicator: 'number'
 				});
 			},
-			goHome(){
+			goHome() {
 				uni.switchTab({
-					url:'../home/home'
+					url: '../home/home'
 				})
 			}
 		}
@@ -297,84 +330,102 @@
 </script>
 
 <style>
-	.swiper-box{
+	.swiper-box {
 		height: 746rpx;
 	}
-	.swiper-item{
+
+	.swiper-item {
 		flex: 1;
 		height: 746rpx;
 	}
-	.swiper-item image{
+
+	.swiper-item image {
 		width: 100%;
 		height: 746rpx;
 		will-change: transform;
 	}
-	.content{
+
+	.content {
 		padding: 10px;
 		margin-bottom: 10px;
 		background-color: #fff;
 	}
-	.sp-title{
+
+	.sp-title {
 		font-size: 17px;
 		margin-top: 5px;
 		font-weight: 600;
 	}
-	.sp-sun-title{
+
+	.sp-sun-title {
 		margin-top: 15px;
 		margin-bottom: 5px;
 	}
-	.mao-weight{
+
+	.mao-weight {
 		font-size: 12px;
 		color: #888;
 	}
-	.list-slogo{
+
+	.list-slogo {
 		font-size: 10px;
 		color: #424242;
 		margin-top: 2px;
 	}
-	.sp-details-left{
+
+	.sp-details-left {
 		width: 70px;
 		margin-right: 10px;
 		color: #333;
 	}
-	.sp-details-left+view{
+
+	.sp-details-left+view {
 		color: #B3B3B3;
 		font-style: italic;
 	}
-	.sp-details-list{
+
+	.sp-details-list {
 		margin-bottom: 10px;
 	}
-	.my-title{
+
+	.my-title {
 		font-size: 18px;
 		font-weight: 600;
 	}
-	.my-title-line{
+
+	.my-title-line {
 		width: 140rpx;
 		height: 8rpx;
 		background-color: #F8BB23;
 		border-radius: 4px;
 		margin-top: 3px;
 	}
-	.incons{
+
+	.incons {
 		width: 25px;
 		margin-left: 10px;
 	}
-	.notice-list{
+
+	.notice-list {
 		margin-top: 15px;
 	}
-	.notice-list-title{
+
+	.notice-list-title {
 		font-size: 14px;
 		font-weight: 600;
 	}
-	.notice-list-subtitle{
+
+	.notice-list-subtitle {
 		font-size: 12px;
 		color: #878787;
 		margin-top: 6px;
 	}
-	.buy-buttom{
+
+	.buy-buttom {
 		height: 50px;
 	}
-	.buy-buttom-content{
+
+	.buy-buttom-content {
 		position: fixed;
 		width: 100%;
 		height: 50px;
@@ -383,7 +434,8 @@
 		background-color: #fff;
 		border-top: 1px solid #F4F4F4;
 	}
-	.go-buys{
+
+	.go-buys {
 		width: 330rpx;
 		height: 50px;
 		line-height: 50px;
@@ -392,16 +444,19 @@
 		margin-left: 15px;
 		color: #fff;
 	}
-	button::after{
+
+	button::after {
 		border: none;
 	}
-	.banner{
+
+	.banner {
 		position: relative;
 	}
-	.banner-lables{
+
+	.banner-lables {
 		min-width: 60rpx;
 		height: 40rpx;
-		background-color: rgba(0,0,0,.3);
+		background-color: rgba(0, 0, 0, .3);
 		text-align: center;
 		line-height: 40rpx;
 		padding: 10px;
@@ -413,24 +468,29 @@
 		border-top-left-radius: 55rpx;
 		border-bottom-left-radius: 55rpx;
 	}
-	.banner-lables text{
+
+	.banner-lables text {
 		font-size: 16px;
 	}
-	.carts{
+
+	.carts {
 		padding-left: 10px;
 	}
-	.carts .icon-cart_icon{
+
+	.carts .icon-cart_icon {
 		font-size: 28px;
 		position: relative;
 		color: #8C8C8C;
 	}
-	.settlement{
+
+	.settlement {
 		border-radius: 25px;
 		width: 90px;
 		border: 1px solid #ddd;
 		overflow: hidden;
 	}
-	.settlement button{
+
+	.settlement button {
 		width: 25px;
 		height: 25px;
 		border-radius: 0;
@@ -439,17 +499,21 @@
 		padding: 0;
 		color: #878787;
 	}
-	.settlement-left{
+
+	.settlement-left {
 		border-right: 1px solid #ddd;
 	}
-	.settlement-right{
+
+	.settlement-right {
 		border-left: 1px solid #ddd;
 	}
-	.settlement-number{
+
+	.settlement-number {
 		text-align: center;
 		color: #878787;
 	}
-	.carts-dost{
+
+	.carts-dost {
 		height: 15px;
 		min-width: 15px;
 		background-color: #FF4F55;
@@ -463,7 +527,8 @@
 		border-bottom-left-radius: 0;
 		font-size: 8px;
 	}
-	.atric{
+
+	.atric {
 		position: absolute;
 		left: 0;
 		top: 10px;
@@ -475,45 +540,53 @@
 		text-align: center;
 		padding: 5px 12px;
 	}
-	.my-icon{
+
+	.my-icon {
 		width: 10px;
 		height: 10px;
 		border-radius: 10px;
 		background-color: #F8BF2C;
 		margin-top: 5px;
 	}
-	.share{
+
+	.share {
 		width: 30px;
 		height: 30px;
 		border-radius: 50%;
-		background-color: rgba(0,0,0,.5);
+		background-color: rgba(0, 0, 0, .5);
 		position: absolute;
 		right: 10px;
 		top: 10px;
 	}
-	.small-monye{
+
+	.small-monye {
 		margin-left: 10px;
 		font-size: 16px;
 	}
-	.full-des{
+
+	.full-des {
 		font-size: 12px;
 	}
-	.sales{
+
+	.sales {
 		color: #A2A2A2;
 		margin-left: 10px;
 	}
-	.has-sales{
+
+	.has-sales {
 		color: #DC3136;
 		margin: 0 2px;
 	}
-	.homeimg{
+
+	.homeimg {
 		height: 20px;
 		width: 20px;
 		position: relative;
 		margin-top: 15px;
 		margin-left: 5px;
 	}
-	.font-lg-14{
+
+	.font-lg-14 {
 		font-size: 14px;
 	}
 </style>
